@@ -7,20 +7,17 @@
 #define TEXTS_PATH "Textos"
 
 #define MAX_BUF 255
-#define MAX_FILES 100
 
-void list_files(const char *path, const char *filesListPath);
+char* person_texts_path(char* personName);
 
-char** read_n_lines(FILE *fp, int n, int *linesReturned);
+void list_texts(char *personName, char *filesListPath);
 
-char** read_filenames(const char *filesListPath, int *fileCount);
+int count_lines(char *path);
 
-void delete_file(char *path);
+char** read_lines(char *path, int *lineCount);
 
-char** get_file_paths(char *path, int *pathsCount);
+char** append_directory_to_filenames(char *directory, char **filenames, int n);
 
 char** get_text_paths(char *personName, int *pathsCount);
-
-char** read_filenames(const char *filesListPath, int *fileCount);
 
 #endif

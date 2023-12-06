@@ -1,22 +1,41 @@
-TARGET = main
 SRCDIR = c/src
+BUILDDIR = c/build
+TESTDIR = c/tests
+
+TARGET = main
+TEST_TARGET = $(TESTDIR)/run_tests
+
 CC = gcc
-CFLAGS = -Wall
+CFLAGS = -Wall -g
 
-VPATH = $(SRCDIR)
+VPATH = $(BUILDDIR) $(SRCDIR) $(TESTDIR) 
 
-.PHONY: default clean
+.PHONY: default clean test
 
 default: $(TARGET)
+test: $(TEST_TARGET)
 
-OBJECTS = main.o files.o parse.o
-HEADERS = files.h parse.h
+SOURCES = $(wildcard $(SRCDIR)/*.c)
+HEADERS = $(wildcard $(SRCDIR)/*.h)
+OBJECTS =  $(patsubst $(SRCDIR)/%.c,$(BUILDDIR)/%.o,$(SOURCES))
 
-%.o: %.c $(HEADERS)
+TESTS = $(wildcard $(TESTDIR)/*_test.c)
+
+MAIN_OBJ = $(BUILDDIR)/main.o
+RUN_TESTS_OBJ = $(BUILDDIR)/run_tests.o
+
+$(MAIN_OBJ) $(OBJECTS): $(BUILDDIR)/%.o: %.c $(HEADERS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(TARGET): $(OBJECTS)
-	$(CC) $(CFLAGS) $(OBJECTS) -o $@
+$(TARGET): $(OBJECTS) $(MAIN_OBJ)
+	$(CC) $(CFLAGS) $(OBJECTS) $(MAIN_OBJ) -o $@
+
+
+$(RUN_TESTS_OBJ): $(BUILDDIR)/%.o: %.c $(OBJECTS) $(TESTS)
+	$(CC) $(CFLAGS) -c $< -o $@
+
+$(TEST_TARGET): $(RUN_TESTS_OBJ) $(OBJECTS)
+	$(CC) $(CFLAGS) $(RUN_TESTS_OBJ) $(OBJECTS) -o $@
 
 clean:
-	rm $(TARGET) $(OBJECTS)
+	rm -f $(TARGET) $(TEST_TARGET) $(BUILDDIR)/*

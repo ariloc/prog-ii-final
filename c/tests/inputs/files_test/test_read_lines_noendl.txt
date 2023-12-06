@@ -1,0 +1,6 @@
+a  
+  small\0little
+
+   tiny   
+test
+

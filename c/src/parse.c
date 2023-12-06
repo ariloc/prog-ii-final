@@ -4,11 +4,10 @@
 #include "parse.h"
 #include "files.h"
 
-#define INPUTS_PATH "Entradas"
-
 void parse_file (FILE* input, FILE* output) {
-    char c, previous = 'a';
-    int firstInSentence = 0;
+    char c;
+    char previous = 'z'; // Dummy character
+    int firstInSentence = 1;
     while ((c = fgetc(input)) != EOF) {
         if (c == '.') {
             fputc('\n', output);
@@ -25,10 +24,9 @@ void parse_file (FILE* input, FILE* output) {
     }
 
     if (!firstInSentence) 
-        fputc('\n',output); // Make sure an end of file is inserted at the end
+        fputc('\n',output); // Make sure '\n' is inserted at the end
 }
 
-// TODO: Do this modular?
 void sanitize_files(int n, char **inputPaths, char *outputPath) {
     FILE* output = fopen(outputPath, "w");
 
@@ -47,8 +45,13 @@ void sanitize_texts(char *personName) {
     int pathCount;
     char** textPaths = get_text_paths(personName, &pathCount);
 
-    char sanitizedFilePath[MAX_BUF]; // TODO: snprintf?
+    char sanitizedFilePath[MAX_BUF];
     sprintf(sanitizedFilePath, "%s/%s.txt", INPUTS_PATH, personName);
-
+    
     sanitize_files(pathCount, textPaths, sanitizedFilePath);
+
+    // Free paths array
+    for (int i = 0; i < pathCount; i++)
+        free(textPaths[i]);
+    free(textPaths);
 }
