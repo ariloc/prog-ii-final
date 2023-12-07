@@ -16,6 +16,11 @@ void test_count_lines_noendl() {
     assert(count_lines(path) == 4);
 }
 
+void text_count_lines_empty() {
+    char *path = "inputs/files_test/test_count_lines_empty.txt";
+    assert(count_lines(path) == 0);
+}
+
 void test_read_lines_normal() {
     char *path = "inputs/files_test/test_read_lines_normal.txt";
 
@@ -70,6 +75,18 @@ void test_read_lines_noendl() {
 
     for (int i = 0; i < n; i++)
         free(lines[i]);
+    free(lines);
+}
+
+void test_read_files_empty() {
+    char *path = "inputs/files_test/test_read_lines_empty.txt";
+
+    int count;
+    char **lines = read_lines(path, &count);
+    int n = 0;
+
+    assert(count == n);
+
     free(lines);
 }
 

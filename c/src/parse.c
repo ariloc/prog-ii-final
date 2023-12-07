@@ -4,11 +4,11 @@
 #include "parse.h"
 #include "files.h"
 
-void parse_file (FILE* input, FILE* output) {
+void sanitize_file(FILE* input, FILE* output) {
     char c;
     char previous = 'z'; // Dummy character
     int firstInSentence = 1;
-    while ((c = fgetc(input)) != EOF) {
+    while ((c = (char)fgetc(input)) != EOF) {
         if (c == '.') {
             fputc('\n', output);
             firstInSentence = 1;
@@ -29,11 +29,15 @@ void parse_file (FILE* input, FILE* output) {
 
 void sanitize_files(int n, char **inputPaths, char *outputPath) {
     FILE* output = fopen(outputPath, "w");
+    if (output == NULL)
+        handle_file_open_error_rwa(outputPath, 'w');
 
     for (int i = 0; i < n; i++) {
         FILE *input = fopen(inputPaths[i], "r");
+        if (input == NULL)
+            handle_file_open_error_rwa(inputPaths[i], 'r');
 
-        parse_file(input, output);
+        sanitize_file(input, output);
 
         fclose(input);
     }

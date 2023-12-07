@@ -13,8 +13,8 @@ void compare_files(char *outputPath, char *expectedPath) {
 
     char a,b;
     do {
-        a = fgetc(output);
-        b = fgetc(expected);
+        a = (char)fgetc(output);
+        b = (char)fgetc(expected);
 
         // If any reaches EOF, both should be EOF, otherwise one is shorter in length.
         assert(a == b);             

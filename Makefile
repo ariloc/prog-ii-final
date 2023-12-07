@@ -6,7 +6,7 @@ TARGET = main
 TEST_TARGET = $(TESTDIR)/run_tests
 
 CC = gcc
-CFLAGS = -Wall -g
+CFLAGS = -Wall -Wshadow -Wconversion -Wextra -g
 
 VPATH = $(BUILDDIR) $(SRCDIR) $(TESTDIR) 
 

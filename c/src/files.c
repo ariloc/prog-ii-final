@@ -3,30 +3,54 @@
 #include <string.h>
 #include "files.h"
 
+void handle_file_open_error_rwa(char *path, char mode) {
+    switch(mode) {
+        case 'r':
+            fprintf(stderr, "There was an error reading from %s.\nFile may not exist or you may not have permission to read it.\n", path);
+            break;
+        case 'w':
+        case 'a':
+            fprintf(stderr, "There was an error writing to %s.\nCheck path exists and you have permission to write in it.\n", path);
+            break;
+    }
+    exit(1);
+}
+
+void reset_files_list(char *filesListPath) {
+    FILE *fp = fopen(filesListPath, "w");
+    if (fp == NULL)
+        handle_file_open_error_rwa(filesListPath, 'w');
+    fclose(fp);
+}
+
 char* person_texts_path(char* personName) {
     char* path = malloc(sizeof(char) * (strlen(TEXTS_PATH) + strlen(personName) + 2));
     sprintf(path, "%s/%s", TEXTS_PATH, personName);
     return path;
 }
 
-void list_texts(char *personName, char *filesListPath) {
+void list_texts(char *textsPath, char *filesListPath) {
     char command[MAX_BUF];
-    sprintf(command, "cd %s/%s && ls > ../../%s", TEXTS_PATH, personName, filesListPath);
+    sprintf(command, "cd %s 2>/dev/null && ls > ../../%s 2>/dev/null", textsPath, filesListPath);
     system(command);
 }
 
 int count_lines(char *path) {
     FILE *fp = fopen(path,"r");
+    if (fp == NULL)
+        handle_file_open_error_rwa(path, 'r');
 
-    char c, prev;
+    char c, prev = -1;
     int lines = 0;
-    while ((c = fgetc(fp)) != EOF) {
+    while ((c = (char)fgetc(fp)) != EOF) {
         if (c == '\n') {
             ++lines;
         }
         prev = c;
     }
-    if (prev != '\n') { // Count last line if it doesn't end with '\n'
+    // Count last line if it doesn't end with '\n'
+    // If prev == -1, the file is empty, therefore no lines should be counted.
+    if (prev != '\n' && prev != -1) {
         ++lines;
     }
 
@@ -37,11 +61,13 @@ int count_lines(char *path) {
 
 char** read_lines(char *path, int *lineCount) {
     char buf[MAX_BUF];
-
+    
     *lineCount = count_lines(path);
     char **lines = malloc(sizeof(char*) * (*lineCount));
 
     FILE *fp = fopen(path, "r");
+    if (fp == NULL)
+        handle_file_open_error_rwa(path, 'r');
 
     for (int i = 0; i < *lineCount; i++) {
         fgets(buf, MAX_BUF, fp);
@@ -50,7 +76,7 @@ char** read_lines(char *path, int *lineCount) {
         int lineLen = strcspn(buf, "\n");
         buf[lineLen] = '\0'; // Remove \n
 
-        char *line = malloc(sizeof(char)*(lineLen+1));
+        char *line = malloc(sizeof(char) * (lineLen+1));
         strcpy(line,buf);
 
         lines[i] = line;
@@ -68,7 +94,7 @@ char** append_directory_to_filenames(char *directory, char **filenames, int n) {
     for (int i = 0; i < n; i++) {
         sprintf(buf, "%s/%s", directory, filenames[i]);
 
-        char *path = malloc(sizeof(char)*(strlen(buf)+1));
+        char *path = malloc(sizeof(char) * (strlen(buf)+1));
         strcpy(path,buf);
 
         paths[i] = path;
@@ -78,16 +104,25 @@ char** append_directory_to_filenames(char *directory, char **filenames, int n) {
 }
 
 char** get_text_paths(char* personName, int *pathsCount) {
-    list_texts(personName, FILES_LIST_PATH);
+    char *textsPath = person_texts_path(personName);
+
+    // Overwrite files list as a blank file, possibly erasing contents from previous runs.
+    reset_files_list(FILES_LIST_PATH); 
+
+    list_texts(textsPath, FILES_LIST_PATH);
 
     int fileCount;
     char **filenames = read_lines(FILES_LIST_PATH, &fileCount);
 
-    char *textsPath = person_texts_path(personName);
-    char **paths = append_directory_to_filenames(textsPath, filenames, fileCount);
+    if (fileCount == 0) {
+        fprintf(stderr, "There are no files in \"%s\" or the folder doesn't exist.\n", textsPath);
+        exit(1);
+    }
 
+    char **paths = append_directory_to_filenames(textsPath, filenames, fileCount);
     *pathsCount = fileCount;
 
+    // Free filenames array and textsPath
     for (int i = 0; i < fileCount; i++)
         free(filenames[i]);
     free(filenames);
