@@ -4,7 +4,7 @@
 #include "files.h"
 
 char* person_texts_path(char* personName) {
-    char* path = malloc(sizeof(char) * (strlen(personName) + strlen(TEXTS_PATH) + 1));
+    char* path = malloc(sizeof(char) * (strlen(TEXTS_PATH) + strlen(personName) + 2));
     sprintf(path, "%s/%s", TEXTS_PATH, personName);
     return path;
 }

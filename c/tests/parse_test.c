@@ -2,8 +2,11 @@
 #include <stdlib.h>
 #include <assert.h>
 
+#include <sys/stat.h>
+
 #include "../src/parse.h"
 
+// Helper functions
 void compare_files(char *outputPath, char *expectedPath) {
     FILE *output = fopen(outputPath, "r");
     FILE *expected = fopen(expectedPath, "r");
@@ -21,10 +24,12 @@ void compare_files(char *outputPath, char *expectedPath) {
     fclose(expected);
 }
 
-void test_parse_file_1() {
-    char *inputPath = "inputs/parse_test/test_parse_file_1.txt";
-    char *outputPath = "tmp/test_parse_file_1.out";
-    char *expectedPath = "expected/parse_test/test_parse_file_1.txt";
+void create_tmp() {
+    mkdir("./tmp", 0777);
+}
+
+void file_comparing_test (char* inputPath, char* outputPath, char *expectedPath) {
+    create_tmp();
 
     FILE *input = fopen(inputPath, "r");
     FILE *output = fopen(outputPath, "w");
@@ -36,8 +41,33 @@ void test_parse_file_1() {
     compare_files(outputPath, expectedPath);
 }
 
+// Tests
+void test_parse_file_1() {
+    char *inputPath = "inputs/parse_test/test_parse_file_1.txt";
+    char *outputPath = "tmp/test_parse_file_1.out";
+    char *expectedPath = "expected/parse_test/test_parse_file_1.txt";
+    file_comparing_test(inputPath, outputPath, expectedPath);
+}
+
+void test_parse_file_2() {
+    char *inputPath = "inputs/parse_test/test_parse_file_2.txt";
+    char *outputPath = "tmp/test_parse_file_2.out";
+    char *expectedPath = "expected/parse_test/test_parse_file_2.txt";
+    file_comparing_test(inputPath, outputPath, expectedPath);
+}
+
+void test_parse_file_3() {
+    char *inputPath = "inputs/parse_test/test_parse_file_3.txt";
+    char *outputPath = "tmp/test_parse_file_3.out";
+    char *expectedPath = "expected/parse_test/test_parse_file_3.txt";
+    file_comparing_test(inputPath, outputPath, expectedPath);
+}
+
+// Run all tests
 void run_parse_tests() {
     test_parse_file_1();
+    test_parse_file_2();
+    test_parse_file_3();
 
     puts("Parse tests passed");
 }

@@ -5,6 +5,7 @@
 
 #include "../src/files.h"
 
+// Tests
 void test_count_lines_normal() {
     char *path = "inputs/files_test/test_count_lines_normal.txt";
     assert(count_lines(path) == 8);
@@ -136,6 +137,7 @@ void test_append_directory_to_filenames_2() {
     free(paths);
 }
 
+// Run all tests
 void run_files_tests() {
     test_count_lines_normal();
     test_count_lines_noendl();

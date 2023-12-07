@@ -46,7 +46,7 @@ void sanitize_texts(char *personName) {
     char** textPaths = get_text_paths(personName, &pathCount);
 
     char sanitizedFilePath[MAX_BUF];
-    sprintf(sanitizedFilePath, "%s/%s.txt", INPUTS_PATH, personName);
+    snprintf(sanitizedFilePath, MAX_BUF, "%s/%s.txt", INPUTS_PATH, personName);
     
     sanitize_files(pathCount, textPaths, sanitizedFilePath);
 
