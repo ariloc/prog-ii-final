@@ -34,7 +34,7 @@ void file_comparing_test (char* inputPath, char* outputPath, char *expectedPath)
     FILE *input = fopen(inputPath, "r");
     FILE *output = fopen(outputPath, "w");
 
-    parse_file(input, output);
+    sanitize_file(input, output);
     fclose(input);
     fclose(output);
 
@@ -69,5 +69,5 @@ void run_parse_tests() {
     test_parse_file_2();
     test_parse_file_3();
 
-    puts("Parse tests passed");
+    puts("parse.c tests passed");
 }

@@ -1,8 +1,13 @@
-from .probability import UnigramProbability, LeftBigramProbability, RightBigramProbability, TrigramProbability
+## @file predictions.py
+#  @author Ariel Leonardo Fideleff
 
-Word = str
+from .probability import UnigramProbability, LeftBigramProbability, RightBigramProbability, TrigramProbability
+from .ngrams import Word
+
 Probability = float
-PredictedWord = tuple[Word, Probability]
+
+Score = float
+PredictedWord = tuple[Word, Score]
 
 UnigramPredicted = PredictedWord
 BigramPredicted = dict[str, PredictedWord]
@@ -10,6 +15,7 @@ TrigramPredicted = dict[tuple[str, str], PredictedWord]
 LeftBigramPredicted = BigramPredicted
 RightBigramPredicted = BigramPredicted
 
+## @todo
 Dataset = tuple[UnigramPredicted, LeftBigramPredicted, RightBigramPredicted, TrigramPredicted]
 
 PREDICTED_WORD_INIT = ("", 0.0)
@@ -25,7 +31,7 @@ def max_predicted(a: PredictedWord, b: PredictedWord) -> PredictedWord:
         return a
     return b
 
-def calc_weighted_probability(unigram: Probability = 0.0, leftBigram: Probability = 0.0, rightBigram: Probability = 0.0, trigram: Probability = 0.0) -> Probability:
+def calc_score(unigram: Probability = 0.0, leftBigram: Probability = 0.0, rightBigram: Probability = 0.0, trigram: Probability = 0.0) -> Score:
     return WEIGHT_UNIGRAM * unigram + WEIGHT_LEFT_BIGRAM * leftBigram + WEIGHT_RIGHT_BIGRAM * rightBigram + WEIGHT_TRIGRAM * trigram
 
 def compute_unigram_predicted(unigramProbability: UnigramProbability) -> UnigramPredicted:
@@ -33,10 +39,10 @@ def compute_unigram_predicted(unigramProbability: UnigramProbability) -> Unigram
     for unigram, probability in unigramProbability.items():
         word = unigram[0]
 
-        weightedProbability = calc_weighted_probability(unigram = probability)
+        score = calc_score(unigram = probability)
 
-        if weightedProbability > predicted[1]:
-            predicted = (word, weightedProbability)
+        if predicted[1] < score:
+            predicted = (word, score)
 
     return predicted
 
@@ -49,15 +55,15 @@ def compute_left_bigram_predicted(unigramProbability: UnigramProbability, leftBi
 
         unigram = (bigram[1],)
 
-        weightedProbability = calc_weighted_probability(
+        score = calc_score(
             unigram = unigramProbability[unigram], 
             leftBigram = probability
         )
 
         if not prefix in predicted:
             predicted[prefix] = PREDICTED_WORD_INIT
-        if predicted[prefix][1] < weightedProbability:
-            predicted[prefix] = (word, weightedProbability)
+        if predicted[prefix][1] < score:
+            predicted[prefix] = (word, score)
 
     return predicted
 
@@ -69,15 +75,15 @@ def compute_right_bigram_predicted(unigramProbability: UnigramProbability, right
 
         unigram = (bigram[0],)
 
-        weightedProbability = calc_weighted_probability(
+        score = calc_score(
             unigram = unigramProbability[unigram], 
             rightBigram = probability
         )
 
         if not suffix in predicted:
             predicted[suffix] = PREDICTED_WORD_INIT
-        if predicted[suffix][1] < weightedProbability:
-            predicted[suffix] = (word, weightedProbability)
+        if predicted[suffix][1] < score:
+            predicted[suffix] = (word, score)
 
     return predicted
 
@@ -91,7 +97,7 @@ def compute_trigram_predicted(unigramProbability: UnigramProbability, leftBigram
         leftBigram = (trigram[0], trigram[1])
         rightBigram = (trigram[1], trigram[2])
 
-        weightedProbability = calc_weighted_probability(
+        score = calc_score(
             unigram = unigramProbability[unigram],
             leftBigram = leftBigramProbability[leftBigram],
             rightBigram = rightBigramProbability[rightBigram],
@@ -100,7 +106,7 @@ def compute_trigram_predicted(unigramProbability: UnigramProbability, leftBigram
 
         if not ends in predicted:
             predicted[ends] = PREDICTED_WORD_INIT
-        if predicted[ends][1] < weightedProbability:
-            predicted[ends] = (word, weightedProbability)
+        if predicted[ends][1] < score:
+            predicted[ends] = (word, score)
 
     return predicted

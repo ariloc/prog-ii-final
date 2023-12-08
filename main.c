@@ -2,8 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+
 #include "c/src/files.h"
 #include "c/src/parse.h"
+#include "c/src/file_utils.h"
 
 #define PYTHON_SCRIPT_NAME "main.py"
 

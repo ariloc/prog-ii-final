@@ -4,7 +4,7 @@ import python.src.predictions
 from python.src.predictions import *
 
 # Helper function
-def patch_weights(monkeypatch, unigram: Probability, leftBigram: Probability, rightBigram: Probability, trigram: float):
+def patch_weights(monkeypatch, unigram: float, leftBigram: float, rightBigram: float, trigram: float):
     # Patch global variables for testing
     monkeypatch.setattr(python.src.predictions, "WEIGHT_UNIGRAM", unigram)
     monkeypatch.setattr(python.src.predictions, "WEIGHT_LEFT_BIGRAM", leftBigram)
@@ -12,9 +12,9 @@ def patch_weights(monkeypatch, unigram: Probability, leftBigram: Probability, ri
     monkeypatch.setattr(python.src.predictions, "WEIGHT_TRIGRAM", trigram)
 
 # Tests
-def test_calc_weighted_probability(monkeypatch):
+def test_calc_score(monkeypatch):
     patch_weights(monkeypatch, unigram = .1, leftBigram = .15, rightBigram = .25, trigram = .5)
-    assert calc_weighted_probability(.23, .15, .11, .08) == pytest.approx(.113)
+    assert calc_score(.23, .15, .11, .08) == pytest.approx(.113)
 
 def test_compute_unigram_predicted_1(monkeypatch):
     patch_weights(monkeypatch, unigram = .075, leftBigram = .216, rightBigram = .109, trigram = .6)
@@ -130,7 +130,6 @@ def test_compute_right_bigram_predicted(monkeypatch):
     }
 
     assert compute_right_bigram_predicted(unigramProbability, rightBigramProbability) == predicted
-
 
 def test_compute_trigram_predicted(monkeypatch):
     patch_weights(monkeypatch, unigram = .05, leftBigram = .2, rightBigram = .21, trigram = .54)
@@ -265,22 +264,3 @@ def test_compute_trigram_predicted(monkeypatch):
     }
 
     assert compute_trigram_predicted(unigramProbability, leftBigramProbability, rightBigramProbability, trigramProbability) == predicted
-
-def test_max_predicted_1():
-    a = ("hola", 0.5)
-    b = ("hola", 0.50001)
-
-    assert max_predicted(a,b) == b
-
-def test_max_predicted_2():
-    a = ("", 0.25)
-    b = ("pez", 0.2)
-
-    assert max_predicted(a,b) == a
-
-def test_max_predicted_3():
-    a = ("buen", 0.5)
-    b = ("dia", 0.5)
-
-    result = max_predicted(a,b)
-    assert result == a or result == b

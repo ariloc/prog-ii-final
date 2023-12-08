@@ -1,21 +1,50 @@
+/**
+ *  @file files.h
+ *  @author Ariel Leonardo Fideleff
+ */
+
 #ifndef __FILES_H__
 
 #include <stddef.h>
-#include <stdio.h>
-
-#define FILES_LIST_PATH "archivos.txt"  // Must be a name for a new file infolder folder
-#define TEXTS_PATH "Textos"             // Must be the name of a folder inside the same one as the program is in
-
-#define MAX_BUF 255
 
 /**
- *  Function to be called when fopen returns NULL. Prints an error message to the user according
- *  to the mode in which the file was attempted to be opened, given as an argument.
- *
- *  @param path Path of the file that failed to be opened.
- *  @param mode The file access mode with which the file was attempted to be opened.
+ *  Path of a folder where texts written by people are stored.
+ *  Each person's texts should be @c .txt files contained in a folder named after the person,
+ *  under this path.
+ *  
+ *  <b>This path must point to a folder in the same directory as the executable.</b>
  */
-void handle_file_open_error_rwa(char *path, char mode);
+#define TEXTS_PATH "Textos"
+
+/**
+ *  Path of the folder where the sanitized sentences from a person will be stored.
+ *  The resulting files would be named after the person and have a @c .txt extension.
+ *
+ *  <b>This path must point to a folder in the same directory as the executable.</b>
+ */
+#define INPUTS_PATH "Entradas"
+
+/**
+ *  Path to a file where a list of filenames inside a directory will be written.
+ *  Specifically, this file will be used to list the texts written by a person.
+ *
+ *  <b>Must be the name of a file to be created <i>in the same directory</i> as the executable.</b>
+ *
+ *  @see TEXTS_PATH
+ */
+#define FILES_LIST_PATH "archivos.txt"  
+
+
+/**
+ *  Given the name of a person, returns the path to the folder that contains all of this person's
+ *  texts.
+ *
+ *  @param personName The name of the person (without spaces).
+ *  @return A path to the folder where the person's texts should be located in.
+ *  @see TEXTS_PATH
+ */
+char* person_texts_path(char* personName);
+
 
 /**
  *  Overwrites a file list stored at @p filesListPath with a blank file. 
@@ -26,18 +55,8 @@ void handle_file_open_error_rwa(char *path, char mode);
 void reset_files_list(char *filesListPath);
 
 /**
- *  Given the name of a person, returns the path to the folder that contains all of this person's
- *  texts.
- *  This folder should be named after the person, inside the directory located at #TEXTS_PATH.
- *
- *  @param personName The name of the person (without spaces).
- *  @return A file path where the person's texts should be located in.
- */
-char* person_texts_path(char* personName);
-
-/**
  *  Writes a list of the filenames in @p textsPath, to the file located at @p filesListPath.
- *  For this purpose, runs the commands 'cd' and 'ls' typically present in the host's command
+ *  For this purpose, it runs the commands @c cd and @c ls typically present in the host's command
  *  processor, under a Linux environment.
  *  As such, no file may be written to @p filesListPath in case of failure of the commands
  *  aforementioned (i.e. any of the paths isn't accessible or doesn't exist).
@@ -46,27 +65,6 @@ char* person_texts_path(char* personName);
  *  @param filesListPath Path of a file where the filnames of @p textsPath will be written.
  */
 void list_texts(char *textsPath, char *filesListPath);
-
-/**
- *  Counts the lines in the file at @p path.
- *  Lines are considered as any amount of text separated with \n (endline) characters or, of 
- *  course, the beginning / end of the file.
- *
- *  @param path Path of the file for which to count its lines.
- *  @return The amount of lines contained in the file at @path.
- */
-int count_lines(char *path);
-
-/**
- *  Reads all of the lines inside the file at @p path.
- *  <b>The length of each line stored is capped at #MAX_BUF.</b>
- *
- *  @param path Path to the file from which its lines will be read.
- *  @param lineCount A pointer to an integer where the amount of lines read will be stored.
- *  @return An array of pointers, each holding a reference to a string for each of the lines read
- *          from the file.
- */
-char** read_lines(char *path, int *lineCount);
 
 /**
  *  Given a path to a directory, prepends its path to each of the @p n filenames listed in 
@@ -78,18 +76,30 @@ char** read_lines(char *path, int *lineCount);
  *  @return An array of pointers, each holding a reference to a new string containing the result
  *          of the concatenation of the directory path and each of the filenames given.
  */
-char** append_directory_to_filenames(char *directory, char **filenames, int n);
+char** prepend_directory_to_filenames(char *directory, char **filenames, int n);
+
 
 /**
  *  Returns a list of paths with each of the texts written by @p personName.
- *  These texts should be contained in a folder named after the person, inside the directory 
- *  located at #TEXTS_PATH.
+ *  These texts should be @c .txt files contained in a folder named after the person,
+ *  inside the directory located at #TEXTS_PATH.
  *
  *  @param personName The name of the person (without spaces).
  *  @param pathsCount A pointer to an integer where the amount of paths returned will be stored.
  *  @return An array of pointers, each holding a reference to the path of a text written by the
  *          person, represented as a string.
+ *  @see TEXTS_PATH
  */
 char** get_text_paths(char *personName, int *pathsCount);
+
+/**
+ *  Returns the path of the file where the sanitized sentences from a person will be written.
+ *  This file will be a @c .txt file named after the person, which will be stored inside the
+ *  directory located at #INPUTS_PATH.
+ *
+ *  @param personName The name of the person (without spaces).
+ *  @see INPUTS_PATH
+ */
+char* sanitized_file_path(char *personName);
 
 #endif

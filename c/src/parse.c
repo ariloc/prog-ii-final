@@ -48,9 +48,7 @@ void sanitize_files(int n, char **inputPaths, char *outputPath) {
 void sanitize_texts(char *personName) {
     int pathCount;
     char** textPaths = get_text_paths(personName, &pathCount);
-
-    char sanitizedFilePath[MAX_BUF];
-    snprintf(sanitizedFilePath, MAX_BUF, "%s/%s.txt", INPUTS_PATH, personName);
+    char *sanitizedFilePath = sanitized_file_path(personName);
     
     sanitize_files(pathCount, textPaths, sanitizedFilePath);
 
@@ -58,4 +56,5 @@ void sanitize_texts(char *personName) {
     for (int i = 0; i < pathCount; i++)
         free(textPaths[i]);
     free(textPaths);
+    free(sanitizedFilePath);
 }

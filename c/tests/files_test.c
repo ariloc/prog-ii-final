@@ -6,91 +6,7 @@
 #include "../src/files.h"
 
 // Tests
-void test_count_lines_normal() {
-    char *path = "inputs/files_test/test_count_lines_normal.txt";
-    assert(count_lines(path) == 8);
-}
-
-void test_count_lines_noendl() {
-    char *path = "inputs/files_test/test_count_lines_noendl.txt";
-    assert(count_lines(path) == 4);
-}
-
-void text_count_lines_empty() {
-    char *path = "inputs/files_test/test_count_lines_empty.txt";
-    assert(count_lines(path) == 0);
-}
-
-void test_read_lines_normal() {
-    char *path = "inputs/files_test/test_read_lines_normal.txt";
-
-    int count;
-    char **lines = read_lines(path, &count);
-    int n = 13;
-
-    char *expectedLines[] = {
-        "cats",
-        "dogs",
-        "",
-        "horses",
-        "   other longer sentences",
-        "     many sentences are right here now   ",
-        "many many sentences",
-        "and",
-        "a ",
-        "   short",
-        "one",
-        " ",
-        ""
-    };
-
-    assert(count == n);
-    for (int i = 0; i < n; i++)
-        assert(strcmp(expectedLines[i],lines[i]) == 0);
-
-    for (int i = 0; i < n; i++)
-        free(lines[i]);
-    free(lines);
-}
-
-void test_read_lines_noendl() {
-    char *path = "inputs/files_test/test_read_lines_noendl.txt";
-
-    int count;
-    char **lines = read_lines(path, &count);
-    int n = 6;
-
-    char *expectedLines[] = {
-        "a  ",
-        "  small\\0little",
-        "",
-        "   tiny   ",
-        "test",
-        ""
-    };
-
-    assert(count == n);
-    for (int i = 0; i < n; i++)
-        assert(strcmp(expectedLines[i],lines[i]) == 0);
-
-    for (int i = 0; i < n; i++)
-        free(lines[i]);
-    free(lines);
-}
-
-void test_read_files_empty() {
-    char *path = "inputs/files_test/test_read_lines_empty.txt";
-
-    int count;
-    char **lines = read_lines(path, &count);
-    int n = 0;
-
-    assert(count == n);
-
-    free(lines);
-}
-
-void test_append_directory_to_filenames_1() {
+void test_prepend_directory_to_filenames_1() {
     char *directoryPath = "this/is a/test/path";
     char *filenames[] = {
         "hola.txt",
@@ -117,7 +33,7 @@ void test_append_directory_to_filenames_1() {
         "this/is a/test/path/the last of the names .txt.txt"
     };
 
-    char **paths = append_directory_to_filenames(directoryPath, filenames, n);
+    char **paths = prepend_directory_to_filenames(directoryPath, filenames, n);
 
     for (int i = 0; i < n; i++)
         assert(strcmp(paths[i], expectedPaths[i]) == 0);
@@ -127,7 +43,7 @@ void test_append_directory_to_filenames_1() {
     free(paths);
 }
 
-void test_append_directory_to_filenames_2() {
+void test_prepend_directory_to_filenames_2() {
     char *directoryPath = "./hola/mundo/";
     char *filenames[] = {
         "test1.txt",
@@ -144,7 +60,7 @@ void test_append_directory_to_filenames_2() {
         "./hola/mundo//a"
     };
 
-    char **paths = append_directory_to_filenames(directoryPath, filenames, n);
+    char **paths = prepend_directory_to_filenames(directoryPath, filenames, n);
 
     for (int i = 0; i < n; i++)
         assert(strcmp(paths[i], expectedPaths[i]) == 0);
@@ -156,12 +72,8 @@ void test_append_directory_to_filenames_2() {
 
 // Run all tests
 void run_files_tests() {
-    test_count_lines_normal();
-    test_count_lines_noendl();
-    test_read_lines_normal();
-    test_read_lines_noendl();
-    test_append_directory_to_filenames_1();
-    test_append_directory_to_filenames_2();
+    test_prepend_directory_to_filenames_1();
+    test_prepend_directory_to_filenames_2();
 
-    puts("Files tests passed");
+    puts("files.c tests passed");
 }

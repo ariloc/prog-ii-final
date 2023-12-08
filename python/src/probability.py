@@ -1,3 +1,6 @@
+## @file probability.py
+#  @author Ariel Leonardo Fideleff
+
 from .ngrams import Unigram, Bigram, Trigram
 
 UnigramProbability = dict[Unigram, float]
