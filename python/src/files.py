@@ -22,19 +22,32 @@ OUTPUTS_PATH = "Salidas"
 
 # --- FILE FUNCTIONS ---
 
-## Reads all the lines stored in the file located at @p path into an list, removing the endline @c \n
+## Reads all the lines stored in the file located at @p path into an list, removing the endline @c \\n
 #  character at the end of each line.
 def path_readlines_no_endline(path: str) -> list[str]:
-    file = open(path,"r")
+    try:
+        file = open(path,"r")
+    except:
+        print(f'There was an error reading from {path}.')
+        print("File may not exist or you may not have permission to read it.")
+        exit(1)
+
     lines = file.read().splitlines()
     file.close()
     return lines
 
-## Writes all the lines stored in @p lines to a file located at @p path, including an endline @c \n
+## Writes all the lines stored in @p lines to a file located at @p path, including an endline @c \\n
 #  character at the end of each line.
 def path_writelines_newline(lines: list[str], path: str):
-    file = open(path,"w")
-    file.writelines('\n'.join(lines) + '\n')
+    try:
+        file = open(path,"w")
+    except:
+        print(f'There was an error writing to {path}.')
+        print("Check the path exists and that you have permission to write in it.")
+        exit(1)
+
+    if lines: # Only append newline if there's at least one sentence to write
+        file.writelines('\n'.join(lines) + '\n')
     file.close()
 
 # --- PATHS ---

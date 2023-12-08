@@ -4,7 +4,7 @@
 from .predictions import max_predicted, Dataset
 
 ## Fills in missing words in a list of sentences written by a person, given a precomputed 
-#  predictions @link python.src.predictions.Dataset Dataset@endlink generated from sentences written
+#  predictions @p Dataset generated from sentences written
 #  by the person.
 #
 #  Each of the sentences received as an argument <b>must</b> have an underscore (@p '_'), 
@@ -13,6 +13,7 @@ from .predictions import max_predicted, Dataset
 #  @param sentences A list of sentences with missing words written by a person to be completed.
 #  @param dataset A precomputed dataset generated from sentences written by the person.
 #  @return The list of completed sentences.
+#  @see @link python.src.predictions.Dataset Dataset@endlink
 def solve_sentences(sentences: list[str], dataset: Dataset) -> list[str]:
     (unigramPredicted, leftBigramPredicted, rightBigramPredicted, trigramPredicted) = dataset
 

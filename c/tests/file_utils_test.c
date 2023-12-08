@@ -5,6 +5,26 @@
 
 #include "../src/file_utils.h"
 
+void test_concatenate_paths_1() {
+    char *path1 = "hola/", *path2 = "hola.txt";
+    char *concatenated = concatenate_paths(path1, path2);
+    char *expected = "hola//hola.txt"; // Valid path
+    
+    assert(strcmp(expected, concatenated) == 0);
+
+    free(concatenated);
+}
+
+void test_concatenate_paths_2() {
+    char *path1 = "./hola_mundo/", *path2 = "./hola2.txt";
+    char *concatenated = concatenate_paths(path1, path2);
+    char *expected = "./hola_mundo//./hola2.txt"; // Valid path, equivalent to ./hola_mundo/hola2.txt
+
+    assert(strcmp(expected, concatenated) == 0);
+
+    free(concatenated);
+}
+
 void test_count_lines_normal() {
     char *path = "inputs/file_utils_test/test_count_lines_normal.txt";
     assert(count_lines(path) == 8);
@@ -90,6 +110,8 @@ void test_read_files_empty() {
 }
 
 void run_file_utils_tests() {
+    test_concatenate_paths_1();
+    test_concatenate_paths_2();
     test_count_lines_normal();
     test_count_lines_noendl();
     test_read_lines_normal();

@@ -7,7 +7,6 @@ from python.src.predictions import *
 from python.src.solution import *
 
 def main():
-    # TODO: Better argument validity or is it enough?
     if len(sys.argv) != 2:
         print("usage: python main.py [person_name]")
         exit(0)

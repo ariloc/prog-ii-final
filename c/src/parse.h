@@ -14,14 +14,14 @@
  *  the following criteria:
  *  - Output text will only consist of lowercase letters, spaces and newlines.
  *  - Each line of the output text will correspond to a single sentence of the input file,
- *    considering sentences are separated by periods (@p '.'). Therefore, any newline 
- *    character (@p '\n') that doesn't separate two sentences will be discarded as well.
+ *    considering sentences are separated by periods ('.'). Therefore, any newline 
+ *    character (@c '\\n') that doesn't separate two sentences will be discarded as well.
  *  - Any symbols or numbers found within the text will be discarded, including any kind of 
  *    punctuation marks.
  *  - Words of the sentence have to be separated by a single space, additional spaces will be
  *    discarded. Two words are considered distinct if there is a non-alphabetical character
  *    between them.
- *  - Each of the output lines has to end in a newline character (@p '\n').
+ *  - Each of the output lines has to end in a newline character (@p '\\n').
  *
  *  @param input An input file stream to read from.
  *  @param output An output file stream where the sanitized contents of the input file will be 
@@ -55,4 +55,4 @@ void sanitize_files(int n, char **inputPaths, char *outputPath);
  */
 void sanitize_texts(char *personName);
 
-#endif
+#endif /* __PARSE_H__ */

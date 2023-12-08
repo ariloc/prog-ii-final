@@ -148,7 +148,6 @@ def test_solve_sentences_1():
         "mas _",
         "nada nos _",
         "_ aquel amor",
-        "",
         "nunca sortee las _ del amor",
         "y yo desperte _ sonarla",
         "de _ ligera",
@@ -389,7 +388,6 @@ def test_solve_sentences_2():
     }
 
     incompleteSentences = [
-        "",
         "_",
         "_ got mail",
         "_ with us not to do it",
@@ -403,7 +401,6 @@ def test_solve_sentences_2():
         "an old _ told me once",
         "you _ blood on your hands",
         "go _ into your room"
-        ""
     ]
 
     completedSentences = [

@@ -6,14 +6,7 @@
 #include "c/src/files.h"
 #include "c/src/parse.h"
 #include "c/src/file_utils.h"
-
-#define PYTHON_SCRIPT_NAME "main.py"
-
-void call_python_script(char *personName) {
-    char command[MAX_BUF];
-    sprintf(command, "python3 %s %s", PYTHON_SCRIPT_NAME, personName);
-    system(command);
-}
+#include "c/src/call_python.h"
 
 int main(int argc, char *argv[]) {
     if (argc != 2) {

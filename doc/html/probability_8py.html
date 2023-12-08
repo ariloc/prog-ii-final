@@ -12,6 +12,13 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -82,29 +89,32 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a22e076d62c67fae69861a0f029950cc6" id="r_a22e076d62c67fae69861a0f029950cc6"><td class="memItemLeft" align="right" valign="top"><a id="a22e076d62c67fae69861a0f029950cc6" name="a22e076d62c67fae69861a0f029950cc6"></a>
-UnigramProbability&#160;</td><td class="memItemRight" valign="bottom"><b>compute_unigram_probability</b> (dict[Unigram, int] unigrams)</td></tr>
+<tr class="memitem:a22e076d62c67fae69861a0f029950cc6" id="r_a22e076d62c67fae69861a0f029950cc6"><td class="memItemLeft" align="right" valign="top">UnigramProbability&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="probability_8py.html#a22e076d62c67fae69861a0f029950cc6">compute_unigram_probability</a> (dict[Unigram, int] unigrams)</td></tr>
+<tr class="memdesc:a22e076d62c67fae69861a0f029950cc6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the probability for each of the word unigrams in a list of sentences.  <br /></td></tr>
 <tr class="separator:a22e076d62c67fae69861a0f029950cc6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa093c848783b1efe74a3b0ed5524c0b7" id="r_aa093c848783b1efe74a3b0ed5524c0b7"><td class="memItemLeft" align="right" valign="top"><a id="aa093c848783b1efe74a3b0ed5524c0b7" name="aa093c848783b1efe74a3b0ed5524c0b7"></a>
-LeftBigramProbability&#160;</td><td class="memItemRight" valign="bottom"><b>compute_left_bigram_probability</b> (dict[Bigram, int] bigrams)</td></tr>
+<tr class="memitem:aa093c848783b1efe74a3b0ed5524c0b7" id="r_aa093c848783b1efe74a3b0ed5524c0b7"><td class="memItemLeft" align="right" valign="top">LeftBigramProbability&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="probability_8py.html#aa093c848783b1efe74a3b0ed5524c0b7">compute_left_bigram_probability</a> (dict[Bigram, int] bigrams)</td></tr>
+<tr class="memdesc:aa093c848783b1efe74a3b0ed5524c0b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the probability for each of the word left bigrams in a list of sentences.  <br /></td></tr>
 <tr class="separator:aa093c848783b1efe74a3b0ed5524c0b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2c00d7967370a66f7467eb325836c9d6" id="r_a2c00d7967370a66f7467eb325836c9d6"><td class="memItemLeft" align="right" valign="top"><a id="a2c00d7967370a66f7467eb325836c9d6" name="a2c00d7967370a66f7467eb325836c9d6"></a>
-RightBigramProbability&#160;</td><td class="memItemRight" valign="bottom"><b>compute_right_bigram_probability</b> (dict[Bigram, int] bigrams)</td></tr>
+<tr class="memitem:a2c00d7967370a66f7467eb325836c9d6" id="r_a2c00d7967370a66f7467eb325836c9d6"><td class="memItemLeft" align="right" valign="top">RightBigramProbability&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="probability_8py.html#a2c00d7967370a66f7467eb325836c9d6">compute_right_bigram_probability</a> (dict[Bigram, int] bigrams)</td></tr>
+<tr class="memdesc:a2c00d7967370a66f7467eb325836c9d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the probability for each of the word right bigrams in a list of sentences.  <br /></td></tr>
 <tr class="separator:a2c00d7967370a66f7467eb325836c9d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aec2091a5d1221aefe794bdd7ca4f815c" id="r_aec2091a5d1221aefe794bdd7ca4f815c"><td class="memItemLeft" align="right" valign="top"><a id="aec2091a5d1221aefe794bdd7ca4f815c" name="aec2091a5d1221aefe794bdd7ca4f815c"></a>
-TrigramProbability&#160;</td><td class="memItemRight" valign="bottom"><b>compute_trigram_probability</b> (dict[Trigram, int] trigrams)</td></tr>
+<tr class="memitem:aec2091a5d1221aefe794bdd7ca4f815c" id="r_aec2091a5d1221aefe794bdd7ca4f815c"><td class="memItemLeft" align="right" valign="top">TrigramProbability&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="probability_8py.html#aec2091a5d1221aefe794bdd7ca4f815c">compute_trigram_probability</a> (dict[Trigram, int] trigrams)</td></tr>
+<tr class="memdesc:aec2091a5d1221aefe794bdd7ca4f815c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the probability for each of the word trigrams in a list of sentences.  <br /></td></tr>
 <tr class="separator:aec2091a5d1221aefe794bdd7ca4f815c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
+<tr class="memitem:afe8656b4ac10c1a4a3e39cbecda9c54e" id="r_afe8656b4ac10c1a4a3e39cbecda9c54e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="probability_8py.html#afe8656b4ac10c1a4a3e39cbecda9c54e">Probability</a> = float</td></tr>
+<tr class="memdesc:afe8656b4ac10c1a4a3e39cbecda9c54e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Probability is represented as a <code>float</code> number between <code>0.0</code> and <code>1.0</code>.  <br /></td></tr>
+<tr class="separator:afe8656b4ac10c1a4a3e39cbecda9c54e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a90d26329b99dd5ce2791c8d6082c734a" id="r_a90d26329b99dd5ce2791c8d6082c734a"><td class="memItemLeft" align="right" valign="top"><a id="a90d26329b99dd5ce2791c8d6082c734a" name="a90d26329b99dd5ce2791c8d6082c734a"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>UnigramProbability</b> = dict[Unigram, float]</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>UnigramProbability</b> = dict[Unigram, <a class="el" href="probability_8py.html#afe8656b4ac10c1a4a3e39cbecda9c54e">Probability</a>]</td></tr>
 <tr class="separator:a90d26329b99dd5ce2791c8d6082c734a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abffc959e288593b873b7484789b99713" id="r_abffc959e288593b873b7484789b99713"><td class="memItemLeft" align="right" valign="top"><a id="abffc959e288593b873b7484789b99713" name="abffc959e288593b873b7484789b99713"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>BigramProbability</b> = dict[Bigram, float]</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>BigramProbability</b> = dict[Bigram, <a class="el" href="probability_8py.html#afe8656b4ac10c1a4a3e39cbecda9c54e">Probability</a>]</td></tr>
 <tr class="separator:abffc959e288593b873b7484789b99713"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4164774bf1814b4aecfc9acbbed83cb7" id="r_a4164774bf1814b4aecfc9acbbed83cb7"><td class="memItemLeft" align="right" valign="top"><a id="a4164774bf1814b4aecfc9acbbed83cb7" name="a4164774bf1814b4aecfc9acbbed83cb7"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>TrigramProbability</b> = dict[Trigram, float]</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>TrigramProbability</b> = dict[Trigram, <a class="el" href="probability_8py.html#afe8656b4ac10c1a4a3e39cbecda9c54e">Probability</a>]</td></tr>
 <tr class="separator:a4164774bf1814b4aecfc9acbbed83cb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a029a80b0d3b9c8d2eafb7fe5818a0ede" id="r_a029a80b0d3b9c8d2eafb7fe5818a0ede"><td class="memItemLeft" align="right" valign="top"><a id="a029a80b0d3b9c8d2eafb7fe5818a0ede" name="a029a80b0d3b9c8d2eafb7fe5818a0ede"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>LeftBigramProbability</b> = BigramProbability</td></tr>
@@ -115,7 +125,149 @@ Variables</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><dl class="section author"><dt>Author</dt><dd>Ariel Leonardo Fideleff </dd></dl>
-</div></div><!-- contents -->
+</div><h2 class="groupheader">Function Documentation</h2>
+<a id="aa093c848783b1efe74a3b0ed5524c0b7" name="aa093c848783b1efe74a3b0ed5524c0b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa093c848783b1efe74a3b0ed5524c0b7">&#9670;&#160;</a></span>compute_left_bigram_probability()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"> LeftBigramProbability compute_left_bigram_probability </td>
+          <td>(</td>
+          <td class="paramtype">dict[Bigram, int]&#160;</td>
+          <td class="paramname"><em>bigrams</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes the probability for each of the word left bigrams in a list of sentences. </p>
+<p>This probability \(\text{P}(W_j|W_i)\) is calculated as the percentage each bigram \((W_i W_j)\) represents from all bigrams <em>starting</em> in a certain word \(W_i\): </p><p class="formulaDsp">
+\[ \text{P}(W_j|W_i) = \frac{\#(W_i W_j)}{\sum_{j=1}^n \#(W_i W_j)} \]
+</p>
+<p> where \(n\) is the number of distinct words in the list of sentences.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bigrams</td><td>A dictionary with the count of each of the word left bigrams occurring in a list of sentences. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The probability calculated for each of the left bigrams. </dd></dl>
+
+</div>
+</div>
+<a id="a2c00d7967370a66f7467eb325836c9d6" name="a2c00d7967370a66f7467eb325836c9d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2c00d7967370a66f7467eb325836c9d6">&#9670;&#160;</a></span>compute_right_bigram_probability()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"> RightBigramProbability compute_right_bigram_probability </td>
+          <td>(</td>
+          <td class="paramtype">dict[Bigram, int]&#160;</td>
+          <td class="paramname"><em>bigrams</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes the probability for each of the word right bigrams in a list of sentences. </p>
+<p>This probability \(\text{P}(W_i|W_j)\) is calculated as the percentage each bigram \((W_i W_j)\) represents from all bigrams <em>ending</em> in a certain word \(W_j\): </p><p class="formulaDsp">
+\[ \text{P}(W_i|W_j) = \frac{\#(W_i W_j)}{\sum_{i=1}^n \#(W_i W_j)} \]
+</p>
+<p> where \(n\) is the number of distinct words in the list of sentences.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bigrams</td><td>A dictionary with the count of each of the word right bigrams occurring in a list of sentences. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The probability calculated for each of the right bigrams. </dd></dl>
+
+</div>
+</div>
+<a id="aec2091a5d1221aefe794bdd7ca4f815c" name="aec2091a5d1221aefe794bdd7ca4f815c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec2091a5d1221aefe794bdd7ca4f815c">&#9670;&#160;</a></span>compute_trigram_probability()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"> TrigramProbability compute_trigram_probability </td>
+          <td>(</td>
+          <td class="paramtype">dict[Trigram, int]&#160;</td>
+          <td class="paramname"><em>trigrams</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes the probability for each of the word trigrams in a list of sentences. </p>
+<p>This probability \(\text{P}(W_j|W_i,W_k)\) is calculated as the percentage each trigram \((W_i W_j W_k)\) represents from all trigrams <em>starting and ending</em> in a pair of words \(W_i\) and \(W_k\) respectively: </p><p class="formulaDsp">
+\[ \text{P}(W_j|W_i,W_k) = \frac{\#(W_i W_j W_k)}{\sum_{j=1}^n \#(W_i W_j W_k)} \]
+</p>
+<p> where \(n\) is the number of distinct words in the list of sentences.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">trigrams</td><td>A dictionary with the count of each of the word trigrams occurring in a list of sentences. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The probability calculated for each of the trigrams. </dd></dl>
+
+</div>
+</div>
+<a id="a22e076d62c67fae69861a0f029950cc6" name="a22e076d62c67fae69861a0f029950cc6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a22e076d62c67fae69861a0f029950cc6">&#9670;&#160;</a></span>compute_unigram_probability()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"> UnigramProbability compute_unigram_probability </td>
+          <td>(</td>
+          <td class="paramtype">dict[Unigram, int]&#160;</td>
+          <td class="paramname"><em>unigrams</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes the probability for each of the word unigrams in a list of sentences. </p>
+<p>This probability \(\text{P}(W_i)\) is calculated as the percentage each one \((W_i)\) represents from all the unigrams in a list of sentences. </p><p class="formulaDsp">
+\[ \text{P}(W_i) = \frac{\#(W_i)}{\sum_{i=1}^n \#(W_i)} \]
+</p>
+<p> where \(n\) is the number of distinct words in the list of sentences.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">unigrams</td><td>A dictionary with a count of each of the word unigrams occurring in a list of sentences. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The probability calculated for each of the unigrams. </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="afe8656b4ac10c1a4a3e39cbecda9c54e" name="afe8656b4ac10c1a4a3e39cbecda9c54e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe8656b4ac10c1a4a3e39cbecda9c54e">&#9670;&#160;</a></span>Probability</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Probability = float</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Probability is represented as a <code>float</code> number between <code>0.0</code> and <code>1.0</code>. </p>
+
+</div>
+</div>
+</div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8

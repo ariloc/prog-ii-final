@@ -12,6 +12,13 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -82,30 +89,27 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a1bae2e4399db34219c186e319ba69506" id="r_a1bae2e4399db34219c186e319ba69506"><td class="memItemLeft" align="right" valign="top"><a id="a1bae2e4399db34219c186e319ba69506" name="a1bae2e4399db34219c186e319ba69506"></a>
-PredictedWord&#160;</td><td class="memItemRight" valign="bottom"><b>max_predicted</b> (PredictedWord a, PredictedWord b)</td></tr>
+<tr class="memitem:a1bae2e4399db34219c186e319ba69506" id="r_a1bae2e4399db34219c186e319ba69506"><td class="memItemLeft" align="right" valign="top">PredictedWord&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="predictions_8py.html#a1bae2e4399db34219c186e319ba69506">max_predicted</a> (PredictedWord a, PredictedWord b)</td></tr>
+<tr class="memdesc:a1bae2e4399db34219c186e319ba69506"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given two predicted words, compares and returns the one with the higher <code>Score</code>.  <br /></td></tr>
 <tr class="separator:a1bae2e4399db34219c186e319ba69506"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9919b3953ec6660a6f17313753bd9c8b" id="r_a9919b3953ec6660a6f17313753bd9c8b"><td class="memItemLeft" align="right" valign="top"><a id="a9919b3953ec6660a6f17313753bd9c8b" name="a9919b3953ec6660a6f17313753bd9c8b"></a>
-Score&#160;</td><td class="memItemRight" valign="bottom"><b>calc_score</b> (Probability unigram=0.0, Probability leftBigram=0.0, Probability rightBigram=0.0, Probability trigram=0.0)</td></tr>
+<tr class="memitem:a9919b3953ec6660a6f17313753bd9c8b" id="r_a9919b3953ec6660a6f17313753bd9c8b"><td class="memItemLeft" align="right" valign="top">Score&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="predictions_8py.html#a9919b3953ec6660a6f17313753bd9c8b">calc_score</a> (Probability unigram=0.0, Probability leftBigram=0.0, Probability rightBigram=0.0, Probability trigram=0.0)</td></tr>
+<tr class="memdesc:a9919b3953ec6660a6f17313753bd9c8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the <code>Score</code> for a word \(W_j\) to be predicted as a replacement for the missing word \(W_m\) in a trigram \((W_i W_m W_k)\), given the probabilities of the unigram \((W_i)\), the left and right bigrams \((W_i W_j)\) and \((W_j W_k)\) respectively, and the trigram \((W_i W_j W_k)\), in a list of sentences.  <br /></td></tr>
 <tr class="separator:a9919b3953ec6660a6f17313753bd9c8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a173d56fd8e1cff9026774262b4b8dfc5" id="r_a173d56fd8e1cff9026774262b4b8dfc5"><td class="memItemLeft" align="right" valign="top"><a id="a173d56fd8e1cff9026774262b4b8dfc5" name="a173d56fd8e1cff9026774262b4b8dfc5"></a>
-UnigramPredicted&#160;</td><td class="memItemRight" valign="bottom"><b>compute_unigram_predicted</b> (UnigramProbability unigramProbability)</td></tr>
+<tr class="memitem:a173d56fd8e1cff9026774262b4b8dfc5" id="r_a173d56fd8e1cff9026774262b4b8dfc5"><td class="memItemLeft" align="right" valign="top">UnigramPredicted&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="predictions_8py.html#a173d56fd8e1cff9026774262b4b8dfc5">compute_unigram_predicted</a> (UnigramProbability unigramProbability)</td></tr>
+<tr class="memdesc:a173d56fd8e1cff9026774262b4b8dfc5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the predicted word with the highest <code>Score</code> among all unigrams in a list of sentences.  <br /></td></tr>
 <tr class="separator:a173d56fd8e1cff9026774262b4b8dfc5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a62f268b5c1cf816e3eb09022f787e0f2" id="r_a62f268b5c1cf816e3eb09022f787e0f2"><td class="memItemLeft" align="right" valign="top"><a id="a62f268b5c1cf816e3eb09022f787e0f2" name="a62f268b5c1cf816e3eb09022f787e0f2"></a>
-LeftBigramPredicted&#160;</td><td class="memItemRight" valign="bottom"><b>compute_left_bigram_predicted</b> (UnigramProbability unigramProbability, LeftBigramProbability leftBigramProbability)</td></tr>
+<tr class="memitem:a62f268b5c1cf816e3eb09022f787e0f2" id="r_a62f268b5c1cf816e3eb09022f787e0f2"><td class="memItemLeft" align="right" valign="top">LeftBigramPredicted&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="predictions_8py.html#a62f268b5c1cf816e3eb09022f787e0f2">compute_left_bigram_predicted</a> (UnigramProbability unigramProbability, LeftBigramProbability leftBigramProbability)</td></tr>
+<tr class="memdesc:a62f268b5c1cf816e3eb09022f787e0f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the predicted word with the highest <code>Score</code> among all bigrams that <em>start</em> with a certain word in a list of sentences.  <br /></td></tr>
 <tr class="separator:a62f268b5c1cf816e3eb09022f787e0f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a12fdccad3f7a77c381c0e4cefa545a1d" id="r_a12fdccad3f7a77c381c0e4cefa545a1d"><td class="memItemLeft" align="right" valign="top"><a id="a12fdccad3f7a77c381c0e4cefa545a1d" name="a12fdccad3f7a77c381c0e4cefa545a1d"></a>
-RightBigramPredicted&#160;</td><td class="memItemRight" valign="bottom"><b>compute_right_bigram_predicted</b> (UnigramProbability unigramProbability, RightBigramProbability rightBigramProbability)</td></tr>
+<tr class="memitem:a12fdccad3f7a77c381c0e4cefa545a1d" id="r_a12fdccad3f7a77c381c0e4cefa545a1d"><td class="memItemLeft" align="right" valign="top">RightBigramPredicted&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="predictions_8py.html#a12fdccad3f7a77c381c0e4cefa545a1d">compute_right_bigram_predicted</a> (UnigramProbability unigramProbability, RightBigramProbability rightBigramProbability)</td></tr>
+<tr class="memdesc:a12fdccad3f7a77c381c0e4cefa545a1d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the predicted word with the highest <code>Score</code> among all bigrams that <em>end</em> with a certain word in a list of sentences.  <br /></td></tr>
 <tr class="separator:a12fdccad3f7a77c381c0e4cefa545a1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae06ab89139bc9ba50ce2a3d6725bd416" id="r_ae06ab89139bc9ba50ce2a3d6725bd416"><td class="memItemLeft" align="right" valign="top"><a id="ae06ab89139bc9ba50ce2a3d6725bd416" name="ae06ab89139bc9ba50ce2a3d6725bd416"></a>
-TrigramPredicted&#160;</td><td class="memItemRight" valign="bottom"><b>compute_trigram_predicted</b> (UnigramProbability unigramProbability, LeftBigramProbability leftBigramProbability, RightBigramProbability rightBigramProbability, TrigramProbability trigramProbability)</td></tr>
+<tr class="memitem:ae06ab89139bc9ba50ce2a3d6725bd416" id="r_ae06ab89139bc9ba50ce2a3d6725bd416"><td class="memItemLeft" align="right" valign="top">TrigramPredicted&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="predictions_8py.html#ae06ab89139bc9ba50ce2a3d6725bd416">compute_trigram_predicted</a> (UnigramProbability unigramProbability, LeftBigramProbability leftBigramProbability, RightBigramProbability rightBigramProbability, TrigramProbability trigramProbability)</td></tr>
+<tr class="memdesc:ae06ab89139bc9ba50ce2a3d6725bd416"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the predicted word with the highest <code>Score</code> among all bigrams that <em>start and end</em> with a pair of words in a list of sentences.  <br /></td></tr>
 <tr class="separator:ae06ab89139bc9ba50ce2a3d6725bd416"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:afe8656b4ac10c1a4a3e39cbecda9c54e" id="r_afe8656b4ac10c1a4a3e39cbecda9c54e"><td class="memItemLeft" align="right" valign="top"><a id="afe8656b4ac10c1a4a3e39cbecda9c54e" name="afe8656b4ac10c1a4a3e39cbecda9c54e"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>Probability</b> = float</td></tr>
-<tr class="separator:afe8656b4ac10c1a4a3e39cbecda9c54e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2f574cc3a73c29e138acb38d1bfc07a3" id="r_a2f574cc3a73c29e138acb38d1bfc07a3"><td class="memItemLeft" align="right" valign="top"><a id="a2f574cc3a73c29e138acb38d1bfc07a3" name="a2f574cc3a73c29e138acb38d1bfc07a3"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Score</b> = float</td></tr>
 <tr class="separator:a2f574cc3a73c29e138acb38d1bfc07a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -128,29 +132,309 @@ Variables</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>RightBigramPredicted</b> = BigramPredicted</td></tr>
 <tr class="separator:a9bab9b902e09d287743ac7b418f717fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa4c3e5f0a5f515fc40e55ac68194c2ce" id="r_aa4c3e5f0a5f515fc40e55ac68194c2ce"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="predictions_8py.html#aa4c3e5f0a5f515fc40e55ac68194c2ce">Dataset</a> = tuple[UnigramPredicted, LeftBigramPredicted, RightBigramPredicted, TrigramPredicted]</td></tr>
+<tr class="memdesc:aa4c3e5f0a5f515fc40e55ac68194c2ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">A tuple containing precomputed predicted words given a certain word unigram, left/right bigram or trigram.  <br /></td></tr>
 <tr class="separator:aa4c3e5f0a5f515fc40e55ac68194c2ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af4c69774fff362fa0e55a76078fb5fb9" id="r_af4c69774fff362fa0e55a76078fb5fb9"><td class="memItemLeft" align="right" valign="top"><a id="af4c69774fff362fa0e55a76078fb5fb9" name="af4c69774fff362fa0e55a76078fb5fb9"></a>
-tuple&#160;</td><td class="memItemRight" valign="bottom"><b>PREDICTED_WORD_INIT</b> = (&quot;&quot;, 0.0)</td></tr>
+<tr class="memitem:af4c69774fff362fa0e55a76078fb5fb9" id="r_af4c69774fff362fa0e55a76078fb5fb9"><td class="memItemLeft" align="right" valign="top">tuple&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="predictions_8py.html#af4c69774fff362fa0e55a76078fb5fb9">PREDICTED_WORD_INIT</a> = (&quot;&quot;, 0.0)</td></tr>
+<tr class="memdesc:af4c69774fff362fa0e55a76078fb5fb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default value for a <code>PredictedWord</code> type.  <br /></td></tr>
 <tr class="separator:af4c69774fff362fa0e55a76078fb5fb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c7488ad5ae65abc8787ead6107462bc" id="r_a7c7488ad5ae65abc8787ead6107462bc"><td class="memItemLeft" align="right" valign="top"><a id="a7c7488ad5ae65abc8787ead6107462bc" name="a7c7488ad5ae65abc8787ead6107462bc"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>WEIGHT_UNIGRAM</b> = .05</td></tr>
 <tr class="separator:a7c7488ad5ae65abc8787ead6107462bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6699ecb76d99ab4bdb0144f744bcc8dd" id="r_a6699ecb76d99ab4bdb0144f744bcc8dd"><td class="memItemLeft" align="right" valign="top"><a id="a6699ecb76d99ab4bdb0144f744bcc8dd" name="a6699ecb76d99ab4bdb0144f744bcc8dd"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>WEIGHT_BIGRAM</b> = .2</td></tr>
-<tr class="separator:a6699ecb76d99ab4bdb0144f744bcc8dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e2e19284ea6dedb125940e0bb4c5e19" id="r_a3e2e19284ea6dedb125940e0bb4c5e19"><td class="memItemLeft" align="right" valign="top"><a id="a3e2e19284ea6dedb125940e0bb4c5e19" name="a3e2e19284ea6dedb125940e0bb4c5e19"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>WEIGHT_LEFT_BIGRAM</b> = .2</td></tr>
+<tr class="separator:a3e2e19284ea6dedb125940e0bb4c5e19"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae60e6e34364a97435574723be18965d1" id="r_ae60e6e34364a97435574723be18965d1"><td class="memItemLeft" align="right" valign="top"><a id="ae60e6e34364a97435574723be18965d1" name="ae60e6e34364a97435574723be18965d1"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>WEIGHT_RIGHT_BIGRAM</b> = .2</td></tr>
+<tr class="separator:ae60e6e34364a97435574723be18965d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2c6967b8b160a79889988a35cde3774f" id="r_a2c6967b8b160a79889988a35cde3774f"><td class="memItemLeft" align="right" valign="top"><a id="a2c6967b8b160a79889988a35cde3774f" name="a2c6967b8b160a79889988a35cde3774f"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>WEIGHT_TRIGRAM</b> = .55</td></tr>
 <tr class="separator:a2c6967b8b160a79889988a35cde3774f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3e2e19284ea6dedb125940e0bb4c5e19" id="r_a3e2e19284ea6dedb125940e0bb4c5e19"><td class="memItemLeft" align="right" valign="top"><a id="a3e2e19284ea6dedb125940e0bb4c5e19" name="a3e2e19284ea6dedb125940e0bb4c5e19"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>WEIGHT_LEFT_BIGRAM</b> = WEIGHT_BIGRAM</td></tr>
-<tr class="separator:a3e2e19284ea6dedb125940e0bb4c5e19"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae60e6e34364a97435574723be18965d1" id="r_ae60e6e34364a97435574723be18965d1"><td class="memItemLeft" align="right" valign="top"><a id="ae60e6e34364a97435574723be18965d1" name="ae60e6e34364a97435574723be18965d1"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>WEIGHT_RIGHT_BIGRAM</b> = WEIGHT_BIGRAM</td></tr>
-<tr class="separator:ae60e6e34364a97435574723be18965d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><dl class="section author"><dt>Author</dt><dd>Ariel Leonardo Fideleff </dd></dl>
-</div><h2 class="groupheader">Variable Documentation</h2>
+</div><h2 class="groupheader">Function Documentation</h2>
+<a id="a9919b3953ec6660a6f17313753bd9c8b" name="a9919b3953ec6660a6f17313753bd9c8b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9919b3953ec6660a6f17313753bd9c8b">&#9670;&#160;</a></span>calc_score()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"> Score calc_score </td>
+          <td>(</td>
+          <td class="paramtype">Probability &#160;</td>
+          <td class="paramname"><em>unigram</em> = <code>0.0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Probability &#160;</td>
+          <td class="paramname"><em>leftBigram</em> = <code>0.0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Probability &#160;</td>
+          <td class="paramname"><em>rightBigram</em> = <code>0.0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Probability &#160;</td>
+          <td class="paramname"><em>trigram</em> = <code>0.0</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Calculates the <code>Score</code> for a word \(W_j\) to be predicted as a replacement for the missing word \(W_m\) in a trigram \((W_i W_m W_k)\), given the probabilities of the unigram \((W_i)\), the left and right bigrams \((W_i W_j)\) and \((W_j W_k)\) respectively, and the trigram \((W_i W_j W_k)\), in a list of sentences. </p>
+<p>This score is calculated based on certain fixed weights \( \lambda_1 = \) <a class="el" href="#a7c7488ad5ae65abc8787ead6107462bc">WEIGHT_UNIGRAM</a>, \( \lambda_2 = \) <a class="el" href="#a3e2e19284ea6dedb125940e0bb4c5e19">WEIGHT_LEFT_BIGRAM</a>, \( \lambda_3 = \) <a class="el" href="#ae60e6e34364a97435574723be18965d1">WEIGHT_RIGHT_BIGRAM</a> and \( \lambda_4 = \) <a class="el" href="#a2c6967b8b160a79889988a35cde3774f">WEIGHT_TRIGRAM</a> where \(\lambda_1 + \lambda_2 + \lambda_3 + \lambda_4 = 1\):</p>
+<p class="formulaDsp">
+\[ \text{Score}(W_j) = \lambda_1 \text{P}(W_j) + \lambda_2 \text{P}(W_j|W_i) + 
+                          \lambda_3 \text{P}(W_j|W_k) + \lambda_4 \text{P}(W_j|W_i,W_k) \]
+</p>
+<p><em>May also be used to calculate the score for bigrams or unigrams with the missing probabilities (of the longer n-grams) left as <code>0.0</code>.</em></p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">unigram</td><td>The probability of \((W_j)\) containing a certain word. </td></tr>
+    <tr><td class="paramname">leftBigram</td><td>The probability of the left bigram \((W_i W_j)\). </td></tr>
+    <tr><td class="paramname">rightBigram</td><td>The probability of the right bigram \((W_j W_k)\). </td></tr>
+    <tr><td class="paramname">trigram</td><td>The probability of the trigram \((W_i W_j W_k)\). </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The score for the word \(W_j\) to be predicted as a replacement for the missing word \(W_m\) in the trigram \((W_i W_m W_k)\).</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="probability_8py.html#a22e076d62c67fae69861a0f029950cc6">compute_unigram_probability() </a> </dd>
+<dd>
+<a class="el" href="probability_8py.html#aa093c848783b1efe74a3b0ed5524c0b7">compute_left_bigram_probability() </a> </dd>
+<dd>
+<a class="el" href="probability_8py.html#a2c00d7967370a66f7467eb325836c9d6">compute_right_bigram_probability() </a> </dd>
+<dd>
+<a class="el" href="probability_8py.html#aec2091a5d1221aefe794bdd7ca4f815c">compute_trigram_probability() </a> </dd></dl>
+
+</div>
+</div>
+<a id="a62f268b5c1cf816e3eb09022f787e0f2" name="a62f268b5c1cf816e3eb09022f787e0f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a62f268b5c1cf816e3eb09022f787e0f2">&#9670;&#160;</a></span>compute_left_bigram_predicted()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"> LeftBigramPredicted compute_left_bigram_predicted </td>
+          <td>(</td>
+          <td class="paramtype">UnigramProbability&#160;</td>
+          <td class="paramname"><em>unigramProbability</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">LeftBigramProbability&#160;</td>
+          <td class="paramname"><em>leftBigramProbability</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes the predicted word with the highest <code>Score</code> among all bigrams that <em>start</em> with a certain word in a list of sentences. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">unigramProbability</td><td>The probability for each of the unigrams in a list of sentences. </td></tr>
+    <tr><td class="paramname">leftBigramProbability</td><td>The probability for each of the left bigrams in a list of sentences. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A dictionary containing the predicted word with the best score for each of the bigrams <em>starting</em> in a given word.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="predictions_8py.html#a9919b3953ec6660a6f17313753bd9c8b">calc_score() </a> </dd>
+<dd>
+<a class="el" href="probability_8py.html#a22e076d62c67fae69861a0f029950cc6">compute_unigram_probability() </a> </dd>
+<dd>
+<a class="el" href="probability_8py.html#aa093c848783b1efe74a3b0ed5524c0b7">compute_left_bigram_probability() </a> </dd></dl>
+
+</div>
+</div>
+<a id="a12fdccad3f7a77c381c0e4cefa545a1d" name="a12fdccad3f7a77c381c0e4cefa545a1d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a12fdccad3f7a77c381c0e4cefa545a1d">&#9670;&#160;</a></span>compute_right_bigram_predicted()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"> RightBigramPredicted compute_right_bigram_predicted </td>
+          <td>(</td>
+          <td class="paramtype">UnigramProbability&#160;</td>
+          <td class="paramname"><em>unigramProbability</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">RightBigramProbability&#160;</td>
+          <td class="paramname"><em>rightBigramProbability</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes the predicted word with the highest <code>Score</code> among all bigrams that <em>end</em> with a certain word in a list of sentences. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">unigramProbability</td><td>The probability for each of the unigrams in a list of sentences. </td></tr>
+    <tr><td class="paramname">rightBigramProbability</td><td>The probability for each of the right bigrams in a list of sentences. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A dictionary containing the predicted word with the best score for each of the bigrams <em>ending</em> in a given word.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="predictions_8py.html#a9919b3953ec6660a6f17313753bd9c8b">calc_score() </a> </dd>
+<dd>
+<a class="el" href="probability_8py.html#a22e076d62c67fae69861a0f029950cc6">compute_unigram_probability() </a> </dd>
+<dd>
+<a class="el" href="probability_8py.html#a2c00d7967370a66f7467eb325836c9d6">compute_right_bigram_probability() </a> </dd></dl>
+
+</div>
+</div>
+<a id="ae06ab89139bc9ba50ce2a3d6725bd416" name="ae06ab89139bc9ba50ce2a3d6725bd416"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae06ab89139bc9ba50ce2a3d6725bd416">&#9670;&#160;</a></span>compute_trigram_predicted()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"> TrigramPredicted compute_trigram_predicted </td>
+          <td>(</td>
+          <td class="paramtype">UnigramProbability&#160;</td>
+          <td class="paramname"><em>unigramProbability</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">LeftBigramProbability&#160;</td>
+          <td class="paramname"><em>leftBigramProbability</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">RightBigramProbability&#160;</td>
+          <td class="paramname"><em>rightBigramProbability</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">TrigramProbability&#160;</td>
+          <td class="paramname"><em>trigramProbability</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes the predicted word with the highest <code>Score</code> among all bigrams that <em>start and end</em> with a pair of words in a list of sentences. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">unigramProbability</td><td>The probability for each of the unigrams in a list of sentences. </td></tr>
+    <tr><td class="paramname">leftBigramProbability</td><td>The probability for each of the left bigrams in a list of sentences. </td></tr>
+    <tr><td class="paramname">rightBigramProbability</td><td>The probability for each of the right bigrams in a list of sentences. </td></tr>
+    <tr><td class="paramname">trigramProbability</td><td>The probability for each of the trigrams in a list of sentences. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A dictionary containing the predicted word with the best score for each of the bigrams <em>starting and ending</em> in two given words.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="predictions_8py.html#a9919b3953ec6660a6f17313753bd9c8b">calc_score() </a> </dd>
+<dd>
+<a class="el" href="probability_8py.html#a22e076d62c67fae69861a0f029950cc6">compute_unigram_probability() </a> </dd>
+<dd>
+<a class="el" href="probability_8py.html#aa093c848783b1efe74a3b0ed5524c0b7">compute_left_bigram_probability() </a> </dd>
+<dd>
+<a class="el" href="probability_8py.html#a2c00d7967370a66f7467eb325836c9d6">compute_right_bigram_probability() </a> </dd>
+<dd>
+<a class="el" href="probability_8py.html#aec2091a5d1221aefe794bdd7ca4f815c">compute_trigram_probability() </a> </dd></dl>
+
+</div>
+</div>
+<a id="a173d56fd8e1cff9026774262b4b8dfc5" name="a173d56fd8e1cff9026774262b4b8dfc5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a173d56fd8e1cff9026774262b4b8dfc5">&#9670;&#160;</a></span>compute_unigram_predicted()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"> UnigramPredicted compute_unigram_predicted </td>
+          <td>(</td>
+          <td class="paramtype">UnigramProbability&#160;</td>
+          <td class="paramname"><em>unigramProbability</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Computes the predicted word with the highest <code>Score</code> among all unigrams in a list of sentences. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">unigramProbability</td><td>The probability of all unigrams in a certain list of sentences. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A predicted word with the highest score.</dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="predictions_8py.html#a9919b3953ec6660a6f17313753bd9c8b">calc_score() </a> </dd>
+<dd>
+<a class="el" href="probability_8py.html#a22e076d62c67fae69861a0f029950cc6">compute_unigram_probability() </a> </dd></dl>
+
+</div>
+</div>
+<a id="a1bae2e4399db34219c186e319ba69506" name="a1bae2e4399db34219c186e319ba69506"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1bae2e4399db34219c186e319ba69506">&#9670;&#160;</a></span>max_predicted()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"> PredictedWord max_predicted </td>
+          <td>(</td>
+          <td class="paramtype">PredictedWord&#160;</td>
+          <td class="paramname"><em>a</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">PredictedWord&#160;</td>
+          <td class="paramname"><em>b</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Given two predicted words, compares and returns the one with the higher <code>Score</code>. </p>
+<p>If both have the same score, then any of the two is valid.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">a</td><td>The first predicted word to be compared. </td></tr>
+    <tr><td class="paramname">b</td><td>The second predicted word to be compared. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The predicted word with the highest score. </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
 <a id="aa4c3e5f0a5f515fc40e55ac68194c2ce" name="aa4c3e5f0a5f515fc40e55ac68194c2ce"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa4c3e5f0a5f515fc40e55ac68194c2ce">&#9670;&#160;</a></span>Dataset</h2>
 
@@ -162,7 +446,31 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>WEIGHT_RIGHT_BIGRAM</b
         </tr>
       </table>
 </div><div class="memdoc">
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd></dd></dl>
+
+<p>A tuple containing precomputed predicted words given a certain word unigram, left/right bigram or trigram. </p>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="predictions_8py.html#a173d56fd8e1cff9026774262b4b8dfc5">compute_unigram_predicted() </a> </dd>
+<dd>
+<a class="el" href="predictions_8py.html#a62f268b5c1cf816e3eb09022f787e0f2">compute_left_bigram_predicted() </a> </dd>
+<dd>
+<a class="el" href="predictions_8py.html#a12fdccad3f7a77c381c0e4cefa545a1d">compute_right_bigram_predicted() </a> </dd>
+<dd>
+<a class="el" href="predictions_8py.html#ae06ab89139bc9ba50ce2a3d6725bd416">compute_trigram_predicted() </a> </dd></dl>
+
+</div>
+</div>
+<a id="af4c69774fff362fa0e55a76078fb5fb9" name="af4c69774fff362fa0e55a76078fb5fb9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af4c69774fff362fa0e55a76078fb5fb9">&#9670;&#160;</a></span>PREDICTED_WORD_INIT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">tuple PREDICTED_WORD_INIT = (&quot;&quot;, 0.0)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Default value for a <code>PredictedWord</code> type. </p>
 
 </div>
 </div>

@@ -1,9 +1,7 @@
 var searchData=
 [
-  ['sanitize_5ffile_0',['sanitize_file',['../parse_8h.html#a310e46d354a03622db414765147b2b1d',1,'parse.c']]],
-  ['sanitize_5ffiles_1',['sanitize_files',['../parse_8h.html#a572f77b7ba5712164cd7512dcf094ca7',1,'parse.c']]],
-  ['sanitize_5ftexts_2',['sanitize_texts',['../parse_8h.html#a23965cee3fb61e8d5d2c8ac6a1a7eea8',1,'parse.c']]],
-  ['sanitized_5ffile_5fpath_3',['sanitized_file_path',['../files_8h.html#af17ded74818375f9746bcf53db170429',1,'files.c']]],
-  ['sentences_5fpath_4',['sentences_path',['../files_8py.html#adef50579ebf39d3e086a57ac438092a3',1,'python::src::files']]],
-  ['solve_5fsentences_5',['solve_sentences',['../solution_8py.html#a8073dc90b25cb919a33d30f065aaee0a',1,'python::src::solution']]]
+  ['read_5fincomplete_5fsentences_0',['read_incomplete_sentences',['../files_8py.html#ad274c88cf9355998770650b29163f345',1,'python::src::files']]],
+  ['read_5finput_5fsentences_1',['read_input_sentences',['../files_8py.html#a2d881b51a3ed2e3be6975adba406bdca',1,'python::src::files']]],
+  ['read_5flines_2',['read_lines',['../file__utils_8h.html#a8a1a34bb8d1c8120ead9b14e69b6440d',1,'file_utils.c']]],
+  ['reset_5ffiles_5flist_3',['reset_files_list',['../files_8h.html#aae0e7d832e9f8b12651349b6561decbe',1,'files.c']]]
 ];

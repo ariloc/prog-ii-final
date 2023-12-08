@@ -12,6 +12,13 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -122,10 +129,10 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Given an <code>input</code> file stream and an <code>output</code> file stream, processes the contents of the first stream and <em>appends</em> them into the second one, in order to separate it into sentences under the following criteria:</p><ul>
 <li>Output text will only consist of lowercase letters, spaces and newlines.</li>
-<li>Each line of the output text will correspond to a single sentence of the input file, considering sentences are separated by periods (<code>'</code>.'). Therefore, any newline character (<code>'\n</code> ') that doesn't separate two sentences will be discarded as well.</li>
+<li>Each line of the output text will correspond to a single sentence of the input file, considering sentences are separated by periods ('.'). Therefore, any newline character (<code>'\n'</code>) that doesn't separate two sentences will be discarded as well.</li>
 <li>Any symbols or numbers found within the text will be discarded, including any kind of punctuation marks.</li>
 <li>Words of the sentence have to be separated by a single space, additional spaces will be discarded. Two words are considered distinct if there is a non-alphabetical character between them.</li>
-<li>Each of the output lines has to end in a newline character (<code>'\n</code> ').</li>
+<li>Each of the output lines has to end in a newline character (<code>'\n'</code>).</li>
 </ul>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">

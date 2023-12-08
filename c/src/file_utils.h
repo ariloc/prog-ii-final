@@ -33,7 +33,7 @@ char* concatenate_paths(char *path1, char *path2);
 
 /**
  *  Counts the lines in the file at @p path.
- *  Lines are considered as consecutive amounts of characters separated within @c \n (newline)
+ *  Lines are considered as consecutive amounts of characters separated within @c \\n (newline)
  *  characters or the beginning / end of the file.
  *
  *  @param path Path of the file for which to count its lines.
@@ -52,4 +52,4 @@ int count_lines(char *path);
  */
 char** read_lines(char *path, int *lineCount);
 
-#endif
+#endif /* __FILE_UTILS_H__ */

@@ -102,4 +102,4 @@ char** get_text_paths(char *personName, int *pathsCount);
  */
 char* sanitized_file_path(char *personName);
 
-#endif
+#endif /* __FILES_H__ */

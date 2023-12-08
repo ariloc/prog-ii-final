@@ -12,6 +12,13 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -83,10 +90,10 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a334c4e7c0dda84f3bca06576ba357c80" id="r_a334c4e7c0dda84f3bca06576ba357c80"><td class="memItemLeft" align="right" valign="top">list[str]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="files_8py.html#a334c4e7c0dda84f3bca06576ba357c80">path_readlines_no_endline</a> (str path)</td></tr>
-<tr class="memdesc:a334c4e7c0dda84f3bca06576ba357c80"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads all the lines stored in the file located at <code>path</code> into an list, removing the endline <code>\n</code>  character at the end of each line.  <br /></td></tr>
+<tr class="memdesc:a334c4e7c0dda84f3bca06576ba357c80"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads all the lines stored in the file located at <code>path</code> into an list, removing the endline <code>\n</code> character at the end of each line.  <br /></td></tr>
 <tr class="separator:a334c4e7c0dda84f3bca06576ba357c80"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0adb0a9faff84e5fecfafd24e815f254" id="r_a0adb0a9faff84e5fecfafd24e815f254"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="files_8py.html#a0adb0a9faff84e5fecfafd24e815f254">path_writelines_newline</a> (list[str] lines, str path)</td></tr>
-<tr class="memdesc:a0adb0a9faff84e5fecfafd24e815f254"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes all the lines stored in <code>lines</code> to a file located at <code>path</code>, including an endline <code>\n</code>  character at the end of each line.  <br /></td></tr>
+<tr class="memdesc:a0adb0a9faff84e5fecfafd24e815f254"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes all the lines stored in <code>lines</code> to a file located at <code>path</code>, including an endline <code>\n</code> character at the end of each line.  <br /></td></tr>
 <tr class="separator:a0adb0a9faff84e5fecfafd24e815f254"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af696c25681d33e09e96484f32b0cb90c" id="r_af696c25681d33e09e96484f32b0cb90c"><td class="memItemLeft" align="right" valign="top">str&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="files_8py.html#af696c25681d33e09e96484f32b0cb90c">inputs_path</a> (str personName)</td></tr>
 <tr class="memdesc:af696c25681d33e09e96484f32b0cb90c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the path to the sanitized input sentences file from <code>personName</code>.  <br /></td></tr>
@@ -178,7 +185,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Reads all the lines stored in the file located at <code>path</code> into an list, removing the endline <code>\n</code>  character at the end of each line. </p>
+<p>Reads all the lines stored in the file located at <code>path</code> into an list, removing the endline <code>\n</code> character at the end of each line. </p>
 
 </div>
 </div>
@@ -208,7 +215,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Writes all the lines stored in <code>lines</code> to a file located at <code>path</code>, including an endline <code>\n</code>  character at the end of each line. </p>
+<p>Writes all the lines stored in <code>lines</code> to a file located at <code>path</code>, including an endline <code>\n</code> character at the end of each line. </p>
 
 </div>
 </div>

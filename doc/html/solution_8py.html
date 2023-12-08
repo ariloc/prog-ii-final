@@ -12,6 +12,13 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -82,7 +89,7 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a8073dc90b25cb919a33d30f065aaee0a" id="r_a8073dc90b25cb919a33d30f065aaee0a"><td class="memItemLeft" align="right" valign="top">list[str]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="solution_8py.html#a8073dc90b25cb919a33d30f065aaee0a">solve_sentences</a> (list[str] sentences, Dataset dataset)</td></tr>
-<tr class="memdesc:a8073dc90b25cb919a33d30f065aaee0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fills in missing words in a list of sentences written by a person, given a precomputed predictions <a class="el" href="predictions_8py.html#aa4c3e5f0a5f515fc40e55ac68194c2ce">Dataset</a> generated from sentences written by the person.  <br /></td></tr>
+<tr class="memdesc:a8073dc90b25cb919a33d30f065aaee0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fills in missing words in a list of sentences written by a person, given a precomputed predictions <code>Dataset</code> generated from sentences written by the person.  <br /></td></tr>
 <tr class="separator:a8073dc90b25cb919a33d30f065aaee0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -114,7 +121,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Fills in missing words in a list of sentences written by a person, given a precomputed predictions <a class="el" href="predictions_8py.html#aa4c3e5f0a5f515fc40e55ac68194c2ce">Dataset</a> generated from sentences written by the person. </p>
+<p>Fills in missing words in a list of sentences written by a person, given a precomputed predictions <code>Dataset</code> generated from sentences written by the person. </p>
 <p>Each of the sentences received as an argument <b>must</b> have an underscore (<code>'_'</code>), representing the location of the missing word.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -124,6 +131,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The list of completed sentences. </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="predictions_8py.html#aa4c3e5f0a5f515fc40e55ac68194c2ce">Dataset</a> </dd></dl>
 
 </div>
 </div>

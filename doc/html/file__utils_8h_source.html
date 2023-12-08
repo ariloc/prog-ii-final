@@ -12,6 +12,13 @@
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  extensions: ["tex2jax.js"],
+  jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js"></script>
 <link href="doxygen.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
@@ -96,11 +103,11 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
 <div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span><span class="keywordtype">char</span>** <a class="code hl_function" href="file__utils_8h.html#a8a1a34bb8d1c8120ead9b14e69b6440d">read_lines</a>(<span class="keywordtype">char</span> *path, <span class="keywordtype">int</span> *lineCount);</div>
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span><span class="preprocessor">#endif </span><span class="comment">/* __FILE_UTILS_H__ */</span><span class="preprocessor"></span></div>
 <div class="ttc" id="afile__utils_8h_html_a016702f7afd1f7e593189b080754edc2"><div class="ttname"><a href="file__utils_8h.html#a016702f7afd1f7e593189b080754edc2">handle_file_open_error_rwa</a></div><div class="ttdeci">void handle_file_open_error_rwa(char *path, char mode)</div><div class="ttdef"><b>Definition</b> file_utils.c:7</div></div>
-<div class="ttc" id="afile__utils_8h_html_a342796397c705f0ab7851ff818f824f2"><div class="ttname"><a href="file__utils_8h.html#a342796397c705f0ab7851ff818f824f2">count_lines</a></div><div class="ttdeci">int count_lines(char *path)</div><div class="ttdef"><b>Definition</b> file_utils.c:26</div></div>
-<div class="ttc" id="afile__utils_8h_html_a7e406552093f2e7ae72f3eae54fd40f0"><div class="ttname"><a href="file__utils_8h.html#a7e406552093f2e7ae72f3eae54fd40f0">concatenate_paths</a></div><div class="ttdeci">char * concatenate_paths(char *path1, char *path2)</div><div class="ttdef"><b>Definition</b> file_utils.c:20</div></div>
-<div class="ttc" id="afile__utils_8h_html_a8a1a34bb8d1c8120ead9b14e69b6440d"><div class="ttname"><a href="file__utils_8h.html#a8a1a34bb8d1c8120ead9b14e69b6440d">read_lines</a></div><div class="ttdeci">char ** read_lines(char *path, int *lineCount)</div><div class="ttdef"><b>Definition</b> file_utils.c:50</div></div>
+<div class="ttc" id="afile__utils_8h_html_a342796397c705f0ab7851ff818f824f2"><div class="ttname"><a href="file__utils_8h.html#a342796397c705f0ab7851ff818f824f2">count_lines</a></div><div class="ttdeci">int count_lines(char *path)</div><div class="ttdef"><b>Definition</b> file_utils.c:28</div></div>
+<div class="ttc" id="afile__utils_8h_html_a7e406552093f2e7ae72f3eae54fd40f0"><div class="ttname"><a href="file__utils_8h.html#a7e406552093f2e7ae72f3eae54fd40f0">concatenate_paths</a></div><div class="ttdeci">char * concatenate_paths(char *path1, char *path2)</div><div class="ttdef"><b>Definition</b> file_utils.c:22</div></div>
+<div class="ttc" id="afile__utils_8h_html_a8a1a34bb8d1c8120ead9b14e69b6440d"><div class="ttname"><a href="file__utils_8h.html#a8a1a34bb8d1c8120ead9b14e69b6440d">read_lines</a></div><div class="ttdeci">char ** read_lines(char *path, int *lineCount)</div><div class="ttdef"><b>Definition</b> file_utils.c:52</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

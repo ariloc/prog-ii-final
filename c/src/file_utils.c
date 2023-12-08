@@ -7,11 +7,13 @@
 void handle_file_open_error_rwa(char *path, char mode) {
     switch(mode) {
         case 'r':
-            fprintf(stderr, "There was an error reading from %s.\nFile may not exist or you may not have permission to read it.\n", path);
+            fprintf(stderr, "There was an error reading from %s.\n",path);
+            fprintf(stderr, "File may not exist or you may not have permission to read it.\n");
             break;
         case 'w':
         case 'a':
-            fprintf(stderr, "There was an error writing to %s.\nCheck path exists and you have permission to write in it.\n", path);
+            fprintf(stderr, "There was an error writing to %s.\n",path);
+            fprintf(stderr, "Check the path exists and that you have permission to write in it.\n");
             break;
     }
     exit(1);
