@@ -63,11 +63,35 @@ void test_parse_file_3() {
     file_comparing_test(inputPath, outputPath, expectedPath);
 }
 
+void test_parse_file_4() {
+    char *inputPath = "inputs/parse_test/test_parse_file_4.txt";
+    char *outputPath = "tmp/test_parse_file_4.out";
+    char *expectedPath = "expected/parse_test/test_parse_file_4.txt";
+    file_comparing_test(inputPath, outputPath, expectedPath);
+}
+
+void test_parse_file_5() {
+    char *inputPath = "inputs/parse_test/test_parse_file_5.txt";
+    char *outputPath = "tmp/test_parse_file_5.out";
+    char *expectedPath = "expected/parse_test/test_parse_file_5.txt";
+    file_comparing_test(inputPath, outputPath, expectedPath);
+}
+
+void test_parse_file_6() {
+    char *inputPath = "inputs/parse_test/test_parse_file_6.txt";
+    char *outputPath = "tmp/test_parse_file_6.out";
+    char *expectedPath = "expected/parse_test/test_parse_file_6.txt";
+    file_comparing_test(inputPath, outputPath, expectedPath);
+}
+
 // Run all tests
 void run_parse_tests() {
     test_parse_file_1();
     test_parse_file_2();
     test_parse_file_3();
+    test_parse_file_4();
+    test_parse_file_5();
+    test_parse_file_6();
 
     puts("parse.c tests passed");
 }

@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+
 #include "parse.h"
 #include "files.h"
+#include "file_utils.h"
 
 void sanitize_file(FILE* input, FILE* output) {
     char c;
