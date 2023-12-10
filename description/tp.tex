@@ -9,6 +9,7 @@
 \usepackage{hyperref}
 \usepackage{titlesec}
 \usepackage{tcolorbox}
+\usepackage[superscript,biblabel]{cite}
 
 \title{TP Final - Programación II}
 \author{Ariel Leonardo Fideleff}
@@ -27,6 +28,15 @@
 
 \section{Descripción de la solución}
 
+\subsection{Una decisión general}
+
+A excepción de esta descripción del proyecto, encontrará que todo el código y la documentación están escritos en inglés. Esta es una decisión que tomé frente a que estoy acostumbrado a programar en este idioma. Dada la cantidad de información y recursos disponibles en inglés con los que he aprendido a programar, me resulta más fácil que programar en español.
+
+Tomo esta decisión sabiendo que la suficiencia en el idioma inglés es parte de la carrera (aunque no todavía a este punto), y espero no generar inconvenientes en la corrección dada esta decisión meramente personal.
+
+En este sentido, me sentí ante la obligación de hacer esta aclaración, para justificar que aclararé en algunos casos el paralelismo entre los conceptos desarrollados y los términos en inglés para relacionarlos en el código. En especial veo esto importante en el próximo apartado de detalles de implementación, donde deberé hacer referencias a nombres de variables y estructuras utilizadas.
+
+Dicho esto, explicaré mis decisiones para tanto el programa en C como el hecho en Python.
 
 \subsection{El programa en C}
 
@@ -52,7 +62,7 @@ El enunciado exige el uso de la función \texttt{system()} y los comandos \textt
 
 De hecho, si probamos el comando sugerido en el trabajo directamente en la terminal, observaremos que no se crea el archivo \texttt{archivos.txt} si no existe la carpeta, ya que el comando \texttt{cd} con el cual intentamos acceder a la carpeta, falla en primera instancia.
 
-El valor de retorno de la función \texttt{system()} podría servirnos como indicación de algún error en la ejecución de los comandos... sin embargo observando la documentación se indica que este valor de retorno depende de la implementación de la función, aunque se pueda ``esperar'' que se corresponda con el código de estado resultante de la ejecución de los comandos\footnote{\url{https://cplusplus.com/reference/cstdlib/system/}}.
+El valor de retorno de la función \texttt{system()} podría servirnos como indicación de algún error en la ejecución de los comandos... sin embargo observando la documentación se indica que este valor de retorno depende de la implementación de la función, aunque se pueda ``esperar'' que se corresponda con el código de estado resultante de la ejecución de los comandos\cite{SystemRefC}.
 
 Ante la incertidumbre, optamos por elegir un método con el cual podemos tener mayor seguridad de su correcto funcionamiento. Sabemos bajo haber probado los comandos en la terminal previamente, cómo es el comortamiento de \texttt{cd} y \texttt{ls} si la carpeta no existe. Entonces, considerando que \texttt{archivos.txt} no es creado, podríamos inicialmente comprobar si el archivo existe intentando abrirlo como sabemos hacerlo en C, usando \texttt{fopen()}. Al fin y al cabo, si \texttt{archivos.txt} no existe, entonces \texttt{fopen} devolvería \mintinline{c}{NULL}, no? Hay un problema, y radica en que también se nos exige que no eliminemos \texttt{archivos.txt} tras haberlo utilizado. En consecuencia, el archivo puede existir como producto de una ejecución anterior correcta, llevándonos a pensar que la carpeta buscada si existe.
 
@@ -124,7 +134,7 @@ Con esto establecido, el ejemplo anterior se limpiaría como:
 
 \vspace{10pt}
 
-Por último, estableceremos la convención que el archivo de salida debe terminar en un caracter de salto de línea \texttt{\textbackslash{}n}. Este comentario surge a que algunos de los archivos con textos de personas dados por la cátedra para probar nuestro programa carecían de un \texttt{\textbackslash{}n} al final de estos archivos. Entonces, si bien un archivo de salida que tenga una oración en cada línea sólo requeriría tener saltos de línea entre oraciones, esto puede generar problemas en algunos casos\footnote{\url{https://stackoverflow.com/questions/729692/why-should-text-files-end-with-a-newline}}, a lo que elegiremos por incluir un salto de línea al final del archivo siempre que sea posible.
+Por último, estableceremos la convención que el archivo de salida debe terminar en un caracter de salto de línea \texttt{\textbackslash{}n}. Este comentario surge a que algunos de los archivos con textos de personas dados por la cátedra para probar nuestro programa carecían de un \texttt{\textbackslash{}n} al final de estos archivos. Entonces, si bien un archivo de salida que tenga una oración en cada línea sólo requeriría tener saltos de línea entre oraciones, esto puede generar problemas en algunos casos\cite{NewlineStackoverflow}, a lo que elegiremos por incluir un salto de línea al final del archivo siempre que sea posible.
 
 Una excepción a esto sería si se recibe un archivo vacío, en cuyo caso también sería apropiado que se genere un archivo vacío. Esto es especialmente útil si se pretenden combinar muchos archivos en uno, ya que procesar un archivo vacío en un conjunto de archivos no produciría una línea vacía en el archivo final.
 
@@ -151,14 +161,220 @@ Los detalles de implementación se encuentran en el apartado correspondiente, au
 \noindent Para la segunda parte del TP, debemos desarrollar un programa en Python que:
 
 \begin{enumerate}
-    \item % TODO
+    \item Tome por argumento el nombre de una persona.
+    \item Lea el archivo \texttt{.txt} generado por el programa en C con las oraciones sanitizadas escritas por la persona.
+    \item Lea un archivo \texttt{.txt} a nombre de la persona con frases escritas por la misma, donde las frases tienen una palabra faltante cada una, indicada con un guión bajo (\texttt{\_}).
+    \item Procese las oraciones leídas en alguna estructura útil para el propósito de predecir palabras faltantes en conjunto de frases.
+    \item Prediga las palabras faltantes en las frases anteriormente leídas, reemplazando los guiones bajos por éstas.
+    \item Genere un archivo final con las frases completas.
 \end{enumerate}
+
+\subsubsection{Tomar el nombre de la persona por argumento}
+
+De forma similar al programa en C, esto es sencillo obtener los argumentos recibidos desde la terminal en Python. Una vez más, tendremos en cuenta de validar la cantidad de argumentos recibida, con el fin de asegurarnos recibir el nombre de la persona, necesario para conocer las rutas donde se encuentran los archivos que necesitamos para los próximos pasos. Más información en detalles de implementación.
+
+\subsubsection{Leer el \texttt{.txt} generado por el programa en C}
+
+A diferencia del programa en C, la lectura y escritura a archivos es mucho más sencilla en Python, ya que existen funciones que permiten leer un archivo en su completitud (\mintinline{python}{f.read()}, donde \texttt{f} hace referencia a nuestro archivo abierto), o incluso leerlo línea por línea (\mintinline{python}{f.readlines()}, donde \texttt{f} hace referencia a nuestro archivo abierto). Además, en Python no nos preocupa tanto la administración de la memoria, de forma que operaciones como cargar los contenidos de un archivo a un arreglo resultan mucho más sencillas que en C.
+
+Es por esto que, considerando que la forma en la que necesitaremos procesar la información de las oraciones escritas por la persona es más compleja que cuando queríamos sanitizar la entrada en C (decisiones a explicar en los próximos pasos), decidimos que lo más apropiado para este paso es leer todas las líneas del archivo.
+
+Recordemos que cada línea se debe corresponder con una oración escrita por la persona. Entonces, separar la entrada del archivo generado por el programa en C en sus líneas, las oraciones, resulta ideal para analizar el rol que cumplen las palabras en cada una de ellas.
+
+Más detalles de implementación en el apartado correspondiente.
+
+\subsubsection{Leer el \texttt{.txt} de las frases con palabras faltantes}
+
+De forma similar al paso anterior, resulta más práctico en este caso también, leer todas las frases por su completitud leyendo cada una de las líneas por separado. Esto facilitará su procesamiento iterando por cada una de ellas, y usando la información analizada sobre las oraciones conocidas para poder predecir la palabra faltante.
+
+Cabe aclarar que en el programa esto se hace después del próximo paso. Es decir, se procesan las oraciones leídas en una estructura útil, y luego se leen las frases con palabras faltantes para poder completarlas. El orden realmente no debería influir, pero opté por mencionar primero este aspecto del programa para combinar a continuación, una explicación sobre las decisiones relacionadas al algoritmo de procesamiento de oraciones y de predicción de palabras utilizado.
+
+\subsubsection{Procesar las oraciones leídas en una estructura útil y predecir las palabras faltantes}
+
+Las decisiones tomadas para este paso son de las más importantes de todo el trabajo, ya que si bien el enunciado brinda algo de orientación sobre cómo realizar estas tareas, se deja principalmente a preferencia y voluntad del alumno.
+
+Dicho esto, subdividiremos este apartado a su vez en distintas subsecciones.
+
+\paragraph{Introducción}
+
+Para determinar el método más apropiado de predicción para las palabras en este trabajo, decidí investigar al respecto del problema, y si existe alguna solución conocida al problema planteado o alguno similar.
+
+Buscando un poco en Internet, rápidamente pude ver que es muy común encontrar soluciones para el problema de predecir \textit{la próxima palabra} que se va a escribir en un texto. Esto es común verlo cuando buscamos en Google, por ejemplo, en el cual se nos sugieren una serie de palabras para poder continuar nuestra oración a medida que la escribimos en la barra de búsqueda. O incluso más común, cuando escribimos en un teclado como el del celular, y se nos sugieren algunas palabras para continuar con nuestra oración.
+
+A día de hoy, la forma más común para resolver este tipo de problemas es mediante inteligencia artificial, y modelos de procesamiento de lenguaje natural (NLP, por sus siglas en inglés). En cierta forma, podemos pensar que el algoritmo que queremos desarrollar para nuestro propósito se encuentra en este área, ya que al fin y al cabo queremos manipular el lenguaje humano mediante un programa de computadora\cite{WikiNLP}.
+
+Pero en concreto, los métodos más eficaces conocidos para este problema a día de hoy, requieren el uso de herramientas y modelos basados en Machine Learning, que se encuentran claramente fuera de los temas vistos en la materia. De hecho, existen librerías de Python enteras dedicadas a este tipo de algoritmos, incluso con ejemplos y guías para resolver exactamente el problema planteado en este trabajo\cite{word2vec}. Aunque nuevamente, hasta este punto en la carrera no nos hemos adentrado todavía en esta área de la computación, y resulta inapropiado elegir una solución prefabricada sin siquiera saber cómo funciona en su totalidad. Más aún en un trabajo enfocado a cerrar una materia dedicada a aprender a programar. \\
+
+Es por esto que buscando por métodos más sencillos, encontré el \textit{modelo de lenguaje de los n-gramas de palabras}, como un modelo puramente ``estadístico'', que asume que la probabilidad de predecir una cierta palabra en una oración depende en una cantidad fija de palabras que la preceden\cite{WikiNgramModel}. A veces este concepto es relacionado con las \textit{Cadenas de Markov}, las cuales generalizan el concepto a procesos en los que un evento depende sólamente de un estado actual, obtenido a partir de acciones realizadas anteriormente\cite{WikiMarkov}. Este tipo de modelos parecen ser justamente a lo que apuntaba el enunciado, en ``modelo probabilístico que asigne una probabilidad a cada palabra posible''.
+
+Por supuesto no estamos obligados a usar este modelo en particular ya que, según el enunciado, ``existen diveros métodos para implementar la predicción de texto'', como justamente hemos visto. Pero al final opté por profundizar en este tipo de modelos dado que, como veremos, presentan una alternativa realtivamente sencilla para una solcuón que cumpla el propósito de predecir palabras, sin presentar demasiadas complicaciones en la implementación.
+
+\paragraph{Sobre el \textit{modelo de lenguaje de n-gramas de palabras}}
+
+Cabe aclarar que a este punto en la carrera tampoco presentamos todos los conocimientos para manejarnos con libertad con probabilidades, por lo que traté de enfocar la solución al propósito del trabajo lo más cercano a soluciones existentes cuyos resultados hayan sido probados. Tampoco esto me impide de ejercer modificaciones con el fin de adaptar las soluciones encontradas al problema planteado, pero no creo óptimo ``inventar una solución'' completamente nueva siguiendo el sentido común. 
+
+Primero y principal, como podemos ver en base a la impronta de este modelo de lenguaje, su enfoque principal está sobre un problema similar, el de predecir la \textit{próxima} palabra en una oración. Esto difiere de nuestro problema en predecir una palabra en cualquier lugar de una oración. Por supuesto, si la palabra faltante a predecir estuviera al final de la oración, nuestro problema se reduciría al que el modelo trata resolver, pero en muchos otros casos no estaríamos aprovechando toda la información que tenemos sobre el contexto de una oración. Sin embargo, si tratamos de entender los principios del problema de predecir la próxima palabra, podemos tomar información con el fin de orientar mejor nuestra búsqueda de una solución. \\
+
+El modelo se basa, como dice su nombre, en el uso de \textit{n-gramas}. Este término hace referencia a una serie de $n$ componentes consecutivas de un texto, sean éstas por ejemplo, letras, sílabas o palabras\cite{WikiNgram}. Es por esto que en el nombre del modelo se aclara que nos enfocamos en los n-gramas de \textit{palabras}.
+
+De esta forma, si tenemos un modelo basado en n-gramas donde $n = 2$, tenemos un modelo de \textit{bigramas}, y podemos calcular la probabilidad de que una palabra aparezca en una posición en base a la palabra anterior a ella. Típicamente se nota esto con $P(W_i | W_{i-1})$, es decir, que la probabilidad de que aparezca la palabra $W_i$ en la posición $i$ depende de la palabra $W_{i-1}$ en la posición anterior. De forma análoga, si $n = 3$ tenemos un modelo de trigramas, y notamos la probabilidad de que aparezca una palabra en una posición $i$ en base a sus dos palabras anteriores, de la forma $P(W_i|W_{i-2}W_{i-1})$.
+
+¿Cómo se calculan estas probabilidades? En estos modelos debemos disponer de un \textit{corpus}, un conjunto de datos o textos ordenados de forma conveniente para poder usarlos en el cálculo de nuestras probabilidades. Entonces, dado un corpus dado por un conjunto de oraciones, podemos analizar las apariciones de dos o tres palabras consecutivas (bigramas y trigramas), con el fin de calcular las probabilidades que luego nos permitirían predecir palabras para los casos donde lo requerimos. Esto coincide con una situación como la del trabajo, donde nuestro corpus vendrían a ser el conjunto de oraciones combinadas por el programa en C, escritas por una persona.
+
+Es así especialmente importante que tanto los textos como las frases con palabras faltantes estén escritos por una misma persona, ya que estamos usando para nuestras probabilidades un corpus con información basada sobre ``la forma de escribir'' de una persona particular. En consecuencia, la información obtenida de los textos de la persona tendrán más eficacia en frases escritas por la misma. Si quisiéramos desarrollar un modelo más general que aplicara a cualquier o un grupo de personas, deberíamos disponer de un corpus más amplio, proveniente de textos escritos por el grupo de personas al cual queremos apuntar nuestro modelo. Como veremos más adelante, las soluciones que involucran este modelo intentan incluir un corpus amplio y relacionado con el tipo de frases cuyas palabras se intentan predecir.
+
+Entonces, si tenemos una frase como ``las vacas vuelan'', en un modelo de bigramas calcularíamos para la palabra ``vuelan'', $P(\text{vuelan}|\text{vacas})$ como la probabilidad de que la palabra ``vacas'' aparezca después de la palabra ``vuelan''. En un modelo de trigramas, esto sería $P(\text{vuelan}|\text{las vacas})$, la probabilidad que la palabra ``vuelan'' aparezca después de las palabras ``las vacas''. Para calcular esta probabalidad en un modelo de trigramas, obtendríamos el porcentaje de apariciones de trigramas de la forma ```las vacas vuelan'', respecto de todos los trigramas que \textit{empiezan} con ``las vacas'' en nuestro corpus. O, más bien, sería el porcentaje de apariciones de trigramas de la forma ``las vacas vuelan'' respecto a la cantidad de apariciones de los \textit{bigramas} ``las vacas'', así considerando también casos en los cuales las dos palabras anteriores puedan no tener una palabra sucesora. Es decir:
+\[
+    P(\text{vuelan}|\text{las vacas}) = \frac{C(\text{las vacas vuelan})}{C(\text{las vacas})}
+\]
+donde $C(x)$, donde $x$ es un n-grama, es la cantidad de apariciones de $x$ en el corpus\cite{TdsGen}.
+
+\paragraph{Mejorando el modelo para predcir la próxima palabra}
+
+Con todo esto en cuenta, una primera pregunta sería qué modelo usar, ¿un modelo de bigramas? ¿trigramas? ¿4-gramas? Es intuitivo pensar que mientras nuestro modelo considere secuencias más largas de texto, más preciso va a ser, ya que va a tener más información acerca de las palabras y los contextos que anteceden a la palabra. Sin embargo, esto tiene una contraprestación, y es que no es aplicable para todos los casos. Pensemos que en un modelo de trigramas, si queremos predecir la siguiente palabra en una oración que sólo empiece con ``la'', no tendremos información para poder completar la próxima palabra. Podríamos elegir alguna palabra de forma aleatoria, pero no parece la decisión más razonable dejarlo al azar.
+
+Es por esto que lo mejor es utilizar múltiples modelos en simultáneo, por ejemplo el de bigramas y el de trigramas. Entonces, siempre que podamos usaremos el modelo de trigramas que sabemos que es más preciso. Pero si tenemos algún ejemplo como el anterior, en donde el modelo de trigramas no es aplicable, usaremos el modelo de bigramas. Más aún, si no tenemos siquiera una palabra con la que comenzar, podemos usar un modelo de \textit{unigramas}, donde básicamente completaríamos con la palabra más frecuente del corpus. Esta forma de usar ``el mejor modelo aplicable'' se lo conoce como \textit{back-off}, o sea, como ``retroceder'' a la opción, a un modelo de menor precisión, pero que sea aplicable en nuestro caso.
+
+Pero podemos mejorar esta forma de usar los modelos. Pensemos que si tenemos un trigrama que le gana a otro en todo el corpus indicando que que cierta palabra es la más probable, pero en el modelo de bigramas tenemos muchos que indican que la otra palabra es la más probable, al usar el modelo de trigramas primero (cuando es aplicable) estaríamos favoreciendo una opción que tampoco es la más ideal. Por ende, lo mejor es combinar los distintos modelos con \textit{interpolación}. Esto sería, en vez de usar los modelos por separado, para cada palabra generamos un ``puntaje'' combinando las probabilidades de cada modelo, de forma que se favorezca a los modelos más precisos, pero sin dejar de lado la información de otros modelos de n-gramas de menor longitud.
+
+Combinando los modelos de unigramas, bigramas y trigramas, podemos asignar valores $\lambda_1 = 0.05$, $\lambda_2 = 0.4$ y $\lambda_3 = 0.55$ (donde $\lambda_1 + \lambda_2 + \lambda_3 = 1$), tal que en el caso en el que sea aplicable el modelo de trigramas, consideramos que el puntaje para la palabra $W_i$ si anteceden las palabras $W_{i-2}W_{i-1}$ resulta:
+\[
+    \text{Puntaje}(W_i|W_{i-2}W_{i-1}) = \lambda_1 P(W_i) + \lambda_2 P(W_i|W_{i-1}) + \lambda_3 P(W_i|W_{i-2}W_{i-1})
+\]
+donde, repasando, $P(W_i)$ sería la probabilidad de la palabra $W_i$ en el modelo de unigramas (notar que para este modelo no depende de que la anteceda alguna palabra), $P(W_i|W_{i-1})$ es la probabilidad para que la palabra $W_i$ suceda a $W_{i-1}$, y $P(W_i|W_{i-2}W_{i-1})$ es la probabilidad para que la palabra $W_i$ suceda a las palabras $W_{i-2}W_{i-1}$i\cite{TdsGen}.
+
+Notar que este puntaje, así, se encontraría en un intervalo $[0,1]$ pues los valores $\lambda_1, \lambda_2,\lambda_3$ suman 1, y las probabilidades se encuentran en $[0,1]$.
+
+\paragraph{¿Y la información de las palabras siguientes?}
+
+El modelo visto podría ser sin problemas utilizado en nuestro programa, pero como hemos antes mencionado, no estaría usando toda la información que disponemos. Existen casos donde saber la palabra siguiente puede ser muy útil para predecir la palabra faltante en una oración. Por ejemplo, sea la frase ``la \_ velada'', es bastante claro que lo ideal sería utilizar un adjetivo en el espacio vacío, como por ejemplo, ``la \textit{dulce} velada''. Sin embargo, usando el modelo anterior, sólo tenemos conocimiento de la palabra ``la'' para completar la palabra. Entonces es posible que, dependiendo de nuestro corpus, el modelo prediga una oración como ``la \textit{comida} velada'', la cual apenas tiene sentido.
+
+Es por ello que decidí buscar más a fondo, y me encontré con un par de papers escrito por Bhuyan et al. \cite{Bhuyan2020}, y un paper al que hace referencia, de Samanta et al. \cite{Samanta2013ASR} (el cual expande en un proceso para la detección de palabras faltantes, lo cual en nuestro caso no nos es necesario). En el primero, se describe de hecho un problema bastante similar al que queremos solucionar en el TP: detectar y generar palabras faltantes en una oración en base a un corpus de bigramas y trigramas, usando el modelo de lenguaje de n-gramas de palabras como base. Así, la única diferencia a nuestro problema a resolver para el TP, es que en nuestro caso no necesitamos detectar la palabra faltante, porque ya nos es dada la palabra a reemplazar con un guión bajo. Esto nuevamente no nos impide de explorar las ideas del paper para tomarlas en la solución a nuestro problema.\\
+
+En el paper antes mencionado de Bhuyan et al.\cite{Bhuyan2020}, se explora sobre la predicción de palabras en asamés, por lo que tampoco es una referencia directa a nuestro caso en el cual queremos predecir palabras en español. Cada lenguaje tiene sus propias características que pueden hacer que un modelo tenga menor o mayor efectividad. Pero sí podemos ver que se asemeja mucho a lo que antes habíamos analizado con la predicción de palabras siguientes. En el paper se plantea un modelo en el cual, en vez de considerar la palabra anterior y las dos anteriores como vimos antes, se considera la palabra anterior y la siguiente por medio de tres elementos: dos bigramas, uno izquierdo y otro derecho, y un trigrama donde la palabra a predecir se encuentra entre las dos adyacentes conocidas.
+
+De esta forma, en el paper se plantea que para cada palabra $W_i$ del corpus (en nuestro caso, que se encuentra en alguna de las oraciones que tomamos como entrada), extraer los bigramas izquierdos $(W_{i-1} W_i^j)$, los bigramas derechos $(W_i^j W_{i+1})$ y los trigramas $(W_{i-1} W_i^j W_{i+1})$, para todos los $j = 1,2,\dots,n$, siendo $n$ la cantidad de palabras distintas del corpus (o sea, en las oraciones). Luego, sus probabilidades pueden ser calculadas de forma similar al problema de predecir la próxima palabra en una oración, a partir del porcentaje de la cantidad de apariciones en las oraciones de un cierto bigrama (trigrama), respecto del \textit{total de bigramas (trigramas) que empiezan/terminan (empiezan y terminan) en $W_{i-1} / W_{i+1}$ $(W_{i-1}$ y $W_{i+1})$}, según sean bigramas izquierdo/derecho o trigrama.
+
+Notar que una diferencia a no dejar pasar de este modelo respecto al del ejemplo de predecir la próxima palabra, es que el denominador del cociente, es decir, el valor respecto del cual se toma el porcentaje, es directamente el total de trigramas que empiezan con $W_{i-1}$ y terminan con $W_{i+1}$, por ejemplo. Lo que quiero aclarar es que, como al tomar el trigrama tomamos a ambos lados de la palabra, no podemos considerar ``todos los bigramas'' formados por $W_{i-1}$ y $W_{i+1}$, como sí habíamos considerado en el otro problema antes, para tener en cuenta los casos en los cuales ``las palabras no puedan tener palabra sucesora''. Esto ya no aplica para este problema.
+
+Luego, en el paper, introduce también la idea que habíamos discutido de usar interpolación, asignando $\lambda_1$, $\lambda_2$ y $\lambda_3$ para darle mayor o menor significancia a los bigramas izquierdo y derecho, y el trigrama, respectivamente. Así, el ``puntaje'' de una palabra $W_i^j$ si la antecede la palabra $W_{i-1}$ y la sucede la palabra $W_{i+1}$ resulta:
+\[
+    \text{Puntaje}(W_i^j) = \lambda_1 P(W_i^j|W_{i-1}) + \lambda_2 P(W_i^j|W_{i+1}) + \lambda_3 P(W_i^j|W_{i-1},W_{i+1})
+\]
+
+\noindent donde $P(W_i|W_{i-1})$ es la probabilidad de que la palabra $W_i$ sucede a $W_{i-1}$, $P(W_i|W_{i+1})$ es la probabilidad de que la palabra $W_i$ anteceda a $W_{i+1}$, y $P(W_i|W_{i-1},W_{i+1})$ es la probabilidad de que la palabra $W_i$ suceda a $W_{i-1}$ \textbf{y} preceda a $W_{i+1}$ al mismo tiempo. \\
+
+Para cerrar, omitiendo el proceso de detección de palabras faltantes el cual no requerimos para nuestro caso, podemos completar las palabras en los espacios que requiramos y generar, según el paper, una lista de sugerencias en función del puntaje calculado, de mayor a menor.
+
+\paragraph{El algoritmo final}
+
+Considerando toda la información y alternativas exploradas, decidí consolidar lo que personalmente consideré mejor de todo lo visto para concluir en un algoritmo final a usar para la resolución del enunciado del trabajo.
+
+A grandes razgos, la solución utilizada tiene muchas similitudes con el del último paper antes descrito, pero con algunas modificaciones para lograr un algoritmo más eficiente, y con el fin de considerar algunos casos que omite el algoritmo original. \\
+
+\noindent El algoritmo consiste en:
+
+\begin{enumerate}
+    \item Extraer los unigramas, bigramas y trigramas de las oraciones leídas en el paso anterior.
+    \item Computar, siendo $n$ la cantidad de palabras distintas del corpus:
+        \begin{enumerate}
+            \item Para cada unigrama (que resulta siendo nada más y nada menos que cada palabra), la probabilidad de ser elegida respecto al resto de las palabras del corpus. O más bien, el porcentaje de las palabras del corpus que representa:
+            \[
+                P(W^j) = \frac{C(W^j)}{\sum_{k=1}^n C(W^k)}
+            \]
+
+            Esto permite luego poder utilizar la palabra ``más frecuente'' del corpus si se nos presenta un caso donde los bigramas o trigramas no aplican (o sea, si tenemos que predecir una palabra ``suelta'' sin palabras anteriores o posteriores). También, nos permitirá considerar casos en los cuales una palabra se presente con mayor frecuencia que otras, ayudando en nuestras predicciones.
+
+        \item Para cada bigrama, computar la probabilidad de ser utilizado respecto al resto de bigramas que \textit{comienzan} en la misma palabra. Es decir, obtenemos la probabilidad de los \textit{bigramas izquierdos} $(W_{i-1} W_i^j)$ del corpus, donde computábamos la probabilidad de que una palabra $W_i^j$ ($j = 1,2,\dots,n$) suceda a otra $W_{i-1}$, respecto a todas las palabras que suceden a la primera a lo largo del corpus:
+            \[
+                P(W_i^j|W_{i-1}) = \frac{C(W_{i-1} W_i^j)}{\sum_{k=1}^n C(W_{i-1} W_i^k)}
+            \]
+
+        \item Para cada bigrama, computar la probabilidad de ser utilizado respecto al resto de bigramas que \textit{terminan} con la misma palabra. Es decir, de forma análoga al ítem anterior, calculamos la probabilidad los \textit{bigramas derechos} $(W_i^j W_{i+1})$ del corpus, donde computábamos la probabilidad de que una palabra $W_i^j$ preceda a otra $W_{i+1}$, respecto a todas las palabras que preceden a la segunda a lo largo del corpus:
+            \[
+               P(W_i^j|W_{i+1}) = \frac{C(W_i^j W_{i+1})}{\sum_{k=1}^n C(W_i^k W_{i+1})}
+            \]
+        
+        \item Para cada trigrama, computar la probabilidad de ser utilizado respecto al resto de trigramas que \textit{comienzan y terminan} con las mismas palabras que éste. Es decir, calculamos la probabilidad de los trigramas $(W_{i-1} W_i^j W_{i+1})$ del corpus, donde computábamos la probabilidad de que una palabra $W_i^j$ suceda a otra $W_{i-1}$ \textbf{y} $W_{i+1}$ suceda a otra al mismo tiempo, respecto a todas las palabras que cumplen esta misma condición a lo largo del corpus:
+            \[
+                P(W_i^j|W_{i-1},W_{i+1}) = \frac{C(W_{i-1} W_i^j W_{i+1})}{\sum_{k=1}^n C(W_{i-1} W_i^k W_{i+1})}
+            \]
+        \end{enumerate}
+
+    \item Con las probabilidades anteriormente obtenidas, podemos precomputar la palabra con mayor puntaje para (siendo $n$ la cantidad de palabras distintas del corpus):
+        \begin{itemize}
+            \item Todos los unigramas, que termina siendo la palabra más frecuente del corpus.
+            \item Todos los bigramas izquierdos. Esto significa, sea $W_{i-1}^j$ una palabra de una oración, cuál es la palabra con mayor puntaje para sucederla $W_i$, para cada $j = 1,2,\dots,n$, en base a las probabilidades antes computadas.
+            \item Todos los bigramas derechos. Esto significa, sea $W_{i+1}^j$ una palabra de una oración, cuál es la palabra con mayor puntaje para precederla $W_i$, para cada $j = 1,2,\dots,n$, en base a las probabilidades antes computadas.
+            \item Todos los trigramas. Esto significa, sean $W_{i-1}^j$ y $W_{i+1}^k$, cuál es la palabra con mayor puntaje para completarse entre ellas $W_i$, para cada $j = 1,2,\dots,n$ y para cada $k =1,2,\dots,n$, en base a las probabilidades antes computadas.
+        \end{itemize}
+
+        donde calculamos el puntaje de forma similar a cómo lo hemos visto en el paper, únicamente incluyendo los unigramas que decidimos también considerar. Sean $\lambda_1, \lambda_2, \lambda_3$ y $\lambda_4$ tal que $\lambda_1 + \lambda_2 + \lambda_3 + \lambda_4 = 1$, correspondiéndose a coeficientes para los unigramas, bigramas izquierdos, bigramas derechos y trigramas respectivamente. Calcularemos el puntaje de una palabra $W_i^j$ (para todo $j=1,2,\dots,n$) si es precedida por $W_{i-1}$ y sucedida por $W_{i+1}$ como:
+        \[
+            \text{Puntaje}(W_i^j) = \lambda_1 P(W^j_i) + \lambda_2 P(W^j_i|W_{i-1}) + \lambda_3 P(W^j_i|W_{i+1}) + \lambda_4 P(W^j_i|W_{i-1},W_{i+1})
+        \]
+
+        Aclarar que, en caso de que la palabra faltante no tenga palabras anteriores y/o posteriores conocidas (por ejemplo, para una palabra faltante al comienzo o final de una oración), calcularemos el puntaje con los valores que no correspondan en $0$. De esta forma, se mantienen las prioridades que se hayan dado a las probabilidades para los modelos según la longitud de n-gramas que utilicen, pero también brinda resultados de predicciones para todas las situaciones. Veremos más información al respecto en el próximo paso del algoritmo.
+
+        Los valores para $\lambda_1, \lambda_2, \lambda_3$ y $\lambda_4$ deben tomarse con el fin de, como ya vimos, priorizar la mayor precisión que permiten los modelos de n-gramas de mayor longitud. Pero a la vez deben evitar casos como los mencionados con back-off, donde tener algún trigrama en nuestro corpus no debería de deternernos de elegir otra palabra tenga una cantidad significativa de coincidencias en bigramas, aunque exclusivamente dentro del modelo de trigramas pueda tener una menor probabilidad.
+
+        Considerando esto, como también los valores que vimos que tienen mayores resultados en los papers mencionados\cite{Bhuyan2020}\cite{Samanta2013ASR}, y en algunas de las otras referencias tomadas en cuenta para este trabajo\cite{TdsGen}, elegimos valores $\lambda_1 = 0.05$, $\lambda_2 = \lambda_3 = 0.2$ y $\lambda_4 = 0.55$. En el código los llamé como los ``pesos'' (\textit{weights}) que le doy a las probabilidades de cada modelo.
+
+        Por un lado, tiene sentido que $\lambda_2 = \lambda_3$, ya que estamos asignando que conocer la palabra que antecede a una palabra faltante es tan importanto como saber la que le sucede. Podría argumentarse que esto no es siempre así, por ejemplo con casos donde muchas veces las palabras están precedidas por artículos en el español, que no brindan mucha información única de la palabra a completar. Pero de forma análoga, también podemos encontrar muchos otros casos donde esto sucede con la palabra que le sigue a la faltante, como el uso de verbos comunes. Entonces, a razgos generales, resulta razonable asumir esto.
+
+        También es coherente asignar un valor bajo a $\lambda_1$, pues la cantidad de veces que aparece la palabra en el corpus no nos brinda información sobre el contexto de una oración. Pero sí puede ser útil en la implementación para los casos particulares que ya hemos discutido, o para desempatar en la decisión de una palabra, para priorizar otra más frecuente.
+
+        Finalmente, tenemos que considerar que las probabilidades para los trigramas y los bigramas en nuestro modelo están sumamente vinculadas. Y es que si calculamos el puntaje de una palabra en un trigrama, para cada uno en el corpus también existen los dos bigramas izquierdo y derecho que lo conforman. Así, necesariamente $C(W_{i-1} W_i^j W_{i+1}) \leq C(W_{i-1} W_i^j)$ y $C(W_{i-1} W_i^j W_{i+1}) \leq C(W_i^j W_{i+1})$, como también $\sum_{k=1}^n C(W_{i-1} W_i^k W_{i+1}) \leq \sum_{k=1}^n C(W_{i-1} W_i^k)$ y $\sum_{k=1}^n C(W_{i-1} W_i^k W_{i+1}) \leq \sum_{k=1}^n C(W_i^k W_{i+1})$. Por lo tanto, tiene sentido asumir $\lambda_4 > \lambda_2 + \lambda_3$, pues de lo contrario, no estaríamos dándole importancia adicional a los trigramas del corpus respecto de los bigramas.
+
+        Además, el uso de estos coeficientes ha probado buenos resultados en las pruebas realizadas durante el desarrollo del programa, y con los archivos de prueba provistos por la cátedra.
+
+    \item Con la palabra de mayor puntaje ya precalculada para cada trigrama, bigrama izquierdo, bigrama derecho y unigrama (la palabra más frecuente del corpus), podremos rápidamente reemplazar los guiones bajos encontrados en las frases leídas según el contexto de cada palabra.
+    
+        Es el precómputo realizado en los pasos anteriores que nos permite obtener la palabra predicha de forma más rápida que la solución ``naive'' o ``directa'', que consistiría en iterar por todas las palabras del corpus para determinar la de mejor puntaje que correspondería a cada caso.
+
+        En vez de eso, obtendríamos el mayor puntaje precalculado para todos los trigramas / bigramas / unigramas que contienen y aplican para la palabra restante. Es decir:
+
+        \begin{itemize}
+            \item Si la palabra faltante $W_i$ tiene palabras a su izquierda $W_{i-1}$ y a su derecha $W_{i+1}$, obtendríamos la palabra de mejor puntaje entre todas las precalculadas del corpus que coincidan para el trigrama que empieza y termina en $W_{i-1}$ y $W_{i+1}$ respectivamente, para el bigrama izquierdo que empieza en $W_{i-1}$, para el bigrama derecho que termina en $W_{i+1}$, y la palabra más frecuente del corpus (el mejor unigrama).
+            \item Si la palabra faltante $W_i$ tiene sólo palabras a su izquierda, tomaríamos la palabra de mayor puntaje entre todas las precalculadas del corpus que coincidan para el bigrama que empieza  con $W_{i-1}$, y la palabra más frecuente del corpus.
+            \item De forma análoga, si la palabra faltante $W_i$ sólo tiene palabras a su derecha, tomaríamos la palabra de mayor puntajt entre todas las precalculadas del corpus que coincidan para el bigrama que termina con $W_{i+1}$, y la palabra más frecuente del corpus.
+            \item Si la palabra faltante $W_i$ no tiene palabras ni a derecha ni a izquierda (léase, para la oración ``\_''), reemplazaremos con la palabra más frecuente del corpus.
+        \end{itemize}
+
+        Notar que usar el criterio de tomar máximos en vez de separar en casos y comprobar condiciones ayuda a una implementación más sencilla, cómo se puede observar en el programa. Además, esto no afecta la respuesta, ya que efectivamente estamos haciendo lo mismo que la solución naive, donde tenemos ya precalculada la mejor opción para cada caso. Esto resulta cierto considerando que sólo tendrán significancia aquellas palabras que estén en unigramas / bigramas / trigramas registrados en el corpus alrededor de la palabra faltante, que son justamente para las cuales precalculamos los puntajes para obtener el mejor de todos (y su palabra correspondiente).
+\end{enumerate}
+
+Los detalles faltantes relacionados principalmente a la eficiencia del algoritmo y las estructuras utilizadas para implementarlo se presentarán en el apartado de detalles de implementación.
+
+\paragraph{Limitaciones del algoritmo}
+
+Uno de los interrogantes que pueden surgir alrededor del algoritmo final empleado, podría ser la validez del mismo. 
+
+Tanto para la solución de obtener la próxima palabra en una oración, como el algoritmo utilizado de obtener una palabra faltante en una oración, se toma una suposición como verdadera para poder aplicar el modelo de las cadenas de Markov. En el primer caso, que la resultante nueva palabra de una oración sólo depende de las escritas anteriormente a ella. Y la segunda, que la palabra resultante de una oración sólo depende de las escritas de forma anterior y posterior a ella. 
+
+Por supuesto, esta suposición no es realmente cierta, pero utilizarla nos brinda acceso a usar una herramienta que nos sirve como una aproximación al problema, con la intención de obtener buenos resultados. Sin embargo, como ya discutimos, existen modelos de lenguajes que obtienen resultados mucho mejores al algoritmo planteado, y debemos recordar que ni siquiera los mejores modelos generan resultados perfectos. Incluso más allá de ello, la predicción de una palabra en una oración realmente depende de muchos factores que hasta pueden resultar ambiguüos para una persona, y que sin un criterio bien definido, puede ser ambigüo siquiera cuál es la respuesta correcta. \\
+
+Otro punto a tener en cuenta es que el algoritmo planteado no es especialmente eficaz en los casos de los extremos de la oración que intentamos cubrir. Si bien es mejor que directamente no considerarlos, si presentamos una palabra faltante al comienzo o al final de una oración, muchas veces la palabra inmediatamente a su derecha o izquierda (respectivamente) no provee demasiada información sobre la palabra a predecir. Es por esto que la mayoría de las referencias relacionadas con solucionar el problema de predecir la próxima palabra, recomiendan usar bigramas y trigramas... de forma que se consideran hasta dos palabras hacia uno de los lados de la faltante.\cite{TdsGen}\cite{CambridgeLecture}\cite{WikiNgram}
+
+Podría ser de hecho una solución, considerar este modelo particular para los casos mencionados con el fin de obtener mejores resultados. Podría pensarse la oración como si se leyera de izquierda a derecha o al revés, para cada caso. Sin embargo, opté por no incluirlo por limitaciones de tiempo para la realización del trabajo, y personalmente valoré más tener consideración por los casos más frecuentes que sucederían en medio de las oraciones (considerando que las frases pueden tener una palabra faltante en cualquier posición).\\
+
+Una optimización que también fue descartada en la búsqueda de soluciones para el problema planteado, es la idea de disponer de algún corpus externo incluído con el programa, que permita detectar casos en los cuales las predicciones realizadas por nuestro algoritmo no sean gramaticalmente correctas.
+
+Esta idea se basa que, en general, mientras más grande sea el corpus de información, más preciso podrá ser nuestro algoritmo al disponer de mayor cantidad de combinaciones válidas de palabras en bigramas y trigramas. Lo único que habría que remarcar, es que este corpus ayudaría en la detección de errores de las predicciones que surjan del conjunto de oraciones provistas. Esto se debe a que, como ya hemos aclarado antes, el uso de oraciones escritas e incompletas escritas por una misma persona, mejora nuestras predicciones, ya que de esta forma nuestro algoritmo considera mejor expresiones o palabras que la persona acostumbre a utilizar más seguido.
+
+Para este caso, nuevamente me presenté con limitaciones de tiempo para no incluirlo. Pero además, consideré que parte del objetivo del trabajo, su enfoque principal, se centraba en poder programar un algoritmo de predicción inicial, una aproximación, que logre resultados competentes. \\
+
+En general, la conclusión tras investigar los distintos aspectos del trabajo, y en particular el algoritmo mencionado, es que con este tipo de problemas siempre se pueden implementar mejoras. Entonces, queda a criterio personal dónde trazar la línea e incluir lo más importante dentro del período de tiempo estipulado. Es por esto que intento ser claro en mis valoraciones sobre las decisiones tomadas, para poder expresar mi motivación acerca de optar por una decisión respecto de otra.
+
+\subsubsection{Generar el archivo final con las frases completas}
+
+Tras ejecutar todo el algoritmo descrito en el paso anterior, tenemos las frases completas cargadas en un arreglo. Escribir a un archivo en Python es una tarea sencilla que no tiene mayores complicaciones, por lo que los detalles correspondientes se describen en el apartado de detalles de implementación.
 
 \section{Detalles de implementación}
 
 \subsection{El programa en C}
 
-\subsection{El programa en Python}
+% TODO:
 
 \subsubsection{Tomar el nombre de la persona por argumento}
 
@@ -193,6 +409,36 @@ Tampoco podemos usar la existencia de \texttt{archivos.txt} como referencia, ya 
 
 \section{Correr el programa y tests}
 
+Para correr el programa, en el directorio raíz de los archivos del proyecto se presenta un archivo \texttt{Makefile} para automáticamente compilar los archivos fuente en C del programa. Usando el comando \texttt{make} en la consola, debería generarse en la misma carpeta el ejecutable \texttt{./main}. Así, podrá correr todo el programa con los archivos de \texttt{nombre\_persona}, ejecutando el comando \texttt{./main nombre\_persona}. \\
+
+Dentro del directorio principal se encuentran dos carpetas, una llamada \texttt{c}, y otra llamada \texttt{python}. 
+
+La carpeta \texttt{c} tiene todos los archivos relacionados al programa en C, a excepción de \texttt{main.c} con la función \mintinline{c}{main()}, que necesita estar en el mismo directorio que las carpetas de \texttt{Textos}, \texttt{Entradas}, \texttt{Frases} y \texttt{Salidas} (o, en concreto, el ejecutable, y el script de Python deberían, pero para este propósito me resultó conveniente también dejar el archivo \texttt{main.c} junto con estas carpetas).
+
+De forma análoga, la carpeta \texttt{python} contiene todos los archivos relacionados al programa de Python, excepto \texttt{main.py} que se debe encontrar en el mismo directorio que las carpetas con los archivos de texto que brinda el usuario.
+
+Las carpetas de cada uno tienen una carpeta \texttt{src}, con todos los archivos de código fuente relacionado a cada programa, y una carpeta \texttt{tests}, con funciones de testing sobre las funciones más importantes de cada uno de los programas. Para correr los tests:
+
+\begin{itemize}
+    \item En Python, usamos la herramienta usada en la materia \texttt{pytest}. Para correr los tests, es sólo cuestión de correr el comando \texttt{pytest} en la terminal, estando dentro de la carpeta \texttt{tests} de \texttt{python}.
+    \item En C, usamos la función \mintinline{c}{assert()} de la librería \texttt{assert.h} como elemento principal de nuestro testing. En consecuencia, los tests no son más que código en C que debe ser compilado para correr. Para ello, dentro de la carpeta \texttt{tests} existe otro \texttt{Makefile}, de forma que si corremos \texttt{make} en ella, se compilará un ejecutable \texttt{./run\_tests} para poder correr los tests del programa.
+
+        Este \texttt{Makefile} realmente no tiene mucho contenido por su cuenta, y realmente funciona como un ``acceso directo'' al comando \texttt{make test} del archivo \texttt{Makefile} principal en la raíz del proyecto.
+
+        Como detalle adicional, se pueden eliminar los ejecutables creados, así como también archivos objeto creados en la compilación del programa dentro de \texttt{c/build}, con el comando \texttt{make clean}. Éste se puede ejecutar tanto en el directorio principal del proyecto como en el directorio de \texttt{tests} de C.
+\end{itemize}
+
 \section{Documentación (bonus)}
+
+Como un adicional a lo pedido para el trabajo, con el fin de desarrollar un código de mayor calidad, opté por comentar detalladamente el propósito de las distintas funciones y variables del programa, tanto en C como Python. Esta documentación se encuentra en los archivos cabecera \texttt{.h} en el caso de C, y directamente por encima de las funciones en Python. El formato respetado para los comentarios va en línea con el aceptado por Doxygen, una herramienta para poder generar documentación de código en múltiples lenguajes de programación, entre los que se encuentran C y Python. 
+
+Por esto, en la carpeta \texttt{doc} dentro del directorio principal del proyecto, se ha generado en la carpeta \texttt{html}, una interfaz web de documentación de los archivos del programa, accesible mediante \texttt{index.html} (abrir en cualquier navegador). Esta documentación incluye detalles sobre el funcionamiento de las distintas partes del código, y repite necesariamente algunas de las decisiones explicadas en este trabajo.
+
+También, sino puede optar por generar la documentación de forma local, usando el comando \texttt{doxygen config} dentro de la carpeta \texttt{doc} (requiere de instalar el paquete \texttt{doxygen} claramente). Éste hace uso del archivo de configuración allí contenido para generar la interfaz web de documentación en base a la versión más actual del código fuente.
+
+Puede acceder en dicha interfaz a la documentación de cada uno de los archivos, accediendo a la opción \texttt{Files $\rightarrow$ Files List} para elegir entre los distintos archivos fuente documentados.
+
+\bibliography{ref}{}
+\bibliographystyle{plain}
 
 \end{document}
