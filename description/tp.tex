@@ -16,6 +16,7 @@
 \date{12 de diciembre de 2023}
 
 \setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
 
 \titleformat{\paragraph}
 {\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
@@ -26,15 +27,16 @@
 
 \maketitle
 
+\tableofcontents
+\pagebreak
+
 \section{Descripción de la solución}
 
 \subsection{Una decisión general}
 
 A excepción de esta descripción del proyecto, encontrará que todo el código y la documentación están escritos en inglés. Esta es una decisión que tomé frente a que estoy acostumbrado a programar en este idioma. Dada la cantidad de información y recursos disponibles en inglés con los que he aprendido a programar, me resulta más fácil que programar en español.
 
-Tomo esta decisión sabiendo que la suficiencia en el idioma inglés es parte de la carrera (aunque no todavía a este punto), y espero no generar inconvenientes en la corrección dada esta decisión meramente personal.
-
-En este sentido, me sentí ante la obligación de hacer esta aclaración, para justificar que aclararé en algunos casos el paralelismo entre los conceptos desarrollados y los términos en inglés para relacionarlos en el código. En especial veo esto importante en el próximo apartado de detalles de implementación, donde deberé hacer referencias a nombres de variables y estructuras utilizadas.
+Me sentí ante la obligación dejar esto en claro, para justificar el motivo por el cual aclararé en algunos casos la relación entre los conceptos desarrollados y los términos en inglés para relacionarlos en el código. En especial veo esto importante en el apartado de detalles de implementación, donde deberé hacer referencias a nombres de variables y estructuras utilizadas.
 
 Dicho esto, explicaré mis decisiones para tanto el programa en C como el hecho en Python.
 
@@ -64,16 +66,16 @@ De hecho, si probamos el comando sugerido en el trabajo directamente en la termi
 
 El valor de retorno de la función \texttt{system()} podría servirnos como indicación de algún error en la ejecución de los comandos... sin embargo observando la documentación se indica que este valor de retorno depende de la implementación de la función, aunque se pueda ``esperar'' que se corresponda con el código de estado resultante de la ejecución de los comandos\cite{SystemRefC}.
 
-Ante la incertidumbre, optamos por elegir un método con el cual podemos tener mayor seguridad de su correcto funcionamiento. Sabemos bajo haber probado los comandos en la terminal previamente, cómo es el comortamiento de \texttt{cd} y \texttt{ls} si la carpeta no existe. Entonces, considerando que \texttt{archivos.txt} no es creado, podríamos inicialmente comprobar si el archivo existe intentando abrirlo como sabemos hacerlo en C, usando \texttt{fopen()}. Al fin y al cabo, si \texttt{archivos.txt} no existe, entonces \texttt{fopen} devolvería \mintinline{c}{NULL}, no? Hay un problema, y radica en que también se nos exige que no eliminemos \texttt{archivos.txt} tras haberlo utilizado. En consecuencia, el archivo puede existir como producto de una ejecución anterior correcta, llevándonos a pensar que la carpeta buscada si existe.
+Ante la incertidumbre, optamos por elegir un método con el cual podemos tener mayor seguridad de su correcto funcionamiento. Sabemos bajo haber probado los comandos en la terminal previamente, cómo es el comportamiento de \texttt{cd} y \texttt{ls} si la carpeta no existe. Entonces, considerando que \texttt{archivos.txt} no es creado, podríamos inicialmente comprobar si el archivo existe intentando abrirlo como sabemos hacerlo en C, usando \texttt{fopen()}. Al fin y al cabo, si \texttt{archivos.txt} no existe, entonces \texttt{fopen} devolvería \mintinline{c}{NULL}, no? Hay un problema, y radica en que también se nos exige que no eliminemos \texttt{archivos.txt} tras haberlo utilizado. En consecuencia, el archivo puede existir como producto de una ejecución anterior correcta, llevándonos a pensar que la carpeta buscada si existe.
 
 Por lo tanto, para resolver esto, antes de ejecutar los comandos asociados al listado de los archivos de la carpeta con \texttt{system()}, intentaremos primero sobreescribir \texttt{archivos.txt} por uno vacío (o crearlo vacío si no existe). De esta forma, si...
 
 \begin{itemize}
     \item ... la carpeta deseada \textbf{no} existe, al leer \texttt{archivos.txt} veremos que se encuentra vacío, y podremos informarle al usuario con un error apropiado deteniendo la ejecución del programa.
-    \item ... la carpeta deseada \textbf{sí} existe, el \texttt{archivos.txt} sólo resultaría vacío si no se presentan archivos en la carpeta. En este caso, no habría textos de la persona que sanitizar, y no se produciría información para la segunda etapa del programa en Python. Por lo tanto, debemos de informarle de esto al usuario y tampoco queremos que el programa continúe.
+    \item ... la carpeta deseada \textbf{sí} existe, el \texttt{archivos.txt} sólo resultaría vacío si no se presentan archivos en la carpeta o si no se puede acceder a ella. En este caso, no habría textos de la persona que sanitizar los cuales el programa pueda leer, y no se produciría información para la segunda etapa del programa en Python. Por lo tanto, debemos de informarle de esto al usuario y tampoco queremos que el programa continúe.
 \end{itemize}
 
-Con esto resuelto, si la carpeta existe y hay archivos para procesar, podemos leer el contenido de \texttt{archivos.txt} para obtener los \textit{nombres} de los archivos dichos. Como es necesario abirlos para poder procesarlos, debemos primero anteponer la carpeta en la que éstos se encuentran relativa al directorio de ejecución de nuestro programa. Por ejemplo, si la persona se llama \texttt{Pepe}, y uno de los textos tiene nombre de archivo \texttt{biografia.txt}, su ruta sería \texttt{Textos/Pepe/biografia.txt}.
+Con esto resuelto, si la carpeta existe y hay archivos para procesar, podemos leer el contenido de \texttt{archivos.txt} para obtener los \textit{nombres} de los archivos dichos. Como es necesario abrirlos para poder procesarlos, debemos primero anteponer la carpeta en la que éstos se encuentran relativa al directorio de ejecución de nuestro programa. Por ejemplo, si la persona se llama \texttt{Pepe}, y uno de los textos tiene nombre de archivo \texttt{biografia.txt}, su ruta sería \texttt{Textos/Pepe/biografia.txt}.
 
 Así, para cada nombre leído, podemos obtener la ruta antes descrita, leer el archivo allí ubicado, y procesar su contenido. \\
 
@@ -84,9 +86,9 @@ La ventaja de leer primero todo el contenido de los archivos a arreglos, por eje
 
 Mientras, como principal desventaja, en C presentamos complicaciones relacionadas a la administración de la memoria. Es decir, deberíamos responsabilizarnos por reservar la memoria suficiente para la información contenida en los archivos, como también de su posterior liberación una vez que no necesitemos usarla más. Esto puede conllevar a un mayor esfuerzo con el fin de evitar errores.
 
-En esta situación particular, podemos analizar que el proceso de sanitización de los archivos no es demasiado complejo y que, desde un punto de vista personal, el esfuerzo requerido para adminstrar la memoria apropiadamente no vale la pena respecto a los beneficios relacionados con la modularidad de las funciones diseñadas. Es más, para una operación como la dada, personalmente creo que si el archivo a procesar es muy grande, sería un  ``desperdicio de memoria'' cargar inicialmente todo el contenido del archivo en la memoria, ya que es un proceso que se puede realizar de forma completamente lineal sobre la entrada.
+En esta situación particular, podemos analizar que el proceso de sanitización de los archivos no es demasiado complejo y que, desde un punto de vista personal, el esfuerzo requerido para administrar la memoria apropiadamente no vale la pena respecto a los beneficios relacionados con la modularidad de las funciones diseñadas. Es más, para una operación como la dada, personalmente creo que si el archivo a procesar es muy grande, sería un  ``desperdicio de memoria'' cargar inicialmente todo el contenido del archivo en la memoria, ya que es un proceso que se puede realizar de forma completamente lineal sobre la entrada.
 
-Por lo tanto, optamos entonces procesar los archivos caracter por caracter, leyendo progresivamente de cada uno de los archivos de la entrada y decidiendo según ciertas condiciones (que consideran las pautas del TP y las decisiones para el paso 3 que se especifican más adelante) qué caracteres deben escribirse al archivo de salida.
+Por lo tanto, optamos entonces procesar los archivos carácter por carácter, leyendo progresivamente de cada uno de los archivos de la entrada y decidiendo según ciertas condiciones (que consideran las pautas del TP y las decisiones para el paso 2 que se especifican más adelante) qué caracteres deben escribirse al archivo de salida.
 
 Los detalles sobre la implementación se presentarán en el apartado correspondiente. \\
 
@@ -96,13 +98,13 @@ En este caso, si bien creo que leer los nombres de los archivos de forma progres
 
 Es por esto que para la lectura de los nombres de los archivos de la persona a procesar, opté por leerlos en un arreglo para que luego sean procesados por otra función que opere en cada uno, sanitizándolos y escribiendo su contenido limpio en un archivo de salida.
 
-Una vez más, los detalles de implementación se presentarán en el apartado correpondiente.
+Una vez más, los detalles de implementación se presentarán en el apartado correspondiente.
 
 \subsubsection{Limpiar los textos}
 
 Para limpiar los textos escritos por la persona, se indican en el enunciado un conjunto de pautas que el archivo combinado resultante debe seguir, junto con un ejemplo de una salida para una entrada dada. Sin embargo, hay ciertos detalles que no son claros, ante los cuales tuve que tomar ciertas decisiones a la hora de programar una función que limpiara un archivo en concreto. \\
 
-En primer lugar, en teoría se indica que el archivo de salida sólo debe contener saltos de línea y caracteres del alfabeto inglés en minúscula, eliminándose cualquier otro tipo de caracter. Esto no considera los espacios, los cuales son claramente importantes para distinguir las palabras individuales de una oración. Por lo tanto, no queda del todo claro el comportamiento del programa si se presentan múltiples de estos espacios: ¿hay que dejarlos todos? ¿o se debe eliminarlos de forma que las oraciones procesadas se presenten en un formato ``normal'' bajo las reglas del lenguaje?
+En primer lugar, en teoría se indica que el archivo de salida sólo debe contener saltos de línea y caracteres del alfabeto inglés en minúscula, eliminándose cualquier otro tipo de carácter. Esto no considera los espacios, los cuales son claramente importantes para distinguir las palabras individuales de una oración. Por lo tanto, no queda del todo claro el comportamiento del programa si se presentan múltiples de estos espacios: ¿hay que dejarlos todos? ¿o se debe eliminarlos de forma que las oraciones procesadas se presenten en un formato ``normal'' bajo las reglas del lenguaje?
 
 Es común el tipo de problemas que plantean ``normalizar'' una oración, de forma que aquellos espacios que se presenten de forma irregular, sean eliminados. Por lo tanto, decidí tomar esto en cuenta para mi función de sanitización de los archivos. Como un ejemplo, si una oración esta dada por:
 
@@ -134,13 +136,13 @@ Con esto establecido, el ejemplo anterior se limpiaría como:
 
 \vspace{10pt}
 
-Por último, estableceremos la convención que el archivo de salida debe terminar en un caracter de salto de línea \texttt{\textbackslash{}n}. Este comentario surge a que algunos de los archivos con textos de personas dados por la cátedra para probar nuestro programa carecían de un \texttt{\textbackslash{}n} al final de estos archivos. Entonces, si bien un archivo de salida que tenga una oración en cada línea sólo requeriría tener saltos de línea entre oraciones, esto puede generar problemas en algunos casos\cite{NewlineStackoverflow}, a lo que elegiremos por incluir un salto de línea al final del archivo siempre que sea posible.
+Por último, estableceremos la convención que el archivo de salida debe terminar en un carácter de salto de línea \texttt{\textbackslash{}n}. Este comentario surge a que algunos de los archivos con textos de personas dados por la cátedra para probar nuestro programa carecían de un \texttt{\textbackslash{}n} al final de estos archivos. Entonces, si bien un archivo de salida que tenga una oración en cada línea sólo requeriría tener saltos de línea entre oraciones, esto puede generar problemas en algunos casos\cite{NewlineStackoverflow}, a lo que elegiremos por incluir un salto de línea al final del archivo siempre que sea posible.
 
 Una excepción a esto sería si se recibe un archivo vacío, en cuyo caso también sería apropiado que se genere un archivo vacío. Esto es especialmente útil si se pretenden combinar muchos archivos en uno, ya que procesar un archivo vacío en un conjunto de archivos no produciría una línea vacía en el archivo final.
 
 \subsubsection{Unificar los textos sanitizados}
 
-Como indicamos en las decisiones para el paso 2, optamos por procesar los archivos caracter por caracter, escribiendo los caracteres directamente al archivo de salida bajo ciertas condiciones que se van analizando en la entrada.
+Como indicamos en las decisiones para el paso 2, optamos por procesar los archivos carácter por carácter, escribiendo los caracteres directamente al archivo de salida bajo ciertas condiciones que se van analizando en la entrada.
 
 Entonces, bajo las pautas establecidas en el paso anterior (3), unificar los textos es tan fácil como procesar los archivos en orden, donde el archivo de salida siempre sea el mismo, retomando al procesar cada archivo desde donde se terminó de escribir en la salida para el anterior. Es decir, bajo las decisiones establecidas, es equivalente procesar cada uno de los archivos de entrada a archivos de salida independientes, que procesarlos todos en orden a un mismo archivo de salida, siempre y cuando se escriba el contenido sanitizado de cada archivo a continuación de donde se escribió el del anterior.\\
 
@@ -207,7 +209,7 @@ Pero en concreto, los métodos más eficaces conocidos para este problema a día
 
 Es por esto que buscando por métodos más sencillos, encontré el \textit{modelo de lenguaje de los n-gramas de palabras}, como un modelo puramente ``estadístico'', que asume que la probabilidad de predecir una cierta palabra en una oración depende en una cantidad fija de palabras que la preceden\cite{WikiNgramModel}. A veces este concepto es relacionado con las \textit{Cadenas de Markov}, las cuales generalizan el concepto a procesos en los que un evento depende sólamente de un estado actual, obtenido a partir de acciones realizadas anteriormente\cite{WikiMarkov}. Este tipo de modelos parecen ser justamente a lo que apuntaba el enunciado, en ``modelo probabilístico que asigne una probabilidad a cada palabra posible''.
 
-Por supuesto no estamos obligados a usar este modelo en particular ya que, según el enunciado, ``existen diveros métodos para implementar la predicción de texto'', como justamente hemos visto. Pero al final opté por profundizar en este tipo de modelos dado que, como veremos, presentan una alternativa realtivamente sencilla para una solcuón que cumpla el propósito de predecir palabras, sin presentar demasiadas complicaciones en la implementación.
+Por supuesto no estamos obligados a usar este modelo en particular ya que, según el enunciado, ``existen diversos métodos para implementar la predicción de texto'', como justamente hemos visto. Pero al final opté por profundizar en este tipo de modelos dado que, como veremos, presentan una alternativa relativamente sencilla para una solución que cumpla el propósito de predecir palabras, sin presentar demasiadas complicaciones en la implementación.
 
 \paragraph{Sobre el \textit{modelo de lenguaje de n-gramas de palabras}}
 
@@ -223,13 +225,13 @@ De esta forma, si tenemos un modelo basado en n-gramas donde $n = 2$, tenemos un
 
 Es así especialmente importante que tanto los textos como las frases con palabras faltantes estén escritos por una misma persona, ya que estamos usando para nuestras probabilidades un corpus con información basada sobre ``la forma de escribir'' de una persona particular. En consecuencia, la información obtenida de los textos de la persona tendrán más eficacia en frases escritas por la misma. Si quisiéramos desarrollar un modelo más general que aplicara a cualquier o un grupo de personas, deberíamos disponer de un corpus más amplio, proveniente de textos escritos por el grupo de personas al cual queremos apuntar nuestro modelo. Como veremos más adelante, las soluciones que involucran este modelo intentan incluir un corpus amplio y relacionado con el tipo de frases cuyas palabras se intentan predecir.
 
-Entonces, si tenemos una frase como ``las vacas vuelan'', en un modelo de bigramas calcularíamos para la palabra ``vuelan'', $P(\text{vuelan}|\text{vacas})$ como la probabilidad de que la palabra ``vacas'' aparezca después de la palabra ``vuelan''. En un modelo de trigramas, esto sería $P(\text{vuelan}|\text{las vacas})$, la probabilidad que la palabra ``vuelan'' aparezca después de las palabras ``las vacas''. Para calcular esta probabalidad en un modelo de trigramas, obtendríamos el porcentaje de apariciones de trigramas de la forma ```las vacas vuelan'', respecto de todos los trigramas que \textit{empiezan} con ``las vacas'' en nuestro corpus. O, más bien, sería el porcentaje de apariciones de trigramas de la forma ``las vacas vuelan'' respecto a la cantidad de apariciones de los \textit{bigramas} ``las vacas'', así considerando también casos en los cuales las dos palabras anteriores puedan no tener una palabra sucesora. Es decir:
+Entonces, si tenemos una frase como ``las vacas vuelan'', en un modelo de bigramas calcularíamos para la palabra ``vuelan'', $P(\text{vuelan}|\text{vacas})$ como la probabilidad de que la palabra ``vacas'' aparezca después de la palabra ``vuelan''. En un modelo de trigramas, esto sería $P(\text{vuelan}|\text{las vacas})$, la probabilidad que la palabra ``vuelan'' aparezca después de las palabras ``las vacas''. Para calcular esta probabilidad en un modelo de trigramas, obtendríamos el porcentaje de apariciones de trigramas de la forma ```las vacas vuelan'', respecto de todos los trigramas que \textit{empiezan} con ``las vacas'' en nuestro corpus. O, más bien, sería el porcentaje de apariciones de trigramas de la forma ``las vacas vuelan'' respecto a la cantidad de apariciones de los \textit{bigramas} ``las vacas'', así considerando también casos en los cuales las dos palabras anteriores puedan no tener una palabra sucesora. Es decir:
 \[
     P(\text{vuelan}|\text{las vacas}) = \frac{C(\text{las vacas vuelan})}{C(\text{las vacas})}
 \]
 donde $C(x)$, donde $x$ es un n-grama, es la cantidad de apariciones de $x$ en el corpus\cite{TdsGen}.
 
-\paragraph{Mejorando el modelo para predcir la próxima palabra}
+\paragraph{Mejorando el modelo para predecir la próxima palabra}
 
 Con todo esto en cuenta, una primera pregunta sería qué modelo usar, ¿un modelo de bigramas? ¿trigramas? ¿4-gramas? Es intuitivo pensar que mientras nuestro modelo considere secuencias más largas de texto, más preciso va a ser, ya que va a tener más información acerca de las palabras y los contextos que anteceden a la palabra. Sin embargo, esto tiene una contraprestación, y es que no es aplicable para todos los casos. Pensemos que en un modelo de trigramas, si queremos predecir la siguiente palabra en una oración que sólo empiece con ``la'', no tendremos información para poder completar la próxima palabra. Podríamos elegir alguna palabra de forma aleatoria, pero no parece la decisión más razonable dejarlo al azar.
 
@@ -270,7 +272,7 @@ Para cerrar, omitiendo el proceso de detección de palabras faltantes el cual no
 
 Considerando toda la información y alternativas exploradas, decidí consolidar lo que personalmente consideré mejor de todo lo visto para concluir en un algoritmo final a usar para la resolución del enunciado del trabajo.
 
-A grandes razgos, la solución utilizada tiene muchas similitudes con el del último paper antes descrito, pero con algunas modificaciones para lograr un algoritmo más eficiente, y con el fin de considerar algunos casos que omite el algoritmo original. \\
+A grandes rasgos, la solución utilizada tiene muchas similitudes con el del último paper antes descrito, pero con algunas modificaciones para lograr un algoritmo más eficiente, y con el fin de considerar algunos casos que omite el algoritmo original. \\
 
 \noindent El algoritmo consiste en:
 
@@ -316,11 +318,11 @@ A grandes razgos, la solución utilizada tiene muchas similitudes con el del úl
 
         Aclarar que, en caso de que la palabra faltante no tenga palabras anteriores y/o posteriores conocidas (por ejemplo, para una palabra faltante al comienzo o final de una oración), calcularemos el puntaje con los valores que no correspondan en $0$. De esta forma, se mantienen las prioridades que se hayan dado a las probabilidades para los modelos según la longitud de n-gramas que utilicen, pero también brinda resultados de predicciones para todas las situaciones. Veremos más información al respecto en el próximo paso del algoritmo.
 
-        Los valores para $\lambda_1, \lambda_2, \lambda_3$ y $\lambda_4$ deben tomarse con el fin de, como ya vimos, priorizar la mayor precisión que permiten los modelos de n-gramas de mayor longitud. Pero a la vez deben evitar casos como los mencionados con back-off, donde tener algún trigrama en nuestro corpus no debería de deternernos de elegir otra palabra tenga una cantidad significativa de coincidencias en bigramas, aunque exclusivamente dentro del modelo de trigramas pueda tener una menor probabilidad.
+        Los valores para $\lambda_1, \lambda_2, \lambda_3$ y $\lambda_4$ deben tomarse con el fin de, como ya vimos, priorizar la mayor precisión que permiten los modelos de n-gramas de mayor longitud. Pero a la vez deben evitar casos como los mencionados con back-off, donde tener algún trigrama en nuestro corpus no debería de detenernos de elegir otra palabra tenga una cantidad significativa de coincidencias en bigramas, aunque exclusivamente dentro del modelo de trigramas pueda tener una menor probabilidad.
 
         Considerando esto, como también los valores que vimos que tienen mayores resultados en los papers mencionados\cite{Bhuyan2020}\cite{Samanta2013ASR}, y en algunas de las otras referencias tomadas en cuenta para este trabajo\cite{TdsGen}, elegimos valores $\lambda_1 = 0.05$, $\lambda_2 = \lambda_3 = 0.2$ y $\lambda_4 = 0.55$. En el código los llamé como los ``pesos'' (\textit{weights}) que le doy a las probabilidades de cada modelo.
 
-        Por un lado, tiene sentido que $\lambda_2 = \lambda_3$, ya que estamos asignando que conocer la palabra que antecede a una palabra faltante es tan importanto como saber la que le sucede. Podría argumentarse que esto no es siempre así, por ejemplo con casos donde muchas veces las palabras están precedidas por artículos en el español, que no brindan mucha información única de la palabra a completar. Pero de forma análoga, también podemos encontrar muchos otros casos donde esto sucede con la palabra que le sigue a la faltante, como el uso de verbos comunes. Entonces, a razgos generales, resulta razonable asumir esto.
+        Por un lado, tiene sentido que $\lambda_2 = \lambda_3$, ya que estamos asignando que conocer la palabra que antecede a una palabra faltante es tan importante como saber la que le sucede. Podría argumentarse que esto no es siempre así, por ejemplo con casos donde muchas veces las palabras están precedidas por artículos en el español, que no brindan mucha información única de la palabra a completar. Pero de forma análoga, también podemos encontrar muchos otros casos donde esto sucede con la palabra que le sigue a la faltante, como el uso de verbos comunes. Entonces, a rasgos generales, resulta razonable asumir esto.
 
         También es coherente asignar un valor bajo a $\lambda_1$, pues la cantidad de veces que aparece la palabra en el corpus no nos brinda información sobre el contexto de una oración. Pero sí puede ser útil en la implementación para los casos particulares que ya hemos discutido, o para desempatar en la decisión de una palabra, para priorizar otra más frecuente.
 
@@ -337,7 +339,7 @@ A grandes razgos, la solución utilizada tiene muchas similitudes con el del úl
         \begin{itemize}
             \item Si la palabra faltante $W_i$ tiene palabras a su izquierda $W_{i-1}$ y a su derecha $W_{i+1}$, obtendríamos la palabra de mejor puntaje entre todas las precalculadas del corpus que coincidan para el trigrama que empieza y termina en $W_{i-1}$ y $W_{i+1}$ respectivamente, para el bigrama izquierdo que empieza en $W_{i-1}$, para el bigrama derecho que termina en $W_{i+1}$, y la palabra más frecuente del corpus (el mejor unigrama).
             \item Si la palabra faltante $W_i$ tiene sólo palabras a su izquierda, tomaríamos la palabra de mayor puntaje entre todas las precalculadas del corpus que coincidan para el bigrama que empieza  con $W_{i-1}$, y la palabra más frecuente del corpus.
-            \item De forma análoga, si la palabra faltante $W_i$ sólo tiene palabras a su derecha, tomaríamos la palabra de mayor puntajt entre todas las precalculadas del corpus que coincidan para el bigrama que termina con $W_{i+1}$, y la palabra más frecuente del corpus.
+            \item De forma análoga, si la palabra faltante $W_i$ sólo tiene palabras a su derecha, tomaríamos la palabra de mayor puntaje entre todas las precalculadas del corpus que coincidan para el bigrama que termina con $W_{i+1}$, y la palabra más frecuente del corpus.
             \item Si la palabra faltante $W_i$ no tiene palabras ni a derecha ni a izquierda (léase, para la oración ``\_''), reemplazaremos con la palabra más frecuente del corpus.
         \end{itemize}
 
@@ -352,19 +354,19 @@ Uno de los interrogantes que pueden surgir alrededor del algoritmo final emplead
 
 Tanto para la solución de obtener la próxima palabra en una oración, como el algoritmo utilizado de obtener una palabra faltante en una oración, se toma una suposición como verdadera para poder aplicar el modelo de las cadenas de Markov. En el primer caso, que la resultante nueva palabra de una oración sólo depende de las escritas anteriormente a ella. Y la segunda, que la palabra resultante de una oración sólo depende de las escritas de forma anterior y posterior a ella. 
 
-Por supuesto, esta suposición no es realmente cierta, pero utilizarla nos brinda acceso a usar una herramienta que nos sirve como una aproximación al problema, con la intención de obtener buenos resultados. Sin embargo, como ya discutimos, existen modelos de lenguajes que obtienen resultados mucho mejores al algoritmo planteado, y debemos recordar que ni siquiera los mejores modelos generan resultados perfectos. Incluso más allá de ello, la predicción de una palabra en una oración realmente depende de muchos factores que hasta pueden resultar ambiguüos para una persona, y que sin un criterio bien definido, puede ser ambigüo siquiera cuál es la respuesta correcta. \\
+Por supuesto, esta suposición no es realmente cierta, pero utilizarla nos brinda acceso a usar una herramienta que nos sirve como una aproximación al problema, con la intención de obtener buenos resultados. Sin embargo, como ya discutimos, existen modelos de lenguajes que obtienen resultados mucho mejores al algoritmo planteado, y debemos recordar que ni siquiera los mejores modelos generan resultados perfectos. Incluso más allá de ello, la predicción de una palabra en una oración realmente depende de muchos factores que hasta pueden resultar ambiguos para una persona, y que sin un criterio bien definido, puede ser ambiguo siquiera cuál es la respuesta correcta. \\
 
 Otro punto a tener en cuenta es que el algoritmo planteado no es especialmente eficaz en los casos de los extremos de la oración que intentamos cubrir. Si bien es mejor que directamente no considerarlos, si presentamos una palabra faltante al comienzo o al final de una oración, muchas veces la palabra inmediatamente a su derecha o izquierda (respectivamente) no provee demasiada información sobre la palabra a predecir. Es por esto que la mayoría de las referencias relacionadas con solucionar el problema de predecir la próxima palabra, recomiendan usar bigramas y trigramas... de forma que se consideran hasta dos palabras hacia uno de los lados de la faltante.\cite{TdsGen}\cite{CambridgeLecture}\cite{WikiNgram}
 
 Podría ser de hecho una solución, considerar este modelo particular para los casos mencionados con el fin de obtener mejores resultados. Podría pensarse la oración como si se leyera de izquierda a derecha o al revés, para cada caso. Sin embargo, opté por no incluirlo por limitaciones de tiempo para la realización del trabajo, y personalmente valoré más tener consideración por los casos más frecuentes que sucederían en medio de las oraciones (considerando que las frases pueden tener una palabra faltante en cualquier posición).\\
 
-Una optimización que también fue descartada en la búsqueda de soluciones para el problema planteado, es la idea de disponer de algún corpus externo incluído con el programa, que permita detectar casos en los cuales las predicciones realizadas por nuestro algoritmo no sean gramaticalmente correctas.
+Una optimización que también fue descartada en la búsqueda de soluciones para el problema planteado, es la idea de disponer de algún corpus externo incluido con el programa, que permita detectar casos en los cuales las predicciones realizadas por nuestro algoritmo no sean gramaticalmente correctas.
 
 Esta idea se basa que, en general, mientras más grande sea el corpus de información, más preciso podrá ser nuestro algoritmo al disponer de mayor cantidad de combinaciones válidas de palabras en bigramas y trigramas. Lo único que habría que remarcar, es que este corpus ayudaría en la detección de errores de las predicciones que surjan del conjunto de oraciones provistas. Esto se debe a que, como ya hemos aclarado antes, el uso de oraciones escritas e incompletas escritas por una misma persona, mejora nuestras predicciones, ya que de esta forma nuestro algoritmo considera mejor expresiones o palabras que la persona acostumbre a utilizar más seguido.
 
 Para este caso, nuevamente me presenté con limitaciones de tiempo para no incluirlo. Pero además, consideré que parte del objetivo del trabajo, su enfoque principal, se centraba en poder programar un algoritmo de predicción inicial, una aproximación, que logre resultados competentes. \\
 
-En general, la conclusión tras investigar los distintos aspectos del trabajo, y en particular el algoritmo mencionado, es que con este tipo de problemas siempre se pueden implementar mejoras. Entonces, queda a criterio personal dónde trazar la línea e incluir lo más importante dentro del período de tiempo estipulado. Es por esto que intento ser claro en mis valoraciones sobre las decisiones tomadas, para poder expresar mi motivación acerca de optar por una decisión respecto de otra.
+La conclusión tras investigar los distintos aspectos del trabajo, y en particular el algoritmo mencionado, es que con este tipo de problemas siempre se pueden implementar mejoras. Estamos realmente planteando un algoritmo basado en razonamiento lógico y en base a información recopilada de otras fuentes, con el fin de obtener buenos resultados. Sin embargo, sin una definición completamente formal de ``una buena predicción'' o de una base teórica que nos permita obtener un resultado siempre correcto, queda a criterio personal dónde trazar la línea e incluir lo más importante dentro del período de tiempo estipulado. Es por esto que intento ser claro en mis valoraciones sobre las decisiones tomadas, para poder expresar mi motivación acerca de optar por una decisión respecto de otra.
 
 \subsubsection{Generar el archivo final con las frases completas}
 
@@ -376,7 +378,7 @@ Tras ejecutar todo el algoritmo descrito en el paso anterior, tenemos las frases
 
 \subsubsection{Tomar el nombre de la persona por argumento}
 
-Para asegurarnos que el programa en C reciba la cantidad de argumentos correcta, verificamos el parámetro \mintinline{c}{int argc;} recibida como argumento de la función \texttt{main}. Para nuestro caso, \texttt{argc} debe ser 2, pues el primero de los argumentos se corresponde con el nombre del ejecutable, y el seguno debería ser el nombre de la persona dado por el usuario (sin espacios).
+Para asegurarnos que el programa en C reciba la cantidad de argumentos correcta, verificamos el parámetro \mintinline{c}{int argc;} recibida como argumento de la función \texttt{main}. Para nuestro caso, \texttt{argc} debe ser 2, pues el primero de los argumentos se corresponde con el nombre del ejecutable, y el segundo debería ser el nombre de la persona dado por el usuario (sin espacios).
 
 Esto se puede hacer fácilmente incluyendo una condición al principio de la función \texttt{main()}, en la cual se advierta al usuario si la cantidad de argumentos recibidos es distinta de la esperada:
 
@@ -406,7 +408,27 @@ Donde \mintinline{c}{char *filesListPath} es la ruta a \texttt{archivos.txt}, y 
 
 Lo relacionado a la concatenación de rutas y lectura de líneas desde \texttt{archivos.txt} se puede ver en el código provisto. \\
 
-En cuanto a la lectura de los textos escritos por la persona, dijimos que los leeríamos mientras se procesan cada uno de los archivos. En consecuencia, resulta pertinente explicar este aspecto dentro de los detalles del próximo paso.
+Un detalle a mencionar respecto al manejo de errores provenientes de la manipulación de archivos, es que pude comprobar que los errores generados por \texttt{cd} y \texttt{ls} para listar los archivos a partir de ser llamados con la función \texttt{system()}, \textbf{sí} se muestran en la salida de la ejecución del programa. Esto quiere decir que en los casos en los cuales la carpeta con los textos de la persona no exista en \texttt{Textos} o los archivos no sean accesibles por algún otro motivo (por ejemplo, permisos), el usuario vería mensajes de error no deseados. Si bien yo muestro un mensaje de error informando que no se pudo acceder al directorio con los Textos, éste se terminaría mostrando junto con los errores de \texttt{cd} y \texttt{ls}, que no es ideal.
+
+Por lo tanto, tomé la decisión de modificar un poco el comando provisto por la cátedra para ejecutar con \texttt{system()}, con el fin de redirigir la salida de errores generada por los comandos a \texttt{/dev/null}, una ruta de archivos en Linux que descarta cualquier entrada que le llegue. Es común usar esta ruta para este preciso propósito, de eliminar los mensajes de error generados por comandos de la terminal. De esta forma, la función para ejecutar el comando resulta:
+
+\begin{minted}[breaklines]{c}
+void list_texts(char *textsPath, char *filesListPath) {
+    char command[MAX_BUF];
+    sprintf(command, "cd %s 2>/dev/null && ls > ../../%s 2>/dev/null", textsPath, filesListPath); // Generar la cadena del comando con sprintf()
+    system(command);
+}
+\end{minted}
+
+\noindent donde \mintinline{c}{char *textsPath} es la ruta a la carpeta de la persona en \texttt{Textos}, y \mintinline{c}{char *filesListPath} es la ruta a \texttt{archivos.txt}, donde se escribirán la lista de archivos en \texttt{textsPath} (si los comandos se ejecutan correctamente).
+
+Notar que la parte concreta que agregué en los comandos de \texttt{cd} y \texttt{ls} es \texttt{2\char62{}/dev/null}, que le indica al procesador de comandos que la salida estándar de errores, \texttt{stderr}, identificada un \textit{descriptor de archivo} número 2, sea redirigida a \texttt{/dev/null}. Así, los mensajes de error no se mostrarán por la salida del programa en la terminal, sino serán redirigidos a \texttt{/dev/null}, donde serán descartados. 
+
+De esta forma, en el caso en que la carpeta de la persona no exista en \texttt{Textos}, esté vacía, o sea innaccesible por algún otro motivo, sólo se mostrará el mensaje de error que yo incluí en mi programa.
+
+Aclarar que si bien en el programa uso \texttt{fprintf()} tomando \mintinline{c}{stderr} como argumento para imprimir los mensajes de error en la salida de errores estándar, la redirección antes utilizada en los comandos ejecutados con \texttt{system()} sólo afectan a \texttt{cd} y \texttt{ls}. Es por esto que los mensajes que yo imprima a ésta salida se mostrarán sin inconvenientes. \\
+
+Por otro lado, en cuanto a la lectura de los textos escritos por la persona, dijimos que los leeríamos mientras se procesan cada uno de los archivos. En consecuencia, resulta pertinente explicar este aspecto dentro de los detalles del próximo paso.
 
 \paragraph{Limpiar los textos y unificarlos}
 
@@ -438,7 +460,7 @@ void sanitize_files(int n, char **inputPaths, char *outputPath) {
 
     for (int i = 0; i < n; i++) {
         FILE *input = fopen(inputPaths[i], "r");
-        if (input == NULL)  // Manejo de erores en la lectura
+        if (input == NULL)  // Manejo de errores en la lectura
             handle_file_open_error_rwa(inputPaths[i], 'r');
         sanitize_file(input, output); // Se llama a la función con el mismo output
         fclose(input);
@@ -486,7 +508,7 @@ void call_python_script(char *personName) { // Recibe nombre de la persona
 
 \subsubsection{Tomar el nombre de la persona por argumento}
 
-En Python, para recibir los argumentos que recibe el programa, disponemos de la variable \mintinline{python}{sys.argv}, a la cual podemos acceder importando el módulo \texttt{sys}. Ésta es una lista la cual podemos conocer su longitud usando \mintinline{python}{len(sys.argv)}. Así, usaremos este dato para verificar que la cantidad de arguemntos sea 2, y mostrar instrucciones de uso del programa al usuario en caso contrario:
+En Python, para recibir los argumentos que recibe el programa, disponemos de la variable \mintinline{python}{sys.argv}, a la cual podemos acceder importando el módulo \texttt{sys}. Ésta es una lista la cual podemos conocer su longitud usando \mintinline{python}{len(sys.argv)}. Así, usaremos este dato para verificar que la cantidad de argumentos sea 2, y mostrar instrucciones de uso del programa al usuario en caso contrario:
 \begin{minted}{python}
 def main():
     if len(sys.argv) != 2:
@@ -533,7 +555,7 @@ En la descripción de la solución tomó un proceso de investigación hasta deci
 
 \paragraph{Extraer los n-gramas}
 
-Para extraer los unigramas, bigramas y trigramas de las oraciones en el archivo generado en C, utlizamos una función que recibe una lista de oraciones, y devuelve un \textit{diccionario}. Cada n-grama es representado como una tupla de n componentes, entonces el diccionario indica para cada n-grama extraído, la cantidad de veces que aparece en las oraciones. Opté por usar esta estructura ya que permite rápidamente ir agregando las distintas apariciones que un n-grama dado a medida se iteran por éstos en el texto. En el final, disponemos de un número de cantidad de veces que aparece cada n-grama, útil para el próximo paso del algoritmo, que utiliza estas cantidades para calcular probabilidades.
+Para extraer los unigramas, bigramas y trigramas de las oraciones en el archivo generado en C, utilizamos una función que recibe una lista de oraciones, y devuelve un \textit{diccionario}. Cada n-grama es representado como una tupla de n componentes, entonces el diccionario indica para cada n-grama extraído, la cantidad de veces que aparece en las oraciones. Opté por usar esta estructura ya que permite rápidamente ir agregando las distintas apariciones que un n-grama dado a medida se iteran por éstos en el texto. En el final, disponemos de un número de cantidad de veces que aparece cada n-grama, útil para el próximo paso del algoritmo, que utiliza estas cantidades para calcular probabilidades.
 
 Para facilitar la lectura del código, definimos un tipo \mintinline{python}{Ngram = tuple[Word, ...]}, una tupla de hasta n componentes \texttt{Word}, con \mintinline{python}{Word = str}, para que sea también más legible que hablamos de n-gramas de palabras. Análogamente definimos para más adelante, los tipos \mintinline{python}{Unigram = tuple[Word]}, \mintinline{python}{Bigram = tuple[Word, Word]} y \mintinline{python}{Trigram = tuple[Word, Word, Word]}, para unigramas, bigramas y trigramas respectivamente.
 
@@ -585,7 +607,7 @@ def calc_score(unigram: Probability = 0.0, leftBigram: Probability = 0.0, rightB
 
 \noindent donde \mintinline{python}{Probability = float} y también \mintinline{python}{Score = float}, para mayor claridad y legibilidad del código.
 
-Notar que como también mencionamos en la descripción de la solución, podemos utilizar esta función para calcular la palabra de mayor puntaje para bigramas izquierdos y derechos, como también unigramas. En esos casos, sólo paso por argumento las probabilidades disponibles, y el resto reusltan \texttt{0.0} dada la declaración de la función que así las establece si no se pasan argumentos. Por ejemplo, si quiero computar el puntaje para bigramas derechos, sólo pasaría por argumentos a la función \mintinline{python}{calc_score()} los valores de las probabilidades que conozco para \texttt{unigram} y \texttt{rightBigram}, llamando a la función como \mintinline{python}{calc_score(unigram = [valor], leftBigram = [valor])}. \\
+Notar que como también mencionamos en la descripción de la solución, podemos utilizar esta función para calcular la palabra de mayor puntaje para bigramas izquierdos y derechos, como también unigramas. En esos casos, sólo paso por argumento las probabilidades disponibles, y el resto resultan \texttt{0.0} dada la declaración de la función que así las establece si no se pasan argumentos. Por ejemplo, si quiero computar el puntaje para bigramas derechos, sólo pasaría por argumentos a la función \mintinline{python}{calc_score()} los valores de las probabilidades que conozco para \texttt{unigram} y \texttt{rightBigram}, llamando a la función como \mintinline{python}{calc_score(unigram = [valor], leftBigram = [valor])}. \\
 
 Cada una de las funciones que calculan las predicciones para los distintos trigramas / bigrama izq. / bigrama der. / unigrama (palabra más frecuente del corpus), toman como parámetro los diccionarios con las probabilidades calculadas en el paso anterior del algoritmo, y devuelven, en cada caso:
 
@@ -624,7 +646,7 @@ Así, la función resulta:
 \begin{minted}[breaklines]{python}
 def path_writelines_newline(lines: list[str], path: str):
     try:
-        file = open(path,"w")   # Intentar abrir el archivoo
+        file = open(path,"w")   # Intentar abrir el archivo
     except:     # Manejar error en la escritura del archivo
         print(f'There was an error writing to {path}.')
         print("Check the path exists and that you have permission to write in it.")
@@ -649,9 +671,9 @@ Para correr el programa, en el directorio raíz de los archivos del proyecto se 
 
 Dentro del directorio principal se encuentran dos carpetas, una llamada \texttt{c}, y otra llamada \texttt{python}. 
 
-La carpeta \texttt{c} tiene todos los archivos relacionados al programa en C, a excepción de \texttt{main.c} con la función \mintinline{c}{main()}, que necesita estar en el mismo directorio que las carpetas de \texttt{Textos}, \texttt{Entradas}, \texttt{Frases} y \texttt{Salidas} (o, en concreto, el ejecutable, y el script de Python deberían, pero para este propósito me resultó conveniente también dejar el archivo \texttt{main.c} junto con estas carpetas).
+La carpeta \texttt{c} tiene todos los archivos relacionados al programa en C, a excepción de \texttt{main.c} con la función \mintinline{c}{main()}, que necesita estar en el mismo directorio que las carpetas de \texttt{Textos}, \texttt{Entradas}, \texttt{Frases} y \texttt{Salidas} (o, en concreto, el ejecutable, y el programa de Python deberían, pero para este propósito me resultó conveniente también dejar el archivo \texttt{main.c} junto con estas carpetas).
 
-De forma análoga, la carpeta \texttt{python} contiene todos los archivos relacionados al programa de Python, excepto \texttt{main.py} que se debe encontrar en el mismo directorio que las carpetas con los archivos de texto que brinda el usuario.
+De forma análoga, la carpeta \texttt{python} contiene todos los archivos relacionados al programa de Python, excepto \texttt{main.py} que se debe encontrar en el mismo directorio que las carpetas antes mencionadas.
 
 Las carpetas de cada uno tienen una carpeta \texttt{src}, con todos los archivos de código fuente relacionado a cada programa, y una carpeta \texttt{tests}, con funciones de testing sobre las funciones más importantes de cada uno de los programas. Para correr los tests:
 
@@ -659,20 +681,22 @@ Las carpetas de cada uno tienen una carpeta \texttt{src}, con todos los archivos
     \item En Python, usamos la herramienta usada en la materia \texttt{pytest}. Para correr los tests, es sólo cuestión de correr el comando \texttt{pytest} en la terminal, estando dentro de la carpeta \texttt{tests} de \texttt{python}.
     \item En C, usamos la función \mintinline{c}{assert()} de la librería \texttt{assert.h} como elemento principal de nuestro testing. En consecuencia, los tests no son más que código en C que debe ser compilado para correr. Para ello, dentro de la carpeta \texttt{tests} existe otro \texttt{Makefile}, de forma que si corremos \texttt{make} en ella, se compilará un ejecutable \texttt{./run\_tests} para poder correr los tests del programa.
 
-        Este \texttt{Makefile} realmente no tiene mucho contenido por su cuenta, y realmente funciona como un ``acceso directo'' al comando \texttt{make test} del archivo \texttt{Makefile} principal en la raíz del proyecto.
-
-        Como detalle adicional, se pueden eliminar los ejecutables creados, así como también archivos objeto creados en la compilación del programa dentro de \texttt{c/build}, con el comando \texttt{make clean}. Éste se puede ejecutar tanto en el directorio principal del proyecto como en el directorio de \texttt{tests} de C.
+        Este \texttt{Makefile} realmente no tiene mucho contenido por su cuenta, y funciona como un ``acceso directo'' al comando \texttt{make test} del archivo \texttt{Makefile} principal en la raíz del proyecto.
 \end{itemize}
+
+Como detalle adicional, se pueden eliminar los ejecutables creados por la compilación en C, así como también archivos objeto creados por este motivo dentro de \texttt{c/build}, con el comando \texttt{make clean}. Éste se puede ejecutar tanto en el directorio principal del proyecto como en el directorio de \texttt{tests} de C.
 
 \section{Documentación (bonus)}
 
-Como un adicional a lo pedido para el trabajo, con el fin de desarrollar un código de mayor calidad, opté por comentar detalladamente el propósito de las distintas funciones y variables del programa, tanto en C como Python. Esta documentación se encuentra en los archivos cabecera \texttt{.h} en el caso de C, y directamente por encima de las funciones en Python. El formato respetado para los comentarios va en línea con el aceptado por Doxygen, una herramienta para poder generar documentación de código en múltiples lenguajes de programación, entre los que se encuentran C y Python. 
+Como un adicional a lo pedido para el trabajo, con el fin de desarrollar un código de mayor calidad, opté por comentar detalladamente el propósito de las distintas funciones y variables del programa, tanto en C como Python. Esta documentación se encuentra en los archivos cabecera \texttt{.h} en el caso de C, y directamente arriba de las funciones en Python. El formato respetado para los comentarios va en línea con el aceptado por Doxygen, una herramienta para poder generar documentación de código en múltiples lenguajes de programación, entre los que se encuentran C y Python. 
 
 Por esto, en la carpeta \texttt{doc} dentro del directorio principal del proyecto, se ha generado en la carpeta \texttt{html}, una interfaz web de documentación de los archivos del programa, accesible mediante \texttt{index.html} (abrir en cualquier navegador). Esta documentación incluye detalles sobre el funcionamiento de las distintas partes del código, y repite necesariamente algunas de las decisiones explicadas en este trabajo.
 
-También, sino puede optar por generar la documentación de forma local, usando el comando \texttt{doxygen config} dentro de la carpeta \texttt{doc} (requiere de instalar el paquete \texttt{doxygen} claramente). Éste hace uso del archivo de configuración allí contenido para generar la interfaz web de documentación en base a la versión más actual del código fuente.
+También puede optar por generar la documentación de forma local, usando el comando \texttt{doxygen config} dentro de la carpeta \texttt{doc} (requiere de instalar el paquete \texttt{doxygen} claramente). Éste hace uso del archivo de configuración allí contenido para generar la interfaz web de documentación en base a la versión más actual del código fuente.
 
 Puede acceder en dicha interfaz a la documentación de cada uno de los archivos, accediendo a la opción \texttt{Files $\rightarrow$ Files List} para elegir entre los distintos archivos fuente documentados.
+
+\pagebreak
 
 \bibliography{ref}{}
 \bibliographystyle{plain}

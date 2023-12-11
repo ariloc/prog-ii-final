@@ -35,7 +35,7 @@ char** prepend_directory_to_filenames(char *directory, char **filenames, int n) 
 char** get_text_paths(char* personName, int *pathsCount) {
     char *textsPath = person_texts_path(personName);
 
-    // Overwrite files list as a blank file, possibly erasing contents from previous runs.
+    // Overwrite files list as a blank file, erasing contents from previous runs if any.
     reset_files_list(FILES_LIST_PATH); 
 
     list_texts(textsPath, FILES_LIST_PATH);
@@ -44,7 +44,7 @@ char** get_text_paths(char* personName, int *pathsCount) {
     char **filenames = read_lines(FILES_LIST_PATH, &fileCount);
 
     if (fileCount == 0) {
-        fprintf(stderr, "There are no files in \"%s\" or the folder doesn't exist.\n", textsPath);
+        fprintf(stderr, "There are no files in \"%s\", the folder doesn't exist or you don't have permission to read from it.\n", textsPath);
         exit(1);
     }
 

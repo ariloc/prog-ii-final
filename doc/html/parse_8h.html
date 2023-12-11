@@ -175,11 +175,11 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Sanitizes the contents of a list of files whose paths are given, and they are combined in order into a single file at <code>outputPath</code>.</p>
+<p>Sanitizes the contents of a list of files whose paths are given, and they are combined in order, into a single file at <code>outputPath</code>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">n</td><td>The amount of files to be sanitized and combined. </td></tr>
-    <tr><td class="paramname">inputPaths</td><td>An array of pointers, each holding a reference to a string representing the path of a file to be sanitized and combined into <code>outputPath</code>. </td></tr>
+    <tr><td class="paramname">inputPaths</td><td>An array of pointers, each holding a reference to a string representing the path of a file to be sanitized and combined into a file at <code>outputPath</code>. </td></tr>
     <tr><td class="paramname">outputPath</td><td>Path of the file to write with the sanitized contents of the given input files. </td></tr>
   </table>
   </dd>
@@ -204,7 +204,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>Sanitizes the texts written by a person by the name <code>personName</code>, and combines them into a single file at <a class="el" href="files_8h.html#acbe1d285ac61d83c787f43dd5dac3eae">INPUTS_PATH</a>.</p>
-<p>The texts processed by the program will be found inside a folder named after the person, under a directory located at <a class="el" href="files_8h.html#a5f86c0e8de75df3b40286e560b8e2510">TEXTS_PATH</a>.</p>
+<p>The texts that the program has to process will be read from a folder named after the person, under a directory located at <a class="el" href="files_8h.html#a5f86c0e8de75df3b40286e560b8e2510">TEXTS_PATH</a>.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">personName</td><td>The name of the person after whom a folder with texts to be sanitized has its name (without spaces). </td></tr>

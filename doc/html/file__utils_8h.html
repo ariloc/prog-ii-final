@@ -176,14 +176,14 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Counts the lines in the file at <code>path</code>. Lines are considered as consecutive amounts of characters separated within <code>\n</code> (newline) characters or the beginning / end of the file.</p>
+<p>Counts the lines in the file at <code>path</code>. Lines are considered as sets of consecutive characters separated by <code>\n</code> (newline) characters or the beginning or the end of the file.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">path</td><td>Path of the file for which to count its lines. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The amount of lines contained in the file at @path. </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The amount of lines contained in the file at <code>path</code>. </dd></dl>
 
 </div>
 </div>
@@ -212,7 +212,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Function to be called when fopen returns NULL. Prints an error message to the user according to the mode in which the file was attempted to be opened, given as an argument.</p>
+<p>Function to be called when <code>fopen()</code> returns <code>NULL</code>. Prints an error message to the user according to the mode in which the file was attempted to be opened, given as an argument.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">path</td><td>Path of the file that failed to be opened. </td></tr>

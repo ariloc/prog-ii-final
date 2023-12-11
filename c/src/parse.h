@@ -30,12 +30,12 @@
 void sanitize_file(FILE* input, FILE* output);
 
 /**
- *  Sanitizes the contents of a list of files whose paths are given, and they are combined in order
+ *  Sanitizes the contents of a list of files whose paths are given, and they are combined in order,
  *  into a single file at @p outputPath.
  *  
  *  @param n The amount of files to be sanitized and combined.
  *  @param inputPaths An array of pointers, each holding a reference to a string representing the
- *                    path of a file to be sanitized and combined into @p outputPath.
+ *                    path of a file to be sanitized and combined into a file at @p outputPath.
  *  @param outputPath Path of the file to write with the sanitized contents of the given input files.
  *  @see sanitize_file()
  */
@@ -45,7 +45,7 @@ void sanitize_files(int n, char **inputPaths, char *outputPath);
  *  Sanitizes the texts written by a person by the name @p personName, and combines them into a
  *  single file at #INPUTS_PATH.
  *
- *  The texts processed by the program will be found inside a folder named after the person,
+ *  The texts that the program has to process will be read from a folder named after the person,
  *  under a directory located at #TEXTS_PATH.
  *
  *  @param personName The name of the person after whom a folder with texts to be sanitized has

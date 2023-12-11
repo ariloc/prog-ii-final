@@ -2,20 +2,20 @@
 #  @author Ariel Leonardo Fideleff
 
 ## Path of the folder where sanitized sentences from people are stored.
-#  Each person's texts should be @c .txt files named after the person.
+#  Each person's texts should be @c \.txt files named after the person.
 # 
 #  <b>This path must point to a folder in the same directory as the executable.</b>
 INPUTS_PATH = "Entradas"
 
 ## Path of a folder containing incomplete sentences from people.
-#  Each file in the folder should be a @c .txt named after the person who supposedly wrote 
+#  Each file in the folder should be a @c \.txt named after the person who wrote 
 #  the sentences.
 # 
 #  <b>This path must point to a folder in the same directory as the executable.</b>
 SENTENCES_PATH = "Frases"
 
 ## Path of the folder where the predicted sentences for a person would be stored.
-#  The resulting files would be named after the person and have a @c .txt extension.
+#  The resulting files would be named after the person and have a @c \.txt extension.
 # 
 #  <b>This path must point to a folder in the same directory as the executable.</b>
 OUTPUTS_PATH = "Salidas"

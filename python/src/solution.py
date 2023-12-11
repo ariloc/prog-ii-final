@@ -7,8 +7,8 @@ from .predictions import max_predicted, Dataset
 #  predictions @p Dataset generated from sentences written
 #  by the person.
 #
-#  Each of the sentences received as an argument <b>must</b> have an underscore (@p '_'), 
-#  representing the location of the missing word.
+#  Each of the sentences received as an argument <b>must</b> have a single underscore (@p '_'), 
+#  representing the position of the missing word.
 #
 #  @param sentences A list of sentences with missing words written by a person to be completed.
 #  @param dataset A precomputed dataset generated from sentences written by the person.

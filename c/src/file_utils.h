@@ -13,8 +13,8 @@
 #define MAX_BUF 255
 
 /**
- *  Function to be called when fopen returns NULL. Prints an error message to the user according
- *  to the mode in which the file was attempted to be opened, given as an argument.
+ *  Function to be called when @c fopen() returns @c NULL. Prints an error message to the user 
+ *  according to the mode in which the file was attempted to be opened, given as an argument.
  *
  *  @param path Path of the file that failed to be opened.
  *  @param mode The file access mode with which the file was attempted to be opened.
@@ -33,11 +33,11 @@ char* concatenate_paths(char *path1, char *path2);
 
 /**
  *  Counts the lines in the file at @p path.
- *  Lines are considered as consecutive amounts of characters separated within @c \\n (newline)
- *  characters or the beginning / end of the file.
+ *  Lines are considered as sets of consecutive characters separated by @c \\n (newline)
+ *  characters or the beginning or the end of the file.
  *
  *  @param path Path of the file for which to count its lines.
- *  @return The amount of lines contained in the file at @path.
+ *  @return The amount of lines contained in the file at @p path.
  */
 int count_lines(char *path);
 
