@@ -52,7 +52,7 @@ Dicho esto, explicaré mis decisiones para tanto el programa en C como el hecho 
 
 \subsubsection{Tomar el nombre de la persona por argumento}
 
-Obtener los argumentos que recibe un programa en C es sencillo y no presenta mayores inconvenientes. Más información en detalles de implementación. % TODO:
+Obtener los argumentos que recibe un programa en C es sencillo y no presenta mayores inconvenientes. Más información en detalles de implementación.
 
 Lo único a tener en cuenta es que nos debemos asegurar de que la cantidad de argumentos recibida por la terminal sea la correcta, con el fin de estar seguros de recibir el nombre de la persona necesario para saber en dónde debemos leer los textos a procesar.
 
@@ -88,7 +88,7 @@ En esta situación particular, podemos analizar que el proceso de sanitización 
 
 Por lo tanto, optamos entonces procesar los archivos caracter por caracter, leyendo progresivamente de cada uno de los archivos de la entrada y decidiendo según ciertas condiciones (que consideran las pautas del TP y las decisiones para el paso 3 que se especifican más adelante) qué caracteres deben escribirse al archivo de salida.
 
-Los detalles sobre la implementación se presentarán en el apartado correspondiente. \\ % TODO:
+Los detalles sobre la implementación se presentarán en el apartado correspondiente. \\
 
 Como un último comentario, otra de las decisiones tomadas para la lectura de los textos escritos por la persona radica en algo similar a lo anteriormente descrito para los archivos, pero en este caso, sobre \texttt{archivos.txt}. Esto vendría a ser, si es preferible leer todos los nombres de archivos contenidos en \texttt{archivos.txt} a un arreglo, o si leer progresivamente los nombres, concatenar las rutas, leer y procesar los textos uno por uno, evitando reservar memoria para las cadenas donde se almacenarían las rutas.
 
@@ -96,7 +96,7 @@ En este caso, si bien creo que leer los nombres de los archivos de forma progres
 
 Es por esto que para la lectura de los nombres de los archivos de la persona a procesar, opté por leerlos en un arreglo para que luego sean procesados por otra función que opere en cada uno, sanitizándolos y escribiendo su contenido limpio en un archivo de salida.
 
-Una vez más, los detalles de implementación se presentarán en el apartado correpondiente. % TODO:
+Una vez más, los detalles de implementación se presentarán en el apartado correpondiente.
 
 \subsubsection{Limpiar los textos}
 
@@ -148,7 +148,7 @@ Aprovechando que esta sección es relativamente breve, aclararé sobre una decis
 
 Es por esto que, en general, siempre que intentamos acceder a un archivo para leer o para escribir, optamos verificar además que la operación no nos devuelva una referencia nula (C) o que falle (Python), para poder mostrar en cambio un mensaje al usuario informando sobre la ruta inaccesible.
 
-Más detalles al respecto en el apartado de detalles de implementación. % TODO:
+Más detalles al respecto en el apartado de detalles de implementación.
 
 \subsubsection{Llamar al programa en Python}
 
@@ -278,24 +278,24 @@ A grandes razgos, la solución utilizada tiene muchas similitudes con el del úl
     \item Extraer los unigramas, bigramas y trigramas de las oraciones leídas en el paso anterior.
     \item Computar, siendo $n$ la cantidad de palabras distintas del corpus:
         \begin{enumerate}
-            \item Para cada unigrama (que resulta siendo nada más y nada menos que cada palabra), la probabilidad de ser elegida respecto al resto de las palabras del corpus. O más bien, el porcentaje de las palabras del corpus que representa:
+            \item Para cada unigrama $(W^j)$ ($j = 1,2,\dots,n$) (que resulta siendo nada más y nada menos que cada palabra), la probabilidad de ser elegida respecto al resto de las palabras del corpus. O más bien, el porcentaje de las palabras del corpus que representa:
             \[
                 P(W^j) = \frac{C(W^j)}{\sum_{k=1}^n C(W^k)}
             \]
 
             Esto permite luego poder utilizar la palabra ``más frecuente'' del corpus si se nos presenta un caso donde los bigramas o trigramas no aplican (o sea, si tenemos que predecir una palabra ``suelta'' sin palabras anteriores o posteriores). También, nos permitirá considerar casos en los cuales una palabra se presente con mayor frecuencia que otras, ayudando en nuestras predicciones.
 
-        \item Para cada bigrama, computar la probabilidad de ser utilizado respecto al resto de bigramas que \textit{comienzan} en la misma palabra. Es decir, obtenemos la probabilidad de los \textit{bigramas izquierdos} $(W_{i-1} W_i^j)$ del corpus, donde computábamos la probabilidad de que una palabra $W_i^j$ ($j = 1,2,\dots,n$) suceda a otra $W_{i-1}$, respecto a todas las palabras que suceden a la primera a lo largo del corpus:
+        \item Para cada bigrama, computar la probabilidad de ser utilizado respecto al resto de bigramas que \textit{comienzan} en la misma palabra. Es decir, obtenemos la probabilidad de los \textit{bigramas izquierdos} $(W_{i-1} W_i^j)$ del corpus, donde computamos la probabilidad de que una palabra $W_i^j$ ($j = 1,2,\dots,n$) suceda a otra $W_{i-1}$, respecto a todas las palabras que suceden a la primera a lo largo del corpus:
             \[
                 P(W_i^j|W_{i-1}) = \frac{C(W_{i-1} W_i^j)}{\sum_{k=1}^n C(W_{i-1} W_i^k)}
             \]
 
-        \item Para cada bigrama, computar la probabilidad de ser utilizado respecto al resto de bigramas que \textit{terminan} con la misma palabra. Es decir, de forma análoga al ítem anterior, calculamos la probabilidad los \textit{bigramas derechos} $(W_i^j W_{i+1})$ del corpus, donde computábamos la probabilidad de que una palabra $W_i^j$ preceda a otra $W_{i+1}$, respecto a todas las palabras que preceden a la segunda a lo largo del corpus:
+        \item Para cada bigrama, computar la probabilidad de ser utilizado respecto al resto de bigramas que \textit{terminan} con la misma palabra. Es decir, de forma análoga al ítem anterior, calculamos la probabilidad los \textit{bigramas derechos} $(W_i^j W_{i+1})$ del corpus, donde computamos la probabilidad de que una palabra $W_i^j$ preceda a otra $W_{i+1}$, respecto a todas las palabras que preceden a la segunda a lo largo del corpus:
             \[
                P(W_i^j|W_{i+1}) = \frac{C(W_i^j W_{i+1})}{\sum_{k=1}^n C(W_i^k W_{i+1})}
             \]
         
-        \item Para cada trigrama, computar la probabilidad de ser utilizado respecto al resto de trigramas que \textit{comienzan y terminan} con las mismas palabras que éste. Es decir, calculamos la probabilidad de los trigramas $(W_{i-1} W_i^j W_{i+1})$ del corpus, donde computábamos la probabilidad de que una palabra $W_i^j$ suceda a otra $W_{i-1}$ \textbf{y} $W_{i+1}$ suceda a otra al mismo tiempo, respecto a todas las palabras que cumplen esta misma condición a lo largo del corpus:
+        \item Para cada trigrama, computar la probabilidad de ser utilizado respecto al resto de trigramas que \textit{comienzan y terminan} con las mismas palabras que éste. Es decir, calculamos la probabilidad de los trigramas $(W_{i-1} W_i^j W_{i+1})$ del corpus, donde computamos la probabilidad de que una palabra $W_i^j$ suceda a otra $W_{i-1}$ \textbf{y} preceda a $W_{i+1}$ al mismo tiempo, respecto a todas las palabras que cumplen esta misma condición a lo largo del corpus:
             \[
                 P(W_i^j|W_{i-1},W_{i+1}) = \frac{C(W_{i-1} W_i^j W_{i+1})}{\sum_{k=1}^n C(W_{i-1} W_i^k W_{i+1})}
             \]
@@ -374,15 +374,11 @@ Tras ejecutar todo el algoritmo descrito en el paso anterior, tenemos las frases
 
 \subsection{El programa en C}
 
-% TODO:
-
 \subsubsection{Tomar el nombre de la persona por argumento}
 
-El primer paso es sencillo, ya que la forma más fácil de hacerlo es tomando los argumentos que recibe el programa al ejecutarse por la terminal, con \mintinline{c}{int argc} y \mintinline{c}{char *argv[]}, que se pueden usar como argumentos de la función \texttt{main}.
+Para asegurarnos que el programa en C reciba la cantidad de argumentos correcta, verificamos el parámetro \mintinline{c}{int argc;} recibida como argumento de la función \texttt{main}. Para nuestro caso, \texttt{argc} debe ser 2, pues el primero de los argumentos se corresponde con el nombre del ejecutable, y el seguno debería ser el nombre de la persona dado por el usuario (sin espacios).
 
-\subsubsection{Leer los archivos \texttt{.txt} escritos por la persona}
-
-Como no necesariamente se especifica que se nos brinde el nombre de la persona como argumento de forma correcta tal que se corresponda con uan carpeta existente, o que siquiera se nos provea correctamente un argumento, debemos validar que la cantidad de argumentos recibidos sea la correcta: 2. Uno que siempre está ocupado por el nombre del ejecutable, y el segundo correpondiente al nombre de la persona sin espacios. Si la cantidad de argumentos no es correcta, presentaremos un mensaje con instrucciones de uso del programa al usuario. Entonces, al comienzo de la función \texttt{main()} incluimos:
+Esto se puede hacer fácilmente incluyendo una condición al principio de la función \texttt{main()}, en la cual se advierta al usuario si la cantidad de argumentos recibidos es distinta de la esperada:
 
 \begin{minted}{c}
 // ...
@@ -393,21 +389,261 @@ if (argc != 2) {
 // ...
 \end{minted}
 
-\paragraph{La existencia de los archivos y los argumentos}
+\subsubsection{Leer los archivos \texttt{.txt} escritos por la persona}
 
-Para el segundo paso se presentan decisiones más importantes a tomar, ya que el enunciado nos exige hacer uso de la función \texttt{system()} con el fin de obtener una lista de los archivos contenidos en la carpeta donde se encontrarían los textos de la persona. De no presentarse esta exigencia, podríamos haber hecho uso de la librería \texttt{dirent.h}, en particular, su función \mintinline{c}{readdir()} que permite leer el contenido de un directorio\footnote{\url{https://stackoverflow.com/questions/4204666/how-to-list-files-in-a-directory-in-a-c-program}}. Pero como este no es el caso, debemos adaptar nuestras decisiones a la consigna del trabajo.
-    
-Con esto en cuenta, sabemos que debemos de crear un archivo llamado \texttt{archivos.txt} que se encontrará en el mismo directorio que el ejecutable de nuestro programa, el cual se creará como resultado de correr el comando \texttt{ls} sobre la carpeta en la cual se encontrarían los textos de la persona. Sin embargo, esto puede fallar, ya que podría no existir la carpeta en cuestión. Es cierto que debemos asumir para el trabajo que la carpeta \texttt{Textos} debe existir, pero 
+Para primero escribir el archivo \texttt{archivos.txt} como uno vacío, podemos simplemente abrirlo en modo \texttt{\char34{}w\char34}, e inmediatamente cerrarlo:
 
-Por otro lado, habiendo validado que recibimos el nombre de la persona de forma correcta, debemos de verificar que la carpeta que estamos buscando, \texttt{Textos/[nombre persona]} exista. 
-Tampoco podemos usar la existencia de \texttt{archivos.txt} como referencia, ya que como se nos pide que no se elimine este archivo una vez creado, podría permanecer de una ejecución previa del programa, y contener un listado de archivos que no se corresponde con el argumento provisto en la ejecución actual.
+\begin{minted}{c}
+void reset_files_list(char *filesListPath) {
+    FILE *fp = fopen(filesListPath, "w");
+    if (fp == NULL)
+        handle_file_open_error_rwa(filesListPath, 'w');
+    fclose(fp);
+}
+\end{minted}
 
+Donde \mintinline{c}{char *filesListPath} es la ruta a \texttt{archivos.txt}, y verificamos que podamos escribir en él verificando si nuestra referencia al archivo \mintinline{c}{fp == NULL}. Así, \mintinline{c}{handle_file_open_error_rwa()} sólo muestra un error al usuario para que sepa de la ruta inaccesible en caso de no poder realizar la escritura.
 
+Lo relacionado a la concatenación de rutas y lectura de líneas desde \texttt{archivos.txt} se puede ver en el código provisto. \\
+
+En cuanto a la lectura de los textos escritos por la persona, dijimos que los leeríamos mientras se procesan cada uno de los archivos. En consecuencia, resulta pertinente explicar este aspecto dentro de los detalles del próximo paso.
+
+\paragraph{Limpiar los textos y unificarlos}
+
+Para limpiar los textos, dijimos que iríamos procesando los caracteres de cada uno de los archivos de entrada en base a las condiciones establecidas por el TP, como también en base a las decisiones tomadas en la descripción de la solución. Esto se traduce en el código en una función que ya recibe una referencia al archivo de entrada \mintinline{c}{FILE* input}, como también al archivo de salida \mintinline{c}{FILE *output}:
+
+\begin{minted}{c}
+void sanitize_file(FILE* input, FILE* output);
+\end{minted}
+
+Así, podemos ir leyendo los caracteres desde \texttt{input} uno a uno con \mintinline{c}{fgetc()} hasta el final del archivo, o sea, hasta que \texttt{fgetc()} devuelva \mintinline{c}{EOF}, mientras se escriben los caracteres a la salida con \texttt{fputc()}:
+
+\begin{minted}{c}
+// ...
+char c;
+while ((c = (char)fgetc(input)) != EOF) {
+    // condiciones que usan fputc() según sea necesario
+    // ...
+}
+// ...
+\end{minted}
+
+Estas referencias a los archivos son obtenidas en otra función que itera por las rutas de los archivos a combinar, llamando en cada una, la función mencionada \texttt{sanitize\_file()}. Esta función se llama la misma referencia de salida en cada caso, para que se escriba a continuación de lo que se limpió para el archivo anterior:
+
+\begin{minted}{c}
+void sanitize_files(int n, char **inputPaths, char *outputPath) {
+    FILE* output = fopen(outputPath, "w");
+    if (output == NULL)     // Manejo de errores en la escritura
+        handle_file_open_error_rwa(outputPath, 'w');
+
+    for (int i = 0; i < n; i++) {
+        FILE *input = fopen(inputPaths[i], "r");
+        if (input == NULL)  // Manejo de erores en la lectura
+            handle_file_open_error_rwa(inputPaths[i], 'r');
+        sanitize_file(input, output); // Se llama a la función con el mismo output
+        fclose(input);
+    }
+    fclose(output); // El archivo de salida se cierra al final
+}
+\end{minted}
+
+\noindent donde \mintinline{c}{char **inputPaths} son las rutas de los archivos de entrada, los textos escritos por la persona, y \mintinline{c}{char *outputPath} es la ruta del archivo de salida, donde se combinan los textos sanitizados. \\
+
+Por último, para el manejo de los errores antes mencionado, utilizamos una función a la cual le pasamos directamente la ruta del archivo para la cual la lectura / escritura falló, de forma que se la pueda a informar al usuario. Opté por no incluir en ésta la condición para verificar que \texttt{fopen()} haya devuelto \mintinline{c}{NULL} ya que consideré que ésta es relativamente sencilla de verificar en las funciones donde se abren los archivos, y evita tener que pasar la variable \mintinline{c}{FILE* fp} a la función de manejo de errores:
+
+\begin{minted}[breaklines]{c}
+void handle_file_open_error_rwa(char *path, char mode) {
+    switch(mode) {
+        case 'r':   // Si se intentó leer el archivo con modo 'r'.
+            fprintf(stderr, "There was an error reading from %s.\n",path);
+            fprintf(stderr, "File may not exist or you may not have permission to read it.\n");
+            break;
+        case 'w':
+        case 'a':   // Si se intentó escribir o concatenar al final del archivo con modos 'w' y 'a'.
+            fprintf(stderr, "There was an error writing to %s.\n",path);
+            fprintf(stderr, "Check the path exists and that you have permission to write in it.\n");
+            break;
+    }
+    exit(1); // Finaliza la ejecución del programa. Evita que incurra en un error que lleve a su terminación abrupta (por ejemplo, segmentation fault).
+}
+\end{minted}
+
+El resto de los detalles pueden revisarse en el código del programa.
+
+\subsubsection{Llamar al programa en Python}
+
+Como dijimos, podemos formar el comando para llamar al programa en Python en una cadena, y llamar a la función \texttt{system()} con el comando como argumento:
+
+\begin{minted}[breaklines]{c}
+void call_python_script(char *personName) { // Recibe nombre de la persona
+    char command[MAX_BUF];  // Cadena en la cual almacenar el comando
+    sprintf(command, "python3 %s %s", PYTHON_SCRIPT_NAME, personName); // Formamos el comando con sprintf()
+    system(command); // Llamamos a system() con el comando como argumento
+}
+\end{minted}
 
 \subsection{El programa en Python}
 
+\subsubsection{Tomar el nombre de la persona por argumento}
 
-\section{Correr el programa y tests}
+En Python, para recibir los argumentos que recibe el programa, disponemos de la variable \mintinline{python}{sys.argv}, a la cual podemos acceder importando el módulo \texttt{sys}. Ésta es una lista la cual podemos conocer su longitud usando \mintinline{python}{len(sys.argv)}. Así, usaremos este dato para verificar que la cantidad de arguemntos sea 2, y mostrar instrucciones de uso del programa al usuario en caso contrario:
+\begin{minted}{python}
+def main():
+    if len(sys.argv) != 2:
+        print("usage: python main.py [person_name]")
+        exit(0)
+    # ...
+\end{minted}
+Aclarar que para poder usar la función \texttt{main()} como la primera que se ejecuta en nuestro programa de Python, indicamos en \texttt{main.py}:
+\begin{minted}{python}
+# ...
+if __name__ == "__main__":
+    main()
+\end{minted}
+
+\subsection{Leer el \texttt{.txt} generado por el programa en C}
+
+Podemos leer las oraciones sanitizadas generadas por el programa en C, directamente abriendo el archivo en Python, usando la función \mintinline{python}{f.read()} tras abrir el archivo y tener una referencia a él en \texttt{f}. Luego, usamos la función \mintinline{python}{.splitlines()} que separa el texto en una lista de líneas (las oraciones), eliminando los saltos de línea \texttt{\textbackslash{}n}. Es por esto último que preferimos este método a usar \texttt{f.readlines()}, que conserva estos saltos al final de cada línea:
+\begin{minted}{python}
+def path_readlines_no_endline(path: str) -> list[str]:
+    try:
+        file = open(path,"r")  # Intentar abrir el archivo
+    except:     # Manejar error en la lectura del archivo
+        print(f'There was an error reading from {path}.')
+        print("File may not exist or you may not have permission to read it.")
+        exit(1)
+
+    lines = file.read().splitlines() # Leer las líneas
+    file.close()    # Cerrar el archivo
+    return lines    # Devolver las líneas leídas
+\end{minted}
+\noindent donde \texttt{path} es la ruta al archivo generado por el programa en C.
+
+Notar que en el programa en Python decidimos manejar el error de lectura directamente dentro de la función. Esto se debe que el manejo de los archivos para este caso es más sencillo que en C, en el cual presentaba complicaciones en la detección del listado de los archivos de una carpeta con \texttt{ls}. Además es más sencillo el manejo de la memoria, pudiendo utilizar una función que devuelve fácilmente una lista para todas las operaciones de lectura utilizadas en el programa.
+
+\subsubsection{Leer el \texttt{.txt} de las frases con palabras faltantes}
+
+Para leer las frases escritas por la persona, utilizamos la misma función del paso anterior, pero indicándole como parámetro en este caso, la ruta del archivo de frases en vez del generado por el programa en C.
+
+En ambos casos escribimos funciones sencillas que manejan cada caso particular, construyendo fácilmente la ruta del archivo que debe ser leído. Estas funciones como otros detalles menores, pueden verse en el código del programa.
+
+\subsubsection{Procesar las oraciones leídas en una estructura útil y predecir las palabras faltantes}
+
+En la descripción de la solución tomó un proceso de investigación hasta decidirme por un algoritmo que crea suficiente para la tarea encomendada en este paso. Durante esta descripción, hay algunos detalles de la solución que aclaré tenían como objetivo una mayor eficiencia del programa. A continuación aclararé estos detalles, como también las estructuras de de Python elegidas para implementar el algoritmo empleado.
+
+\paragraph{Extraer los n-gramas}
+
+Para extraer los unigramas, bigramas y trigramas de las oraciones en el archivo generado en C, utlizamos una función que recibe una lista de oraciones, y devuelve un \textit{diccionario}. Cada n-grama es representado como una tupla de n componentes, entonces el diccionario indica para cada n-grama extraído, la cantidad de veces que aparece en las oraciones. Opté por usar esta estructura ya que permite rápidamente ir agregando las distintas apariciones que un n-grama dado a medida se iteran por éstos en el texto. En el final, disponemos de un número de cantidad de veces que aparece cada n-grama, útil para el próximo paso del algoritmo, que utiliza estas cantidades para calcular probabilidades.
+
+Para facilitar la lectura del código, definimos un tipo \mintinline{python}{Ngram = tuple[Word, ...]}, una tupla de hasta n componentes \texttt{Word}, con \mintinline{python}{Word = str}, para que sea también más legible que hablamos de n-gramas de palabras. Análogamente definimos para más adelante, los tipos \mintinline{python}{Unigram = tuple[Word]}, \mintinline{python}{Bigram = tuple[Word, Word]} y \mintinline{python}{Trigram = tuple[Word, Word, Word]}, para unigramas, bigramas y trigramas respectivamente.
+
+Los detalles faltantes en relación a la obtención de los n-gramas se encuentran en el código del programa.
+
+\paragraph{Calcular las probabilidades}
+
+Para calcular las distintas probabilidades del segundo paso del algoritmo, utilizamos los unigramas, bigramas y trigramas extraídos de las oraciones para computar probabilidades de unigramas, bigramas izquierdo y derechos, y trigramas, respectivamente.
+
+Para el caso de los bigramas, debemos primero precomputar la cantidad de bigramas que empiezan o terminan con cierta palabra (para izquierdo o derecho). Y para trigramas, contar cuántos empiezan y terminan en cierto par de palabras.
+
+Para ello, usaremos también diccionarios en Python, donde para cada comienzo (bigramas izquierdos), final (bigramas derechos) o comienzo y final (trigramas), vamos acumulando la cantidad de apariciones iterando por todos los bigramas o trigramas extraídos de las oraciones.
+
+Luego, para el caso de los bigramas, iremos iterando por cada uno de ellos para calcular su probabilidad, utilizando el cociente entre la cantidad de veces que aparece en el corpus (obtenida en el paso anterior del algoritmo), respecto a la cantidad que antes contamos, de los que empiezan / terminan en cierta palabra (bigrama izquierdo o derecho respectivamente). Mientras, de forma similar para los trigramas, iteraremos por ellos para calcular su probabilidad con el cociente entre la cantidad de apariciones en el corpus (obtenida en el paso anterior del algoritmo), respecto a la cantidad de trigramas que comienzan y terminan con las mismas palabras que el trigrama en cuestión.
+
+Notar que el uso de diccionarios nos permite en esta segunda iteración obtener rápidamente la cantidad de apariciones de aquellos que comienzan/terminan/comienzan y terminan con las mismas palabras, para cada bigrama/trigrama.
+
+Finalmente, la probabilidad para cada bigrama o trigrama (según corresponda), es almacenada en otro diccionario para su posterior procesamiento en la etapa de precálculo de predicciones del algoritmo. Por conveniencia y legibilidad del código, para estos diccionarios definimos los tipos:
+
+\begin{itemize}
+    \item \mintinline{python}{Probability = float}, para mayor claridad y dado que calculamos las probabilidades en un intervalo $[0,1]$.
+    \item \mintinline{python}{UnigramProbability = dict[Unigram, Probability]}, almacenando para cada unigrama, la probabilidad.
+    \item \mintinline{python}{BigramProbability = dict[Bigram, Probability]}, y luego \texttt{LeftBigramProbability = BigramProbability} y \texttt{RightBigramProbability = BigramProbability}, almacenando para cada bigrama (izquierdo o derecho), su probabilidad. Notar que decidí primer definir la probabilidad para un bigrama general y luego utilizarlo para ambos bigramas izquierdos y derechos. Esto se debe a que me permite distinguir que no representan la probabilidad de las mismas cosas (pues claramente calculo las probabilidades de forma distinta), aunque representando que ambos utilizan una estructura idéntica para almacenar sus probabilidades.
+     \item \mintinline{python}{TrigramProbability = dict[Trigram, Probability]}, almacenando para cada trigrama, su probabilidad definida en la descripción de la solución.
+\end{itemize}
+
+Como un último comentario, cabe aclarar que si bien podemos entender los unigramas como palabras individuales, opté por usar tuplas de un sólo elemento. Esto lo hice con el fin de generalizar la extracción de los n-gramas en el paso anterior, y porque permite representar el concepto de los n-gramas de una forma unificada sin tener que cambiar demasiado los conceptos o los tipos de datos que manejaba. 
+
+La implementación de los detalles explicados se puede observar en el código del programa.
+
+\paragraph{Precalcular las predicciones}
+
+En cuanto al precálculo de las palabras de mayor puntaje, primero defino una función auxiliar que dado un trigrama $(W_{i-1} W_i^j W_{i+1})$, reciba las probabilidades de dicho trigrama, de los bigramas izquierdo $(W_{i-1} W_i^j)$ y derecho $(W_i^j W_{i+1})$ y del unigrama $(W_i^j)$, contenidos, calcule el puntaje asignado a la palabra $W_i^j$. Este puntaje conglomera las probabilidades de la palabra como unigrama, como sucesor de $W_{i-1}$, como predecesor de $W_{i+1}$, y como sucesor y predecesor de ambos al mismo tiempo, utilizando los $\lambda_i$ ($i = 1,2,3,4$) descritos en la descripción de la solución.
+
+Con esto en cuenta, definimos, en base a lo descrito en la descripción de la solución:
+
+\begin{itemize}
+    \item \mintinline{python}{WEIGHT_UNIGRAM = .05} por $\lambda_1 = 0.05$.
+    \item \mintinline{python}{WEIGHT_BIGRAM = .2} y luego \texttt{WEIGHT\_LEFT\_BIGRAM = WEIGHT\_BIGRAM} y \texttt{WEIGHT\_RIGHT\_BIGRAM = WEIGHT\_BIGRAM}, representando $\lambda_2 = \lambda_3 = 0.2$.
+    \item \mintinline{python}{WEIGHT_TRIGRAM = 0.55} por $\lambda_4 = 0.55$.
+\end{itemize}
+
+Entonces, nuestra función para calcular el puntaje (\textit{score}) resulta:
+
+\begin{minted}[breaklines]{python}
+def calc_score(unigram: Probability = 0.0, leftBigram: Probability = 0.0, rightBigram: Probability = 0.0, trigram: Probability = 0.0) -> Score:
+    return WEIGHT_UNIGRAM * unigram + WEIGHT_LEFT_BIGRAM * leftBigram + WEIGHT_RIGHT_BIGRAM * rightBigram + WEIGHT_TRIGRAM * trigram
+\end{minted}
+
+\noindent donde \mintinline{python}{Probability = float} y también \mintinline{python}{Score = float}, para mayor claridad y legibilidad del código.
+
+Notar que como también mencionamos en la descripción de la solución, podemos utilizar esta función para calcular la palabra de mayor puntaje para bigramas izquierdos y derechos, como también unigramas. En esos casos, sólo paso por argumento las probabilidades disponibles, y el resto reusltan \texttt{0.0} dada la declaración de la función que así las establece si no se pasan argumentos. Por ejemplo, si quiero computar el puntaje para bigramas derechos, sólo pasaría por argumentos a la función \mintinline{python}{calc_score()} los valores de las probabilidades que conozco para \texttt{unigram} y \texttt{rightBigram}, llamando a la función como \mintinline{python}{calc_score(unigram = [valor], leftBigram = [valor])}. \\
+
+Cada una de las funciones que calculan las predicciones para los distintos trigramas / bigrama izq. / bigrama der. / unigrama (palabra más frecuente del corpus), toman como parámetro los diccionarios con las probabilidades calculadas en el paso anterior del algoritmo, y devuelven, en cada caso:
+
+\begin{itemize}
+    \item Para los unigramas, se devuelve la palabra más frecuente del corpus, un \texttt{PredictedWord}. Para legibilidad, se define \mintinline{python}{UnigramPredicted = PredictedWord}
+    \item Para los bigramas derechos, se devuelve un diccionario donde para cada palabra que se encuentra al comienzo de un bigrama en el corpus, se tiene el \texttt{PredictedWord} corresondiente, la palabra de mayor puntaje predicha para ese comienzo de bigrama. Se define para mayor legibilidad \texttt{LeftBigramPredicted = BigramPredicted}, donde \mintinline[breaklines]{python}{BigramPredicted = dict[Word, PredictedWord]}.
+    \item De forma análoga al punto anterior, para los bigramas izquierdos, se devuelve \texttt{Right\linebreak{}BigramPredicted}, donde \texttt{RightBigramPredicted = BigramPredicted}, la palabra predicha de mayor puntaje para cada uno de las palabras que finalizan en algún bigrama del corpus. En ambos casos uso estos tipos definidos para mayor claridad y representar que aunque la información representada para ambos bigramas es diferente, utilizo el mismo tipo de estructura para almacenarla.
+    \item Y para los trigramas, se devuelve un \texttt{TrigramPredicted} donde definimos \mintinline[breaklines]{python}{TrigramPredicted = dict[tuple[Word,Word], PredictedWord]}, ya que para cada comienzo y final de un trigrama en el corpus, se tiene la palabra predicha de mayor puntaje si se la coloca entre medio. Como se puede observar, representamos este par de palabras comienzo y final con una tupla de dos cadenas. Esto no significa que conformen un bigrama, aunque se los represente de la misma manera, pues claramente estas palabras no se encuentran de forma consecutiva, entonces \textbf{no} sería correcto usar el tipo para los bigramas que habíamos definido anteriormente.
+\end{itemize}
+
+\noindent donde \mintinline{python}{PredictedWord = tuple[Word, Score]}, una vez más para mayor legibilidad, representando la palabra predicha según corresponda, incluyendo su puntaje (\textit{score}).
+
+Usar una vez más, diccionarios para las predicciones precalculadas, luego nos permitirá acceder a ellos rápidamente en la próxima etapa del algoritmo, donde completaremos las palabras faltantes de las frases escritas por la persona.
+
+\paragraph{Reemplazando las palabras faltantes}
+
+Finalmente, para completar las palabras faltantes, iteramos la lista de frases incompletas leídas, y separamos sus palabras usando \texttt{.split()}, para luego buscar el índice de aquella que sea un guión bajo usando \mintinline{python}{words.index('_')}, asumiendo que todas las oraciones tienen un \_, como lo indica el enunciado. 
+
+Luego, dependiendo de este índice, podemos fácilmente determinar si se tiene una palabra adelante o atrás. Para todos los casos pertinentes, descritos en la solución general, vemos de obtener el máximo \texttt{PredictedWord} en base a todos los precalculados para bigramas y trigramas que contienen a la palabra faltante, en función de las palabras disponibles antes y después de dicho guión bajo. Definiremos que un \texttt{PredictedWord} es mayor que otro si el puntaje del primero supera el del segundo. 
+
+Con la palabra predicha de mayor puntaje, podemos reemplazar el guión bajo en la lista de palabras por esta palabra, y concatenarlas con espacios para formar la oración completa.
+
+En este caso, a diferencia de las funciones en C, consideré innecesario separar la función que cumple esta tarea para una lista de oraciones, respecto de otra que pueda resolverla para una sóla oración. El motivo de esto es que en ningún otro caso requerimos de hacer el uso de resolver una oración por separado, además que la diferencia entre resolver para una oración o para muchas, únicamente radica en iterar elementos de una lista (estructura sencilla de manejar en Python). Es más, resulta razonable para un conjunto de datos de predicciones precalculados, aprovecharlo para múltiples frases, que de hecho es de utilidad posteriormente en el testing.
+
+Los detalles concretos se pueden encontrar en el código del programa.
+
+\subsubsection{Generar el archivo final con las frases completas}
+
+Para terminar con el programa, podemos escribir las frases completas al archivo de salida correspondiente al nombre de la persona. Esto se reduce a una función que escriba cualquier lista de líneas en una ruta dada.
+
+De forma similar a cuando escribíamos la salida sanitizada en C, en este caso también nos aseguraremos de agregar un salto de línea al final de las frases completas.
+
+Otra cosa que tendremos en cuenta, es la posibilidad de que el archivo de destino sea inaccesible o no exista la carpeta que lo debe contener. Para esto, implementé una verificación muy similar a la descrita en la lectura de archivos, para ``atrapar'' la excepción que surja en estos casos al intentar abrir el archivo.
+
+Así, la función resulta:
+\begin{minted}[breaklines]{python}
+def path_writelines_newline(lines: list[str], path: str):
+    try:
+        file = open(path,"w")   # Intentar abrir el archivoo
+    except:     # Manejar error en la escritura del archivo
+        print(f'There was an error writing to {path}.')
+        print("Check the path exists and that you have permission to write in it.")
+        exit(1)
+
+    if lines: # Concatenar las líneas con \n entre ellas y al final, pero evitar escribir un \n si no hay líneas que escribir
+        file.writelines('\n'.join(lines) + '\n')
+    file.close()  # Cerrar el archivo
+\end{minted}
+
+\noindent donde \texttt{path} es la ruta a la cual escribir las oraciones, y \texttt{lines} son las líneas a escribir en la ruta, las susodichas oraciones. \\
+
+Un detalle menor a aclarar en la excepción, es el uso de \mintinline{python}{exit(1)}, en vez de \mintinline{python}{exit(0)}, pues este número indica el estado de salida del programa, el cual se le informa al programa que lo llama. Cuando se usa el \texttt{0}, se entiende que se informa de una finalización correcta del programa, mientras un número distinto de \texttt{0} es indicador de algún error. En particular, usar \texttt{1} indica esto como un error general, porque claramente experimentamos un problema al intentar leer del archivo. 
+
+Sin embargo, este detalle es justamente menor, pues no influye en el uso de nuestro programa ya que no usamos este código de error. Pero opté por hacerlo de esta forma igualmente, pues creí pertinente hacerlo dado que es lo más apropiado para la forma en la que el programa finaliza en esta situación. Esto incluye también a los \texttt{exit(1)} usados en la verificación \mintinline{c}{fp == NULL} dentro del programa en C. \\
+
+Aquellos detalles no mencionados pueden verse en el código del programa.
+
+\section{Correr el programa y los tests}
 
 Para correr el programa, en el directorio raíz de los archivos del proyecto se presenta un archivo \texttt{Makefile} para automáticamente compilar los archivos fuente en C del programa. Usando el comando \texttt{make} en la consola, debería generarse en la misma carpeta el ejecutable \texttt{./main}. Así, podrá correr todo el programa con los archivos de \texttt{nombre\_persona}, ejecutando el comando \texttt{./main nombre\_persona}. \\
 

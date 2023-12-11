@@ -143,10 +143,10 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Computes the probability for each of the word left bigrams in a list of sentences. </p>
-<p>This probability \(\text{P}(W_j|W_i)\) is calculated as the percentage each bigram \((W_i W_j)\) represents from all bigrams <em>starting</em> in a certain word \(W_i\): </p><p class="formulaDsp">
-\[ \text{P}(W_j|W_i) = \frac{\#(W_i W_j)}{\sum_{j=1}^n \#(W_i W_j)} \]
+<p>This probability \(P(W_i^j|W_{i-1})\) is calculated as the percentage each bigram \((W_{i-1} W_i^j)\) ( \(j = 1,2,\dots,n\)) represents from all bigrams <em>starting</em> in a certain word \(W_{i-1}\): </p><p class="formulaDsp">
+\[ P(W_i^j|W_{i-1}) = \frac{C(W_{i-1} W_i^j)}{\sum_{k=1}^n C(W_{i-1} W_i^k)} \]
 </p>
-<p> where \(n\) is the number of distinct words in the list of sentences.</p>
+<p> where \(n\) is the number of distinct words in the list of sentences, and \(C(x)\) is the number of occurrences of the n-gram \(x\) in the corpus.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">bigrams</td><td>A dictionary with the count of each of the word left bigrams occurring in a list of sentences. </td></tr>
@@ -174,10 +174,10 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Computes the probability for each of the word right bigrams in a list of sentences. </p>
-<p>This probability \(\text{P}(W_i|W_j)\) is calculated as the percentage each bigram \((W_i W_j)\) represents from all bigrams <em>ending</em> in a certain word \(W_j\): </p><p class="formulaDsp">
-\[ \text{P}(W_i|W_j) = \frac{\#(W_i W_j)}{\sum_{i=1}^n \#(W_i W_j)} \]
+<p>This probability \(P(W_i^j|W_{i+1})\) is calculated as the percentage each bigram \((W_i^j W_{i+1})\) ( \(j = 1,2,\dots,n\)) represents from all bigrams <em>ending</em> in a certain word \(W_{i+1}\): </p><p class="formulaDsp">
+\[ P(W_i^j|W_{i+1}) = \frac{C(W_i^j W_{i+1})}{\sum_{i=1}^n C(W_i^k W_{i+1})} \]
 </p>
-<p> where \(n\) is the number of distinct words in the list of sentences.</p>
+<p> where \(n\) is the number of distinct words in the list of sentences, and \(C(x)\) is the number of occurrences of the n-gram \(x\) in the corpus.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">bigrams</td><td>A dictionary with the count of each of the word right bigrams occurring in a list of sentences. </td></tr>
@@ -205,10 +205,10 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Computes the probability for each of the word trigrams in a list of sentences. </p>
-<p>This probability \(\text{P}(W_j|W_i,W_k)\) is calculated as the percentage each trigram \((W_i W_j W_k)\) represents from all trigrams <em>starting and ending</em> in a pair of words \(W_i\) and \(W_k\) respectively: </p><p class="formulaDsp">
-\[ \text{P}(W_j|W_i,W_k) = \frac{\#(W_i W_j W_k)}{\sum_{j=1}^n \#(W_i W_j W_k)} \]
+<p>This probability \(P(W_i^j|W_{i-1},W_{i+1})\) is calculated as the percentage each trigram \((W_{i-1} W_i^j W_{i+1})\) ( \(j = 1,2,\dots,n\)) represents from all trigrams <em>starting and ending</em> in a pair of words \(W_{i-1}\) and \(W_{i+1}\) respectively: </p><p class="formulaDsp">
+\[ P(W_i^j|W_{i-1},W_{i+1}) = \frac{C(W_{i-1} W_i^j W_{i+1})}{\sum_{k=1}^n \#(W_{i-1} W_i^k W_{i+1})} \]
 </p>
-<p> where \(n\) is the number of distinct words in the list of sentences.</p>
+<p> where \(n\) is the number of distinct words in the list of sentences, and \(C(x)\) is the number of occurrences of the n-gram \(x\) in the corpus.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">trigrams</td><td>A dictionary with the count of each of the word trigrams occurring in a list of sentences. </td></tr>
@@ -236,10 +236,10 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Computes the probability for each of the word unigrams in a list of sentences. </p>
-<p>This probability \(\text{P}(W_i)\) is calculated as the percentage each one \((W_i)\) represents from all the unigrams in a list of sentences. </p><p class="formulaDsp">
-\[ \text{P}(W_i) = \frac{\#(W_i)}{\sum_{i=1}^n \#(W_i)} \]
+<p>This probability \(P(W^j)\) is calculated as the percentage each one \((W^j)\) represents from all the unigrams in a list of sentences. </p><p class="formulaDsp">
+\[ P(W^j) = \frac{C(W^j)}{\sum_{k=1}^n C(W^k)} \]
 </p>
-<p> where \(n\) is the number of distinct words in the list of sentences.</p>
+<p> where \(n\) is the number of distinct words in the list of sentences, and \(C(x)\) is the number of occurrences of the n-gram \(x\) in the corpus.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">unigrams</td><td>A dictionary with a count of each of the word unigrams occurring in a list of sentences. </td></tr>

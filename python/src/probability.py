@@ -14,10 +14,11 @@ RightBigramProbability = BigramProbability
 
 ## Computes the probability for each of the word unigrams in a list of sentences.
 #
-#  This probability @f$\text{P}(W_i)@f$ is calculated as the percentage each one @f$(W_i)@f$
+#  This probability @f$P(W^j)@f$ is calculated as the percentage each one @f$(W^j)@f$
 #  represents from all the unigrams in a list of sentences.
-#  @f[ \text{P}(W_i) = \frac{\#(W_i)}{\sum_{i=1}^n \#(W_i)} @f]
-#  where @f$n@f$ is the number of distinct words in the list of sentences.
+#  @f[ P(W^j) = \frac{C(W^j)}{\sum_{k=1}^n C(W^k)} @f]
+#  where @f$n@f$ is the number of distinct words in the list of sentences, and @f$C(x)@f$ is
+#  the number of occurrences of the n-gram @f$x@f$ in the corpus.
 #
 #  @param unigrams A dictionary with a count of each of the word unigrams occurring in a 
 #                  list of sentences.
@@ -36,10 +37,12 @@ def compute_unigram_probability(unigrams: dict[Unigram, int]) -> UnigramProbabil
 
 ## Computes the probability for each of the word left bigrams in a list of sentences.
 #
-#  This probability @f$\text{P}(W_j|W_i)@f$ is calculated as the percentage each bigram
-#  @f$(W_i W_j)@f$ represents from all bigrams <i>starting</i> in a certain word @f$W_i@f$:
-#  @f[ \text{P}(W_j|W_i) = \frac{\#(W_i W_j)}{\sum_{j=1}^n \#(W_i W_j)} @f]
-#  where @f$n@f$ is the number of distinct words in the list of sentences.
+#  This probability @f$P(W_i^j|W_{i-1})@f$ is calculated as the percentage each bigram
+#  @f$(W_{i-1} W_i^j)@f$ (@f$j = 1,2,\dots,n@f$) represents from all bigrams <i>starting</i> 
+#  in a certain word @f$W_{i-1}@f$:
+#  @f[ P(W_i^j|W_{i-1}) = \frac{C(W_{i-1} W_i^j)}{\sum_{k=1}^n C(W_{i-1} W_i^k)} @f]
+#  where @f$n@f$ is the number of distinct words in the list of sentences, and @f$C(x)@f$ is
+#  the number of occurrences of the n-gram @f$x@f$ in the corpus.
 #
 #  @param bigrams A dictionary with the count of each of the word left bigrams occurring in a 
 #                 list of sentences.
@@ -62,10 +65,12 @@ def compute_left_bigram_probability(bigrams: dict[Bigram, int]) -> LeftBigramPro
 
 ## Computes the probability for each of the word right bigrams in a list of sentences.
 #
-#  This probability @f$\text{P}(W_i|W_j)@f$ is calculated as the percentage each bigram
-#  @f$(W_i W_j)@f$ represents from all bigrams <i>ending</i> in a certain word @f$W_j@f$:
-#  @f[ \text{P}(W_i|W_j) = \frac{\#(W_i W_j)}{\sum_{i=1}^n \#(W_i W_j)} @f]
-#  where @f$n@f$ is the number of distinct words in the list of sentences.
+#  This probability @f$P(W_i^j|W_{i+1})@f$ is calculated as the percentage each bigram
+#  @f$(W_i^j W_{i+1})@f$ (@f$j = 1,2,\dots,n@f$) represents from all bigrams <i>ending</i> 
+#  in a certain word @f$W_{i+1}@f$:
+#  @f[ P(W_i^j|W_{i+1}) = \frac{C(W_i^j W_{i+1})}{\sum_{i=1}^n C(W_i^k W_{i+1})} @f]
+#  where @f$n@f$ is the number of distinct words in the list of sentences, and @f$C(x)@f$ is
+#  the number of occurrences of the n-gram @f$x@f$ in the corpus.
 #
 #  @param bigrams A dictionary with the count of each of the word right bigrams occurring in a 
 #                 list of sentences.
@@ -88,11 +93,12 @@ def compute_right_bigram_probability(bigrams: dict[Bigram, int]) -> RightBigramP
 
 ## Computes the probability for each of the word trigrams in a list of sentences.
 #
-#  This probability @f$\text{P}(W_j|W_i,W_k)@f$ is calculated as the percentage each trigram
-#  @f$(W_i W_j W_k)@f$ represents from all trigrams <i>starting and ending</i> in a 
-#  pair of words@f$W_i@f$ and @f$W_k@f$ respectively:
-#  @f[ \text{P}(W_j|W_i,W_k) = \frac{\#(W_i W_j W_k)}{\sum_{j=1}^n \#(W_i W_j W_k)} @f]
-#  where @f$n@f$ is the number of distinct words in the list of sentences.
+#  This probability @f$P(W_i^j|W_{i-1},W_{i+1})@f$ is calculated as the percentage each
+#  trigram @f$(W_{i-1} W_i^j W_{i+1})@f$ (@f$j = 1,2,\dots,n@f$) represents from all trigrams 
+#  <i>starting and ending</i> in a pair of words@f$W_{i-1}@f$ and @f$W_{i+1}@f$ respectively:
+#  @f[ P(W_i^j|W_{i-1},W_{i+1}) = \frac{C(W_{i-1} W_i^j W_{i+1})}{\sum_{k=1}^n \#(W_{i-1} W_i^k W_{i+1})} @f]
+#  where @f$n@f$ is the number of distinct words in the list of sentences, and @f$C(x)@f$ is
+#  the number of occurrences of the n-gram @f$x@f$ in the corpus.
 #
 #  @param trigrams A dictionary with the count of each of the word trigrams occurring in a 
 #                  list of sentences.

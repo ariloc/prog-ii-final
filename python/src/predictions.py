@@ -8,8 +8,8 @@ Score = float
 PredictedWord = tuple[Word, Score]
 
 UnigramPredicted = PredictedWord
-BigramPredicted = dict[str, PredictedWord]
-TrigramPredicted = dict[tuple[str, str], PredictedWord]
+BigramPredicted = dict[Word, PredictedWord]
+TrigramPredicted = dict[tuple[Word, Word], PredictedWord]
 LeftBigramPredicted = BigramPredicted
 RightBigramPredicted = BigramPredicted
 
@@ -47,10 +47,14 @@ def max_predicted(a: PredictedWord, b: PredictedWord) -> PredictedWord:
         return a
     return b
 
-## Calculates the @p Score for a word @f$W_j@f$ to be predicted as a replacement for the missing word
-#  @f$W_m@f$ in a trigram @f$(W_i W_m W_k)@f$, given the probabilities of the unigram @f$(W_i)@f$, 
-#  the left and right bigrams @f$(W_i W_j)@f$ and @f$(W_j W_k)@f$ respectively, and the trigram 
-#  @f$(W_i W_j W_k)@f$, in a list of sentences.
+## Calculates the @p Score for a word @f$W_i^j@f$ (for each @f$j = 1,2,\dots,n@f$, where @f$n@f$ 
+#  is the amount of distinct words in the corpus) to be used as a replacement for the missing word
+#  in a trigram starting in @f$W_{i-1}@f$ and ending with @f$W_{i+1}@f$.
+#
+#  To calculate the score, the function requires the probabilities of
+#  the unigram @f$(W_i)@f$, the left and right bigrams, @f$(W_{i-1} W_i^j)@f$ and 
+#  @f$(W_i^j W_{i+1}^j)@f$ respectively, and the trigram @f$(W_{i-1} W_i^j W_{i+1})@f$,
+#  in a list of sentences.
 #  
 #  This score is calculated based on certain fixed weights @f$ \lambda_1 = @f$ 
 #  @link python.src.predictions.WEIGHT_UNIGRAM WEIGHT_UNIGRAM@endlink, @f$ \lambda_2 = @f$
@@ -59,18 +63,20 @@ def max_predicted(a: PredictedWord, b: PredictedWord) -> PredictedWord:
 #  @f$ \lambda_4 = @f$ @link python.src.predictions.WEIGHT_TRIGRAM WEIGHT_TRIGRAM@endlink where
 #  @f$\lambda_1 + \lambda_2 + \lambda_3 + \lambda_4 = 1@f$:
 #
-#  @f[ \text{Score}(W_j) = \lambda_1 \text{P}(W_j) + \lambda_2 \text{P}(W_j|W_i) + 
-#                          \lambda_3 \text{P}(W_j|W_k) + \lambda_4 \text{P}(W_j|W_i,W_k) @f]
+#  @f[ \text{Score}(W_i^j) = \lambda_1 \text{P}(W_i^j) + \lambda_2 \text{P}(W_i^j|W_{i-1}) + 
+#                            \lambda_3 \text{P}(W_i^j|W_{i+1}) + 
+#                            \lambda_4 \text{P}(W_i^j|W_{i-1},W_{i+1}) @f]
 #
 #  <i>May also be used to calculate the score for bigrams or unigrams with the missing probabilities 
 #  (of the longer n-grams) left as @c 0.0.</i>
 #
-#  @param unigram The probability of @f$(W_j)@f$ containing a certain word.
-#  @param leftBigram The probability of the left bigram @f$(W_i W_j)@f$.
-#  @param rightBigram The probability of the right bigram @f$(W_j W_k)@f$.
-#  @param trigram The probability of the trigram @f$(W_i W_j W_k)@f$.
-#  @return The score for the word @f$W_j@f$ to be predicted as a replacement for the missing word
-#          @f$W_m@f$ in the trigram @f$(W_i W_m W_k)@f$.
+#  @param unigram The probability of the unigram @f$(W_i^j)@f$, i.e. the frequency of the word 
+#                 @f$W_i^j@f$ in the corpus.
+#  @param leftBigram The probability of the left bigram @f$(W_{i-1} W_i^j)@f$.
+#  @param rightBigram The probability of the right bigram @f$(W_i^j W_{i+1})@f$.
+#  @param trigram The probability of the trigram @f$(W_{i-1} W_i^j W_{i+1})@f$.
+#  @return The score for the word @f$W_i^j@f$ to be predicted as a replacement for the missing word
+#          in a trigram @f$(W_{i-1} W_i^j W_{i+1})@f$.
 #
 #  @see @link python.src.probability.compute_unigram_probability() compute_unigram_probability() 
 #       @endlink

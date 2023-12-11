@@ -93,7 +93,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:a1bae2e4399db34219c186e319ba69506"><td class="mdescLeft">&#160;</td><td class="mdescRight">Given two predicted words, compares and returns the one with the higher <code>Score</code>.  <br /></td></tr>
 <tr class="separator:a1bae2e4399db34219c186e319ba69506"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9919b3953ec6660a6f17313753bd9c8b" id="r_a9919b3953ec6660a6f17313753bd9c8b"><td class="memItemLeft" align="right" valign="top">Score&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="predictions_8py.html#a9919b3953ec6660a6f17313753bd9c8b">calc_score</a> (Probability unigram=0.0, Probability leftBigram=0.0, Probability rightBigram=0.0, Probability trigram=0.0)</td></tr>
-<tr class="memdesc:a9919b3953ec6660a6f17313753bd9c8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the <code>Score</code> for a word \(W_j\) to be predicted as a replacement for the missing word \(W_m\) in a trigram \((W_i W_m W_k)\), given the probabilities of the unigram \((W_i)\), the left and right bigrams \((W_i W_j)\) and \((W_j W_k)\) respectively, and the trigram \((W_i W_j W_k)\), in a list of sentences.  <br /></td></tr>
+<tr class="memdesc:a9919b3953ec6660a6f17313753bd9c8b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the <code>Score</code> for a word \(W_i^j\) (for each \(j = 1,2,\dots,n\), where \(n\) is the amount of distinct words in the corpus) to be used as a replacement for the missing word in a trigram starting in \(W_{i-1}\) and ending with \(W_{i+1}\).  <br /></td></tr>
 <tr class="separator:a9919b3953ec6660a6f17313753bd9c8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a173d56fd8e1cff9026774262b4b8dfc5" id="r_a173d56fd8e1cff9026774262b4b8dfc5"><td class="memItemLeft" align="right" valign="top">UnigramPredicted&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="predictions_8py.html#a173d56fd8e1cff9026774262b4b8dfc5">compute_unigram_predicted</a> (UnigramProbability unigramProbability)</td></tr>
 <tr class="memdesc:a173d56fd8e1cff9026774262b4b8dfc5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Computes the predicted word with the highest <code>Score</code> among all unigrams in a list of sentences.  <br /></td></tr>
@@ -120,10 +120,10 @@ Variables</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><b>UnigramPredicted</b> = PredictedWord</td></tr>
 <tr class="separator:a049e266e4151c5c285afbf78000e87c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9ea6e7d473575cdef0339b931b245685" id="r_a9ea6e7d473575cdef0339b931b245685"><td class="memItemLeft" align="right" valign="top"><a id="a9ea6e7d473575cdef0339b931b245685" name="a9ea6e7d473575cdef0339b931b245685"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>BigramPredicted</b> = dict[str, PredictedWord]</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>BigramPredicted</b> = dict[Word, PredictedWord]</td></tr>
 <tr class="separator:a9ea6e7d473575cdef0339b931b245685"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9b299100a89f05d9e1ef9cb976785de0" id="r_a9b299100a89f05d9e1ef9cb976785de0"><td class="memItemLeft" align="right" valign="top"><a id="a9b299100a89f05d9e1ef9cb976785de0" name="a9b299100a89f05d9e1ef9cb976785de0"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>TrigramPredicted</b> = dict[tuple[str, str], PredictedWord]</td></tr>
+&#160;</td><td class="memItemRight" valign="bottom"><b>TrigramPredicted</b> = dict[tuple[Word, Word], PredictedWord]</td></tr>
 <tr class="separator:a9b299100a89f05d9e1ef9cb976785de0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af33df0ab82e4daf088fe1de184105fe6" id="r_af33df0ab82e4daf088fe1de184105fe6"><td class="memItemLeft" align="right" valign="top"><a id="af33df0ab82e4daf088fe1de184105fe6" name="af33df0ab82e4daf088fe1de184105fe6"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>LeftBigramPredicted</b> = BigramPredicted</td></tr>
@@ -140,11 +140,14 @@ Variables</h2></td></tr>
 <tr class="memitem:a7c7488ad5ae65abc8787ead6107462bc" id="r_a7c7488ad5ae65abc8787ead6107462bc"><td class="memItemLeft" align="right" valign="top"><a id="a7c7488ad5ae65abc8787ead6107462bc" name="a7c7488ad5ae65abc8787ead6107462bc"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>WEIGHT_UNIGRAM</b> = .05</td></tr>
 <tr class="separator:a7c7488ad5ae65abc8787ead6107462bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6699ecb76d99ab4bdb0144f744bcc8dd" id="r_a6699ecb76d99ab4bdb0144f744bcc8dd"><td class="memItemLeft" align="right" valign="top"><a id="a6699ecb76d99ab4bdb0144f744bcc8dd" name="a6699ecb76d99ab4bdb0144f744bcc8dd"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>WEIGHT_BIGRAM</b> = .2</td></tr>
+<tr class="separator:a6699ecb76d99ab4bdb0144f744bcc8dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3e2e19284ea6dedb125940e0bb4c5e19" id="r_a3e2e19284ea6dedb125940e0bb4c5e19"><td class="memItemLeft" align="right" valign="top"><a id="a3e2e19284ea6dedb125940e0bb4c5e19" name="a3e2e19284ea6dedb125940e0bb4c5e19"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>WEIGHT_LEFT_BIGRAM</b> = .2</td></tr>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>WEIGHT_LEFT_BIGRAM</b> = WEIGHT_BIGRAM</td></tr>
 <tr class="separator:a3e2e19284ea6dedb125940e0bb4c5e19"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae60e6e34364a97435574723be18965d1" id="r_ae60e6e34364a97435574723be18965d1"><td class="memItemLeft" align="right" valign="top"><a id="ae60e6e34364a97435574723be18965d1" name="ae60e6e34364a97435574723be18965d1"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>WEIGHT_RIGHT_BIGRAM</b> = .2</td></tr>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>WEIGHT_RIGHT_BIGRAM</b> = WEIGHT_BIGRAM</td></tr>
 <tr class="separator:ae60e6e34364a97435574723be18965d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2c6967b8b160a79889988a35cde3774f" id="r_a2c6967b8b160a79889988a35cde3774f"><td class="memItemLeft" align="right" valign="top"><a id="a2c6967b8b160a79889988a35cde3774f" name="a2c6967b8b160a79889988a35cde3774f"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><b>WEIGHT_TRIGRAM</b> = .55</td></tr>
@@ -191,23 +194,25 @@ int&#160;</td><td class="memItemRight" valign="bottom"><b>WEIGHT_TRIGRAM</b> = .
       </table>
 </div><div class="memdoc">
 
-<p>Calculates the <code>Score</code> for a word \(W_j\) to be predicted as a replacement for the missing word \(W_m\) in a trigram \((W_i W_m W_k)\), given the probabilities of the unigram \((W_i)\), the left and right bigrams \((W_i W_j)\) and \((W_j W_k)\) respectively, and the trigram \((W_i W_j W_k)\), in a list of sentences. </p>
+<p>Calculates the <code>Score</code> for a word \(W_i^j\) (for each \(j = 1,2,\dots,n\), where \(n\) is the amount of distinct words in the corpus) to be used as a replacement for the missing word in a trigram starting in \(W_{i-1}\) and ending with \(W_{i+1}\). </p>
+<p>To calculate the score, the function requires the probabilities of the unigram \((W_i)\), the left and right bigrams, \((W_{i-1} W_i^j)\) and \((W_i^j W_{i+1}^j)\) respectively, and the trigram \((W_{i-1} W_i^j W_{i+1})\), in a list of sentences.</p>
 <p>This score is calculated based on certain fixed weights \( \lambda_1 = \) <a class="el" href="#a7c7488ad5ae65abc8787ead6107462bc">WEIGHT_UNIGRAM</a>, \( \lambda_2 = \) <a class="el" href="#a3e2e19284ea6dedb125940e0bb4c5e19">WEIGHT_LEFT_BIGRAM</a>, \( \lambda_3 = \) <a class="el" href="#ae60e6e34364a97435574723be18965d1">WEIGHT_RIGHT_BIGRAM</a> and \( \lambda_4 = \) <a class="el" href="#a2c6967b8b160a79889988a35cde3774f">WEIGHT_TRIGRAM</a> where \(\lambda_1 + \lambda_2 + \lambda_3 + \lambda_4 = 1\):</p>
 <p class="formulaDsp">
-\[ \text{Score}(W_j) = \lambda_1 \text{P}(W_j) + \lambda_2 \text{P}(W_j|W_i) + 
-                          \lambda_3 \text{P}(W_j|W_k) + \lambda_4 \text{P}(W_j|W_i,W_k) \]
+\[ \text{Score}(W_i^j) = \lambda_1 \text{P}(W_i^j) + \lambda_2 \text{P}(W_i^j|W_{i-1}) + 
+                            \lambda_3 \text{P}(W_i^j|W_{i+1}) + 
+                            \lambda_4 \text{P}(W_i^j|W_{i-1},W_{i+1}) \]
 </p>
 <p><em>May also be used to calculate the score for bigrams or unigrams with the missing probabilities (of the longer n-grams) left as <code>0.0</code>.</em></p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">unigram</td><td>The probability of \((W_j)\) containing a certain word. </td></tr>
-    <tr><td class="paramname">leftBigram</td><td>The probability of the left bigram \((W_i W_j)\). </td></tr>
-    <tr><td class="paramname">rightBigram</td><td>The probability of the right bigram \((W_j W_k)\). </td></tr>
-    <tr><td class="paramname">trigram</td><td>The probability of the trigram \((W_i W_j W_k)\). </td></tr>
+    <tr><td class="paramname">unigram</td><td>The probability of the unigram \((W_i^j)\), i.e. the frequency of the word \(W_i^j\) in the corpus. </td></tr>
+    <tr><td class="paramname">leftBigram</td><td>The probability of the left bigram \((W_{i-1} W_i^j)\). </td></tr>
+    <tr><td class="paramname">rightBigram</td><td>The probability of the right bigram \((W_i^j W_{i+1})\). </td></tr>
+    <tr><td class="paramname">trigram</td><td>The probability of the trigram \((W_{i-1} W_i^j W_{i+1})\). </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The score for the word \(W_j\) to be predicted as a replacement for the missing word \(W_m\) in the trigram \((W_i W_m W_k)\).</dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The score for the word \(W_i^j\) to be predicted as a replacement for the missing word in a trigram \((W_{i-1} W_i^j W_{i+1})\).</dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a class="el" href="probability_8py.html#a22e076d62c67fae69861a0f029950cc6">compute_unigram_probability() </a> </dd>
 <dd>
 <a class="el" href="probability_8py.html#aa093c848783b1efe74a3b0ed5524c0b7">compute_left_bigram_probability() </a> </dd>
