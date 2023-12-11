@@ -5,6 +5,7 @@
 
 #include "../src/file_utils.h"
 
+// Tests
 void test_concatenate_paths_1() {
     char *path1 = "hola/", *path2 = "hola.txt";
     char *concatenated = concatenate_paths(path1, path2);
@@ -109,6 +110,7 @@ void test_read_files_empty() {
     free(lines);
 }
 
+// Run all tests
 void run_file_utils_tests() {
     test_concatenate_paths_1();
     test_concatenate_paths_2();
